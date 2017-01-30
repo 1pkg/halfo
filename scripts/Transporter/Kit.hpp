@@ -17,9 +17,13 @@ public:
 	void update(float delta) override;
 
 private:
+
+	void render();
+	bool touch(cocos2d::Touch * touch, cocos2d::Event * event, std::pair<cocos2d::Vec2, cocos2d::Vec2> line);
+	bool contact(cocos2d::PhysicsContact & contact);
 	
-	cocos2d::EventListenerTouchOneByOne * _touch;
-	cocos2d::EventListenerPhysicsContact * _physic;
+	cocos2d::EventListenerTouchOneByOne * _touchSensor;
+	cocos2d::EventListenerPhysicsContact * _physicSensor;
 	cocos2d::Layer * _layer;
 
 	std::unordered_map<
