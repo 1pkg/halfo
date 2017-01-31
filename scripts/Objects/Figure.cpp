@@ -1,6 +1,7 @@
 #include "Figure.hpp"
-#include "Views\Figure.hpp"
+#include "Views/Figure.hpp"
 
+#define DELTA 0.001f
 //#define FAST_FIGURE_INTERSECT
 
 namespace Objects
@@ -12,7 +13,10 @@ Figure::Figure(
 		cocos2d::PhysicsMaterial material,
 		bool hollow
 )
-	: _pattern(pattern), _color(color), _material(material), _hollow(hollow)
+	: _pattern(pattern),
+	_color(color),
+	_material(material),
+	_hollow(hollow)
 {
 }
 
@@ -22,9 +26,13 @@ Figure::render()
 	using namespace Views;
 	if (!_view)
 		_view.reset(
-			new Views::Figure(_pattern, _color, _material, _hollow)
+			new Views::Figure(
+				_pattern,
+				_color,
+				_material,
+				_hollow
+			)
 		);
-
 	return _view.get();
 }
 
@@ -38,7 +46,11 @@ bool
 Figure::intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 {
 	#ifdef FAST_FIGURE_INTERSECT
-	cocos2d::Vec2 left = _pattern[0], right = _pattern[0], top = _pattern[0], bottom = _pattern[0];
+	cocos2d::Vec2 
+		left = _pattern[0],
+		right = _pattern[0],
+		top = _pattern[0],
+		bottom = _pattern[0];
 	for (cocos2d::Vec2 point : _pattern)
 	{
 		if (point.x < left.x)
@@ -58,12 +70,12 @@ Figure::intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 	top += view()->getPosition();
 	bottom += view()->getPosition();
 	cocos2d::Vec2 lposition = cocos2d::Vec2(
-		(line.first.x < line.second.x ? line.first.x : line.second.x) - 0.001f,
-		(line.first.y < line.second.y ? line.first.y : line.second.y) - 0.001f
+		(line.first.x < line.second.x ? line.first.x : line.second.x) - DELTA,
+		(line.first.y < line.second.y ? line.first.y : line.second.y) - DELTA
 	);
 	cocos2d::Size ldimension = cocos2d::Size(
-		abs(line.first.x - line.second.x) + 0.001f,
-		abs(line.first.y - line.second.y) + 0.001f
+		abs(line.first.x - line.second.x) + DELTA,
+		abs(line.first.y - line.second.y) + DELTA
 	);
 	cocos2d::Vec2 fposition = cocos2d::Vec2(
 		left.x,
@@ -77,8 +89,10 @@ Figure::intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 	#else
 	for (size_t i = 0; i < _pattern.size(); ++i)
 	{
-		cocos2d::Vec2 first = _pattern[i] + view()->getPosition();
-		cocos2d::Vec2 second = _pattern[i == _pattern.size() - 1 ? 0 : i + 1] + view()->getPosition();
+		cocos2d::Vec2 first =
+			_pattern[i] + view()->getPosition();
+		cocos2d::Vec2 second =
+			_pattern[i == _pattern.size() - 1 ? 0 : i + 1] + view()->getPosition();
 
 		float determinant = 
 			(first.x - second.x) * (line.first.y - line.second.y) -
@@ -97,14 +111,25 @@ Figure::intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 			/ determinant;
 
 		cocos2d::Vec2 position = cocos2d::Vec2(
-			(first.x < second.x ? first.x : second.x) - 0.001f,
-			(first.y < second.y ? first.y : second.y) - 0.001f
+			(first.x < second.x ? first.x : second.x) - DELTA,
+			(first.y < second.y ? first.y : second.y) - DELTA
 		);
 		cocos2d::Size dimension = cocos2d::Size(
-			abs(first.x - second.x) + 0.001f,
-			abs(first.y - second.y) + 0.001f
+			abs(first.x - second.x) + DELTA,
+			abs(first.y - second.y) + DELTA
 		);
-		if (cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)))
+		cocos2d::Vec2 lposition = cocos2d::Vec2(
+			(line.first.x < line.second.x ? line.first.x : line.second.x) - DELTA,
+			(line.first.y < line.second.y ? line.first.y : line.second.y) - DELTA
+		);
+		cocos2d::Size ldimension = cocos2d::Size(
+			abs(line.first.x - line.second.x) + DELTA,
+			abs(line.first.y - line.second.y) + DELTA
+		);
+		if (
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
+			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
+		)
 			return true;
 	}
 	return false;
@@ -115,7 +140,7 @@ std::pair<
 	std::unique_ptr<Figure>,
 	std::unique_ptr<Figure>
 >
-Figure::divide(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
+Figure::slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 {
 	std::vector<cocos2d::Vec2> left, right;
 	for (size_t i = 0; i < _pattern.size(); ++i)
@@ -145,20 +170,30 @@ Figure::divide(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 			/ determinant;
 
 		cocos2d::Vec2 position = cocos2d::Vec2(
-			(first.x < second.x ? first.x : second.x) - 0.001f,
-			(first.y < second.y ? first.y : second.y) - 0.001f
+			(first.x < second.x ? first.x : second.x) - DELTA,
+			(first.y < second.y ? first.y : second.y) - DELTA
 		);
 		cocos2d::Size dimension = cocos2d::Size(
-			abs(first.x - second.x) + 0.001f,
-			abs(first.y - second.y) + 0.001f
+			abs(first.x - second.x) + DELTA,
+			abs(first.y - second.y) + DELTA
 		);
-		if (cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)))
+		cocos2d::Vec2 lposition = cocos2d::Vec2(
+			(line.first.x < line.second.x ? line.first.x : line.second.x) - DELTA,
+			(line.first.y < line.second.y ? line.first.y : line.second.y) - DELTA
+		);
+		cocos2d::Size ldimension = cocos2d::Size(
+			abs(line.first.x - line.second.x) + DELTA,
+			abs(line.first.y - line.second.y) + DELTA
+		);
+		if (
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
+			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
+		)
 		{
 			left.push_back(cocos2d::Vec2(x, y) - view()->getPosition());
 			right.push_back(cocos2d::Vec2(x, y) - view()->getPosition());
 		}
 	}
-
 	return std::pair<
 		std::unique_ptr<Figure>,
 		std::unique_ptr<Figure>

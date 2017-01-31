@@ -1,7 +1,7 @@
 #ifndef OBJECTS_FIGURE
 #define OBJECTS_FIGURE
 
-#include "Application\Object.hpp"
+#include "Application/Object.hpp"
 #include <cocos2d.h>
 
 namespace Views{class Figure;}
@@ -21,12 +21,11 @@ public:
 	);
 	Application::View * render() override;
 	Views::Figure * view() const;
-
 	bool intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
 	std::pair<
 		std::unique_ptr<Figure>,
 		std::unique_ptr<Figure>
-	> divide(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
+	> slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
 	void fill();
 
 private:

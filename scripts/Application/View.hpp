@@ -4,7 +4,6 @@
 #include "Wrapper.hpp"
 
 namespace cocos2d{class Layer;}
-
 namespace Application
 {
 

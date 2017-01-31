@@ -1,7 +1,7 @@
 #ifndef VIEWS_FIGURE
 #define VIEWS_FIGURE
 
-#include "Application\View.hpp"
+#include "Application/View.hpp"
 #include <cocos2d.h>
 
 namespace Views

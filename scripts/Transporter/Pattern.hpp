@@ -1,7 +1,7 @@
-#ifndef TRANSPORTER_PATTERN_HPP
-#define TRANSPORTER_PATTERN_HPP
+#ifndef TRANSPORTER_PATTERN
+#define TRANSPORTER_PATTERN
 
-#include "include.hpp"
+#include <cocos2d.h>
 
 namespace Transporter
 {
@@ -11,36 +11,36 @@ class Pattern : protected entity
 {
 public:
 
-	vec2 at(std::size_t position) const;
-	vec2 operator[](std::size_t position) const;
-	const vec2 * data() const;
+	cocos2d::Vec2 at(std::size_t position) const;
+	cocos2d::Vec2 operator[](std::size_t position) const;
+	const cocos2d::Vec2 * data() const;
 	std::size_t size() const;
 
 protected:
 
-	Pattern(std::array<vec2, _size> pattern);
+	Pattern(std::array<cocos2d::Vec2, _size> pattern);
 
 private:
 
-	std::array<vec2, _size> _pattern;
+	std::array<cocos2d::Vec2, _size> _pattern;
 };
 
 template <std::size_t _size>
-vec2
+cocos2d::Vec2
 Pattern<_size>::at(std::size_t position) const
 {
 	return _pattern.at(position);
 }
 
 template <std::size_t _size>
-vec2
+cocos2d::Vec2
 Pattern<_size>::operator[](std::size_t position) const
 {
 	return _pattern.at(position);
 }
 
 template <std::size_t _size>
-const vec2 *
+const cocos2d::Vec2 *
 Pattern<_size>::data() const
 {
 	return _pattern.data();
@@ -54,7 +54,7 @@ Pattern<_size>::size() const
 }
 
 template<std::size_t _size>
-Pattern<_size>::Pattern(std::array<vec2, _size> pattern)
+Pattern<_size>::Pattern(std::array<cocos2d::Vec2, _size> pattern)
 	: _pattern(pattern)
 {}
 

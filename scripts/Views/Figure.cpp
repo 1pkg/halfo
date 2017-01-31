@@ -18,7 +18,6 @@ Figure::Figure(
 		3.0f,
 		cocos2d::Color4F::BLACK
 	);
-
 	cocos2d::PhysicsBody * body =
 		cocos2d::PhysicsBody::createPolygon(
 			pattern.data(),

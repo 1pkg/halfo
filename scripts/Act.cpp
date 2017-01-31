@@ -1,7 +1,7 @@
-#include "Act.h"
-#include "Transporter/Kit.hpp"
+#include "Act.hpp"
 
-cocos2d::Scene* Act::scene()
+cocos2d::Scene *
+Act::scene()
 {
     cocos2d::Scene * scene = cocos2d::Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
@@ -11,17 +11,40 @@ cocos2d::Scene* Act::scene()
     return scene;
 }
 
-bool Act::init()
+bool
+Act::init()
 {
 	cocos2d::LayerColor::initWithColor(cocos2d::Color4B::GRAY);
-	_contours.reset(new Transporter::Kit(this));
-	schedule(schedule_selector(Act::updater), 1.0f / 30.0f);
+	_transpoter.reset(new Transporter::Kit(this));
+	_slicer.reset(new Slicer::Kit(this));
+	_cleaner.reset(new Cleaner::Kit(this));
+	schedule(schedule_selector(Act::update), 1.0f / 30.0f);
 	return true;
 }
 
-void
-Act::updater(float dt)
+Transporter::Kit *
+Act::transpoter() const
 {
-	_contours->update(dt);
+	return _transpoter.get();
+}
+
+Slicer::Kit *
+Act::slicer() const
+{
+	return _slicer.get();
+}
+
+Cleaner::Kit *
+Act::cleaner() const
+{
+	return _cleaner.get();
+}
+
+void
+Act::update(float dt)
+{
+	_transpoter->update(dt);
+	_slicer->update(dt);
+	_cleaner->update(dt);
 }
 
