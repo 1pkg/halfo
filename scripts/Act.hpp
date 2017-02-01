@@ -6,8 +6,6 @@
 #include "Cleaner/Kit.hpp"
 #include <cocos2d.h>
 
-namespace Cleaner{class Kit;}
-
 class Act : public cocos2d::LayerColor
 {
 public:

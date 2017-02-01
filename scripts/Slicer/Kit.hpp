@@ -19,7 +19,7 @@ public:
 
 private:
 
-	bool slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line);
+	bool slice();
 	Act * _act;
 	cocos2d::DrawNode * _anvil, * _hammer;
 	cocos2d::EventListenerTouchOneByOne * _sensor;

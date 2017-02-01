@@ -11,7 +11,7 @@ class Object : public Wrapper
 {
 public:
 
-	virtual View * render() = 0;
+	virtual View * view() const = 0;
 };
 
 }

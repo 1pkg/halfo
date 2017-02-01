@@ -2,9 +2,8 @@
 #define OBJECTS_FIGURE
 
 #include "Application/Object.hpp"
+#include "Views/Figure.hpp"
 #include <cocos2d.h>
-
-namespace Views{class Figure;}
 
 namespace Objects
 {
@@ -13,14 +12,16 @@ class Figure : public Application::Object
 {
 public:
 
+	const float DELTA = 0.001f;
+
 	Figure(
-		std::vector<cocos2d::Vec2> pattern,
+		const cocos2d::Vec2 * pattern,
+		std::size_t size,
 		cocos2d::Color4F color,
 		cocos2d::PhysicsMaterial material,
 		bool hollow = true
 	);
-	Application::View * render() override;
-	Views::Figure * view() const;
+	Views::Figure * view() const override;
 	bool intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
 	std::pair<
 		std::unique_ptr<Figure>,

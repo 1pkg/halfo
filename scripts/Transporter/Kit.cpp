@@ -2,6 +2,7 @@
 #include "Kit.hpp"
 #include "Objects/Figure.hpp"
 #include "Views/Figure.hpp"
+#include "Application/Metric.hpp"
 
 namespace Transporter
 {
@@ -12,10 +13,8 @@ Kit::Kit(Act * act)
 	_node(cocos2d::Node::create())
 {
 	_act->addChild(_node);
-	cocos2d::Size size = cocos2d::Director::getInstance()->getVisibleSize();
-	_node->setPosition(cocos2d::Vec2(size.width / 2.0f, size.height / 2.0f));
-	cocos2d::PhysicsBody * body =
-		cocos2d::PhysicsBody::createEdgeBox(cocos2d::Director::getInstance()->getVisibleSize());
+	_node->setPosition(Application::Metric::instance().center());
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeBox(Application::Metric::instance().size());
 	body->setCategoryBitmask(0x4);
 	body->setCollisionBitmask(0x3);
 	body->setContactTestBitmask(0x3);
@@ -38,13 +37,31 @@ Kit::~Kit()
 void
 Kit::update(float dt)
 {
-	static float zi = 0.0f;
-	zi += dt;
-	if (zi < 2.0f)
-		return;
+	static float spawn = 0.0f, refresh = 0.0f;
+	spawn += dt;
+	refresh += dt;
 
-	render(dt);
-	zi = 0.0f;
+	if (spawn >= 2.0f)
+	{
+		std::unique_ptr<Objects::Figure> figure = _architector.provide();
+		figure->view()->attach(_act);
+		_pool.insert(
+			std::pair<
+				cocos2d::PhysicsBody *,
+				std::unique_ptr<Objects::Figure>
+			>(
+				figure->view()->body(),
+				std::move(figure)
+			)
+		);
+		spawn = 0.0f;
+	}
+
+	if (refresh >= 10.0f)
+	{
+		_architector.refresh();
+		refresh = 0.0f;
+	}
 }
 
 std::vector<
@@ -108,12 +125,12 @@ Kit::render(float delta)
 			)
 		);
 	Objects::Figure * figure = new Objects::Figure(
-		pattern,
+		pattern.data(),
+		pattern.size(),
 		cocos2d::Color4F::GREEN,
 		cocos2d::PhysicsMaterial(1.0f, 0.5f, 0.5f)
 	);
-	figure->render()->attach(_act);
-
+	figure->view()->attach(_act);
 	figure->view()->setPosition(cocos2d::Vec2(size.width / 8.0f, size.height / 1.5f));
 	figure->view()->body()->setVelocity(cocos2d::Vec2(50.0f + std::rand() % 150, 0.0f));
 

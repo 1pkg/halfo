@@ -11,18 +11,21 @@ class Figure : public Application::View
 {
 public:
 
+	const float LINE_WIDHT = 3.0f;
+
 	Figure(
-		std::vector<cocos2d::Vec2> pattern,
+		const cocos2d::Vec2 * pattern,
+		std::size_t size,
 		cocos2d::Color4F color,
 		cocos2d::PhysicsMaterial material,
 		bool hollow
 	);
 	~Figure();
-	void setHollow(bool hollow);
 	void attach(cocos2d::Layer * layer) override;
 	cocos2d::PhysicsBody * body() const;
 	cocos2d::Vec2 getPosition() const;
 	void setPosition(cocos2d::Vec2 position);
+	void setHollow(bool hollow);
 
 private:
 

@@ -1,39 +1,29 @@
 #include "Figure.hpp"
-#include "Views/Figure.hpp"
-
-#define DELTA 0.001f
-//#define FAST_FIGURE_INTERSECT
 
 namespace Objects
 {
 
 Figure::Figure(
-		std::vector<cocos2d::Vec2> pattern,
+		const cocos2d::Vec2 * pattern,
+		std::size_t size,
 		cocos2d::Color4F color,
 		cocos2d::PhysicsMaterial material,
 		bool hollow
 )
-	: _pattern(pattern),
+	: _pattern(pattern, pattern + size),
 	_color(color),
 	_material(material),
-	_hollow(hollow)
+	_hollow(hollow),
+	_view(
+		new Views::Figure(
+			_pattern.data(),
+			_pattern.size(),
+			_color,
+			_material,
+			_hollow
+		)
+	)
 {
-}
-
-Application::View *
-Figure::render()
-{
-	using namespace Views;
-	if (!_view)
-		_view.reset(
-			new Views::Figure(
-				_pattern,
-				_color,
-				_material,
-				_hollow
-			)
-		);
-	return _view.get();
 }
 
 Views::Figure *
@@ -198,8 +188,16 @@ Figure::slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 		std::unique_ptr<Figure>,
 		std::unique_ptr<Figure>
 	>(
-		std::move(std::unique_ptr<Figure>(new Figure(left, _color, _material, false))),
-		std::move(std::unique_ptr<Figure>(new Figure(right, _color, _material, false)))
+		std::move(
+			std::unique_ptr<Figure>(
+				new Figure(left.data(), left.size(), _color, _material, false)
+			)
+		),
+		std::move(
+			std::unique_ptr<Figure>(
+				new Figure(right.data(), right.size(), _color, _material, false)
+			)
+		)
 	);
 }
 

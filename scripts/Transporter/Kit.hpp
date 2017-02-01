@@ -2,6 +2,7 @@
 #define TRANSPORTER_KIT
 
 #include "Application/Kit.hpp"
+#include "Architector.hpp"
 #include <cocos2d.h>
 
 class Act;
@@ -24,6 +25,7 @@ private:
 
 	bool contact(cocos2d::PhysicsContact & contact);
 	void render(float delta);
+	Architector _architector;
 	Act * _act;
 	cocos2d::EventListenerPhysicsContact * _sensor;
 	cocos2d::Node * _node;
