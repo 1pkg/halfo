@@ -4,7 +4,7 @@ cocos2d::Scene *
 Act::scene()
 {
     cocos2d::Scene * scene = cocos2d::Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(cocos2d::Vec2(0.0f, -100.0f));
     Act * layer = Act::create();
     scene->addChild(layer);

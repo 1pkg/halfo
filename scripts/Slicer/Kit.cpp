@@ -21,9 +21,9 @@ Kit::Kit(Act * act)
 		cocos2d::Color4F::BLACK
 	);
 	_hammer->drawLine(
-		Application::Metric::instance().hammer().first,
-		Application::Metric::instance().hammer().second,
-		cocos2d::Color4F::GREEN
+		Application::Metric::instance().hammer().first + cocos2d::Vec2(0.0f, Application::Metric::instance().lenght()),
+		Application::Metric::instance().hammer().second + cocos2d::Vec2(0.0f, Application::Metric::instance().lenght()),
+		cocos2d::Color4F::BLACK
 	);
 	cocos2d::PhysicsBody
 		* anvilBody = cocos2d::PhysicsBody::createEdgeSegment(
@@ -31,8 +31,8 @@ Kit::Kit(Act * act)
 			Application::Metric::instance().anvil().second
 		),
 		* hammerBody = cocos2d::PhysicsBody::createEdgeSegment(
-			Application::Metric::instance().hammer().first,
-			Application::Metric::instance().hammer().second
+			Application::Metric::instance().hammer().first + cocos2d::Vec2(0.0f, Application::Metric::instance().lenght()),
+			Application::Metric::instance().hammer().second + cocos2d::Vec2(0.0f, Application::Metric::instance().lenght())
 		);
 	anvilBody->setDynamic(false);
 	anvilBody->setCategoryBitmask(0x4);
@@ -42,11 +42,33 @@ Kit::Kit(Act * act)
 	hammerBody->setCategoryBitmask(0x4);
 	hammerBody->setCollisionBitmask(0x3);
 	hammerBody->setContactTestBitmask(0x3);
-	//_anvil->setPhysicsBody(anvilBody), _hammer->setPhysicsBody(hammerBody);
+	_anvil->setPhysicsBody(anvilBody), _hammer->setPhysicsBody(hammerBody);
 
 	_sensor->onTouchBegan = [this](cocos2d::Touch * touch, cocos2d::Event * event)
 	{
-		return this->slice();
+		slice();
+		_hammer->runAction(
+			cocos2d::Sequence::create(
+				cocos2d::MoveBy::create(
+					0.1f,
+					cocos2d::Vec2(0.0f, -Application::Metric::instance().lenght())
+				),
+				nullptr
+			)
+		); 
+		return true;
+	};
+	_sensor->onTouchEnded = [this](cocos2d::Touch * touch, cocos2d::Event * event)
+	{
+			_hammer->runAction(
+			cocos2d::Sequence::create(
+				cocos2d::MoveBy::create(
+					0.1f,
+					cocos2d::Vec2(0.0f, Application::Metric::instance().lenght())
+				),
+				nullptr
+			)
+		); 
 	};
 	_act->getEventDispatcher()->addEventListenerWithFixedPriority(_sensor, 1);
 }
@@ -65,7 +87,7 @@ Kit::update(float dt)
 	return;
 }
 
-bool
+void
 Kit::slice()
 {
 	std::vector<
@@ -108,7 +130,6 @@ Kit::slice()
 		slice.first.release();
 		slice.second.release();
 	}
-	return false;
 }
 
 }

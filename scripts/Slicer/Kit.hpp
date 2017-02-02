@@ -19,7 +19,7 @@ public:
 
 private:
 
-	bool slice();
+	void slice();
 	Act * _act;
 	cocos2d::DrawNode * _anvil, * _hammer;
 	cocos2d::EventListenerTouchOneByOne * _sensor;

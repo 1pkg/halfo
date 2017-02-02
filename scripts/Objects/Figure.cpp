@@ -33,7 +33,7 @@ Figure::view() const
 }
 
 bool
-Figure::intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
+Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 {
 	#ifdef FAST_FIGURE_INTERSECT
 	cocos2d::Vec2 
@@ -117,8 +117,8 @@ Figure::intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 			abs(line.first.y - line.second.y) + DELTA
 		);
 		if (
-			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
-			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) /*&&
+			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))*/
 		)
 			return true;
 	}
@@ -130,7 +130,7 @@ std::pair<
 	std::unique_ptr<Figure>,
 	std::unique_ptr<Figure>
 >
-Figure::slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
+Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 {
 	std::vector<cocos2d::Vec2> left, right;
 	for (size_t i = 0; i < _pattern.size(); ++i)
@@ -176,8 +176,8 @@ Figure::slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 			abs(line.first.y - line.second.y) + DELTA
 		);
 		if (
-			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
-			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) /*&&
+			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))*/
 		)
 		{
 			left.push_back(cocos2d::Vec2(x, y) - view()->getPosition());

@@ -2,7 +2,6 @@
 #define TRANSPORTER_PATTERN
 
 #include "Application/Wrapper.hpp"
-#include <array>
 #include <cocos2d.h>
 
 namespace Transporter
@@ -12,7 +11,7 @@ class Pattern : public Application::Wrapper
 {
 public:
 
-	static std::array<std::string, 1> names;
+	static std::vector<std::string> names;
 	static std::unique_ptr<Pattern> create(const std::string & name);
 	const cocos2d::Vec2 * data() const;
 	std::size_t size() const;

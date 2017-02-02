@@ -22,11 +22,11 @@ public:
 		bool hollow = true
 	);
 	Views::Figure * view() const override;
-	bool intersect(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
+	bool intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const;
 	std::pair<
 		std::unique_ptr<Figure>,
 		std::unique_ptr<Figure>
-	> slice(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
+	> slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const;
 	void fill();
 
 private:

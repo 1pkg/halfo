@@ -1,20 +1,32 @@
 #include "Pattern.hpp"
-#include "Patterns/RandomTriangle.hpp"
+#include "Patterns/Triangle.hpp"
+#include "Patterns/Quadrangle.hpp"
+#include "Patterns/Pentagon.hpp"
 
 namespace Transporter
 {
 
-std::array<std::string, 1> Pattern::names =
-	{
-		"random-triangle"
-	};
+std::vector<std::string>
+Pattern::names =
+{
+	"triangle",
+//	"quadrangle",
+//	"pentagon"
+};
 
 std::unique_ptr<Pattern>
 Pattern::create(const std::string & name)
 {
 	using namespace Patterns;
-	if (name == "random-triangle")
-		return std::unique_ptr<Pattern>(new RandomTriangle());
+
+	if (name == "triangle")
+		return std::unique_ptr<Pattern>(new Triangle());
+
+	if (name == "quadrangle")
+		return std::unique_ptr<Pattern>(new Quadrangle());
+
+	if (name == "pentagon")
+		return std::unique_ptr<Pattern>(new Pentagon());
 
 	return nullptr;
 }

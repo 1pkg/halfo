@@ -94,6 +94,9 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 {
 	cocos2d::PhysicsBody * first = contact.getShapeA()->getBody();
 	cocos2d::PhysicsBody * second = contact.getShapeB()->getBody();
+	if (_pool.find(first) != _pool.end() && _pool.find(second) != _pool.end())
+		return false;
+
 	if (_pool.find(first) != _pool.end() && second == _node->getPhysicsBody())
 	{
 		_pool.find(first)->second->fill();
@@ -107,7 +110,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		_pool.find(second)->second.release();
 		_pool.erase(_pool.find(second));
 	}
-	return false; //
+	return true;
 }
 
 void

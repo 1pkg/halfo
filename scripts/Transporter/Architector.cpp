@@ -82,7 +82,7 @@ Architector::chose(unsigned int roll) const
 	unsigned int current = 0;
 	for (const std::pair<std::unique_ptr<Pattern>, unsigned int> & data : _patterns)
 	{
-		if (current < roll && current + data.second >= roll)
+		if (current <= roll && current + data.second >= roll)
 			return data.first.get();
 		else
 			current += data.second;
