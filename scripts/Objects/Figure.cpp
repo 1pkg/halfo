@@ -1,4 +1,5 @@
 #include "Figure.hpp"
+#include "Application/Metric.hpp"
 
 namespace Objects
 {
@@ -36,12 +37,13 @@ bool
 Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 {
 	#ifdef FAST_FIGURE_INTERSECT
+	std::vector<cocos2d::Vec2> vector = rotate(_pattern);
 	cocos2d::Vec2 
-		left = _pattern[0],
-		right = _pattern[0],
-		top = _pattern[0],
-		bottom = _pattern[0];
-	for (cocos2d::Vec2 point : _pattern)
+		left = vector[0],
+		right = vector[0],
+		top = vector[0],
+		bottom = vector[0];
+	for (cocos2d::Vec2 point : vector)
 	{
 		if (point.x < left.x)
 			left = point;
@@ -77,12 +79,13 @@ Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 	);
 	return cocos2d::Rect(lposition, ldimension).intersectsRect(cocos2d::Rect(fposition, fdimension));
 	#else
-	for (size_t i = 0; i < _pattern.size(); ++i)
+	std::vector<cocos2d::Vec2> vector = rotate(_pattern);
+	for (size_t i = 0; i < vector.size(); ++i)
 	{
 		cocos2d::Vec2 first =
-			_pattern[i] + view()->getPosition();
+			vector[i] + view()->getPosition();
 		cocos2d::Vec2 second =
-			_pattern[i == _pattern.size() - 1 ? 0 : i + 1] + view()->getPosition();
+			vector[i == vector.size() - 1 ? 0 : i + 1] + view()->getPosition();
 
 		float determinant = 
 			(first.x - second.x) * (line.first.y - line.second.y) -
@@ -117,8 +120,8 @@ Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			abs(line.first.y - line.second.y) + DELTA
 		);
 		if (
-			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) /*&&
-			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))*/
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
+			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
 		)
 			return true;
 	}
@@ -133,10 +136,11 @@ std::pair<
 Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 {
 	std::vector<cocos2d::Vec2> left, right;
-	for (size_t i = 0; i < _pattern.size(); ++i)
+	std::vector<cocos2d::Vec2> vector = rotate(_pattern);
+	for (size_t i = 0; i < vector.size(); ++i)
 	{
-		cocos2d::Vec2 first = _pattern[i] + view()->getPosition();
-		cocos2d::Vec2 second = _pattern[i == _pattern.size() - 1 ? 0 : i + 1] + view()->getPosition();
+		cocos2d::Vec2 first = vector[i] + view()->getPosition();
+		cocos2d::Vec2 second = vector[i == vector.size() - 1 ? 0 : i + 1] + view()->getPosition();
 
 		if (first.x < line.first.x)
 			left.push_back(first - view()->getPosition());
@@ -176,8 +180,8 @@ Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			abs(line.first.y - line.second.y) + DELTA
 		);
 		if (
-			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) /*&&
-			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))*/
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
+			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
 		)
 		{
 			left.push_back(cocos2d::Vec2(x, y) - view()->getPosition());
@@ -209,6 +213,24 @@ Figure::fill()
 
 	_hollow = false;
 	view()->setHollow(_hollow);
+}
+
+std::vector<cocos2d::Vec2>
+Figure::rotate(const std::vector<cocos2d::Vec2> & vector) const
+{
+	std::vector<cocos2d::Vec2> result(vector.size());
+	float rotation = CC_DEGREES_TO_RADIANS(view()->getRotation());
+
+	for (std::size_t i = 0; i < vector.size(); ++i)
+	{
+		cocos2d::Vec2 point = vector[i];
+		result[i] =
+			cocos2d::Vec2(
+			 cos(rotation) * (point.x) + sin(rotation) * (point.y),
+			-sin(rotation) * (point.x) + cos(rotation) * (point.y)
+		);
+	}
+	return result;
 }
 
 }

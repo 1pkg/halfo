@@ -17,7 +17,8 @@ Metric::Metric()
 	),
 	_lspawn(_size.width / 6.0f, _size.height / 6.0f * 5.0f),
 	_rspawn(_size.width - _size.width / 6.0f, _size.height / 6.0f * 5.0f),
-	_spawn(_size.width / 9.0f, _size.height / 4.5f)
+	_spawn(_size.width / 9.0f, _size.height / 4.5f),
+	_anchor(_size.width / 18.0f, _size.height / 9.0f)
 
 {
 }
@@ -93,6 +94,12 @@ cocos2d::Vec2
 Metric::center() const
 {
 	return _size / 2.0f;
+}
+
+cocos2d::Vec2
+Metric::anchor() const
+{
+	return _anchor;
 }
 
 cocos2d::Vec2

@@ -17,7 +17,11 @@ public:
 	const size_t PATTERNS_CAPACITY = 32;
 	const size_t REFRESH_DEPTH = 6;
 	const std::pair<float, float> LINEAR_SPEED_LIMIT = std::pair<float, float>(100.0f, 1000.0f);
-	const std::pair<float, float> ANGULAR_SPEED_LIMIT = std::pair<float, float>(10.0f, 100.0f);
+	const std::pair<float, float> ANGULAR_SPEED_LIMIT = std::pair<float, float>(1.0f, 3.0f);
+
+	static std::vector<
+		std::pair<std::string, unsigned int>
+	> figures;
 
 	Architector();
 	std::unique_ptr<Objects::Figure> provide();
@@ -25,7 +29,8 @@ public:
 
 private:
 
-	Pattern * chose(unsigned int roll) const;
+	std::string choseFigure(unsigned int roll) const;
+	Pattern * chosePattern(unsigned int roll) const;
 	bool _side;
 	std::vector<
 		std::pair<std::unique_ptr<Pattern>, unsigned int>

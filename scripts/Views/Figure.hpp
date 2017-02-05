@@ -25,6 +25,8 @@ public:
 	cocos2d::PhysicsBody * body() const;
 	cocos2d::Vec2 getPosition() const;
 	void setPosition(cocos2d::Vec2 position);
+	float getRotation() const;
+	void setRotation(float angle) const;
 	void setHollow(bool hollow);
 
 private:

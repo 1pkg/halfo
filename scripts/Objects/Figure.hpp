@@ -31,6 +31,8 @@ public:
 
 private:
 
+	std::vector<cocos2d::Vec2>
+		rotate(const std::vector<cocos2d::Vec2> & vector) const;
 	std::vector<cocos2d::Vec2> _pattern;
 	cocos2d::Color4F _color;
 	cocos2d::PhysicsMaterial _material;

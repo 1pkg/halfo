@@ -22,6 +22,7 @@ public:
 	cocos2d::Vec2 origin() const;
 	cocos2d::Size size() const;
 	cocos2d::Vec2 center() const;
+	cocos2d::Vec2 anchor() const;
 	cocos2d::Vec2 spawn(bool side) const;
 	cocos2d::Size constraint() const;
 	float lenght() const;
@@ -32,7 +33,7 @@ private:
 
 	Metric();
 	cocos2d::Size _size;
-	cocos2d::Vec2 _origin;
+	cocos2d::Vec2 _origin, _anchor;
 	std::pair<cocos2d::Vec2, cocos2d::Vec2> _anvil, _hammer;
 	cocos2d::Vec2 _lspawn, _rspawn;
 	cocos2d::Size _spawn;

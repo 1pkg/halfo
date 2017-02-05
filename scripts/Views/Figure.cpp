@@ -1,4 +1,5 @@
 #include "Figure.hpp"
+#include "Application/Metric.hpp"
 
 namespace Views
 {
@@ -43,6 +44,12 @@ Figure::attach(cocos2d::Layer * layer)
 	layer->addChild(_node);
 }
 
+cocos2d::PhysicsBody *
+Figure::body() const
+{
+	return _node->getPhysicsBody();
+}
+
 cocos2d::Vec2
 Figure::getPosition() const
 {
@@ -55,10 +62,16 @@ Figure::setPosition(cocos2d::Vec2 position)
 	_node->setPosition(position);
 }
 
-cocos2d::PhysicsBody *
-Figure::body() const
+float
+Figure::getRotation() const
 {
-	return _node->getPhysicsBody();
+	return _node->getRotation();
+}
+
+void
+Figure::setRotation(float angle) const
+{
+	_node->setRotation(angle);
 }
 
 void

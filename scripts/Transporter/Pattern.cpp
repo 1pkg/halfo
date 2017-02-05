@@ -2,17 +2,10 @@
 #include "Patterns/Triangle.hpp"
 #include "Patterns/Quadrangle.hpp"
 #include "Patterns/Pentagon.hpp"
+#include "Patterns/Hexagon.hpp"
 
 namespace Transporter
 {
-
-std::vector<std::string>
-Pattern::names =
-{
-	"triangle",
-//	"quadrangle",
-//	"pentagon"
-};
 
 std::unique_ptr<Pattern>
 Pattern::create(const std::string & name)
@@ -27,6 +20,9 @@ Pattern::create(const std::string & name)
 
 	if (name == "pentagon")
 		return std::unique_ptr<Pattern>(new Pentagon());
+
+	if (name == "hexagon")
+		return std::unique_ptr<Pattern>(new Hexagon());
 
 	return nullptr;
 }
