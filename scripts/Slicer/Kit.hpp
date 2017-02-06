@@ -13,6 +13,9 @@ class Kit : public Application::Kit
 {
 public:
 
+	const float LIMIT_AREA = 100.0f;
+	const float DELTA_AREA = 2500.0f;
+
 	Kit(Act * act);
 	~Kit();
 	void update(float delta) override;

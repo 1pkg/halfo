@@ -16,6 +16,7 @@ public:
 
 	const size_t PATTERNS_CAPACITY = 32;
 	const size_t REFRESH_DEPTH = 6;
+	const float LIMIT_AREA = 100.0f;
 	const std::pair<float, float> LINEAR_SPEED_LIMIT = std::pair<float, float>(100.0f, 1000.0f);
 	const std::pair<float, float> ANGULAR_SPEED_LIMIT = std::pair<float, float>(1.0f, 3.0f);
 

@@ -26,6 +26,8 @@ Figure::Figure(
 			size,
 			material
 		);
+	body->setVelocityLimit(LINEAR_VELOCITY_LIMIT);
+	body->setAngularVelocityLimit(ANGULAR_VELOCITY_LIMIT);
 	_node->setPhysicsBody(body);
 	setHollow(hollow);
 }

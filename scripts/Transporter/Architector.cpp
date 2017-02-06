@@ -24,14 +24,27 @@ Architector::Architector()
 	for (const std::pair<std::string, unsigned int> & data : figures)
 		limit += data.second;
 
-	for (size_t i = 0; i < PATTERNS_CAPACITY; ++i)
+	for (size_t i = 0; i < PATTERNS_CAPACITY;)
 	{
 		std::string figure = choseFigure(cocos2d::RandomHelper::random_int<unsigned int>(0, limit));
+		std::unique_ptr<Pattern> pattern = Pattern::create(figure);
+		std::unique_ptr<Objects::Figure> object(
+			new Objects::Figure(
+				pattern->data(),
+				pattern->size(),
+				cocos2d::Color4F::GREEN,
+				cocos2d::PHYSICSBODY_MATERIAL_DEFAULT
+			)
+		);
+		if (object->area() < LIMIT_AREA)
+			continue;
+
 		_patterns[i] =
 			std::pair<std::unique_ptr<Pattern>, unsigned int>(
-				std::move(Pattern::create(figure)),
+				std::move(pattern),
 				cocos2d::RandomHelper::random_int<unsigned int>(1, 10)
 			);
+		++i;
 	}
 }
 
@@ -81,15 +94,28 @@ Architector::refresh()
 	std::random_shuffle(_patterns.begin(), _patterns.end());
 	for (size_t i = 0; i < REFRESH_DEPTH; ++i)
 		_patterns.pop_back();
-	for (size_t i = 0; i < REFRESH_DEPTH; ++i)
+	for (size_t i = 0; i < REFRESH_DEPTH;)
 	{
 		std::string figure = choseFigure(cocos2d::RandomHelper::random_int<unsigned int>(0, limit));
+		std::unique_ptr<Pattern> pattern = Pattern::create(figure);
+		std::unique_ptr<Objects::Figure> object(
+			new Objects::Figure(
+				pattern->data(),
+				pattern->size(),
+				cocos2d::Color4F::GREEN,
+				cocos2d::PHYSICSBODY_MATERIAL_DEFAULT
+			)
+		);
+		if (object->area() < LIMIT_AREA)
+			continue;
+
 		_patterns.push_back(
 			std::pair<std::unique_ptr<Pattern>, unsigned int>(
 				std::move(Pattern::create(figure)),
 				cocos2d::RandomHelper::random_int<unsigned int>(1, 10)
 			)
 		);
+		++i;
 	}
 }
 

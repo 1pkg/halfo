@@ -22,6 +22,7 @@ public:
 		bool hollow = true
 	);
 	Views::Figure * view() const override;
+	float area() const;
 	bool intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const;
 	std::pair<
 		std::unique_ptr<Figure>,

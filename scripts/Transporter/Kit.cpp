@@ -13,8 +13,14 @@ Kit::Kit(Act * act)
 	_node(cocos2d::Node::create())
 {
 	_act->addChild(_node);
-	_node->setPosition(Application::Metric::instance().center());
-	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeBox(Application::Metric::instance().size());
+	cocos2d::Vec2 vector[4] = 
+		{
+			Application::Metric::instance().origin() - cocos2d::Vec2(Application::Metric::instance().origin().x, Application::Metric::instance().size().height),
+			cocos2d::Vec2(Application::Metric::instance().origin().x, Application::Metric::instance().size().height),
+			cocos2d::Vec2(Application::Metric::instance().size().width, Application::Metric::instance().size().height),
+			cocos2d::Vec2(Application::Metric::instance().size().width, Application::Metric::instance().origin().y) - cocos2d::Vec2(Application::Metric::instance().origin().x, Application::Metric::instance().size().height)
+		};
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeChain(vector, 4);
 	body->setCategoryBitmask(0x4);
 	body->setCollisionBitmask(0x3);
 	body->setContactTestBitmask(0x3);
@@ -41,7 +47,7 @@ Kit::update(float dt)
 	spawn += dt;
 	refresh += dt;
 
-	if (spawn >= 2.0f)
+	if (spawn >= 5.0f)
 	{
 		std::unique_ptr<Objects::Figure> figure = _architector.provide();
 		figure->view()->attach(_act);
@@ -57,36 +63,46 @@ Kit::update(float dt)
 		spawn = 0.0f;
 	}
 
-	if (refresh >= 10.0f)
+	if (refresh >= 50.0f)
 	{
 		_architector.refresh();
 		refresh = 0.0f;
 	}
 }
 
-std::vector<
-	std::unique_ptr<Objects::Figure>
->
-Kit::release(std::pair<cocos2d::Vec2, cocos2d::Vec2> line)
+std::vector<Objects::Figure *>
+Kit::find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line)
 {
-	std::vector<
-		std::unique_ptr<Objects::Figure>
-	> result;
+	std::vector<Objects::Figure *> result;
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	>::iterator it = _pool.begin();
 	while (it != _pool.end())
+	{
 		if ((*it).second->intersect(line))
-		{
-			result.push_back(std::move(it->second));
-			it = _pool.erase(it);
-		}
-		else
-		{
-			++it;
-		}
+			result.push_back(it->second.get());
+		++it;
+	}
 	return result;
+}
+
+void
+Kit::release(Objects::Figure * figure)
+{
+	std::unordered_map<
+		cocos2d::PhysicsBody *,
+		std::unique_ptr<Objects::Figure>
+	>::iterator it = _pool.begin();
+	while (it != _pool.end())
+	{
+		if ((*it).second.get() == figure)
+		{
+			_pool.erase(it);
+			return;
+		}
+		++it;
+	}
 }
 
 bool
@@ -111,41 +127,6 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		_pool.erase(_pool.find(second));
 	}
 	return true;
-}
-
-void
-Kit::render(float delta)
-{
-	cocos2d::Size size = cocos2d::Director::getInstance()->getVisibleSize();
-	std::vector<cocos2d::Vec2> pattern;
-	pattern.push_back(cocos2d::Vec2::ZERO);
-	std::size_t vsize = 3 + std::rand() % 1;
-	for (std::size_t i = 0; i < vsize; ++i)
-		pattern.push_back(
-			cocos2d::Vec2(
-				pattern.back().x + ((std::rand() % 200) - 50),
-				pattern.back().y + ((std::rand() % 100) - 50)
-			)
-		);
-	Objects::Figure * figure = new Objects::Figure(
-		pattern.data(),
-		pattern.size(),
-		cocos2d::Color4F::GREEN,
-		cocos2d::PhysicsMaterial(1.0f, 0.5f, 0.5f)
-	);
-	figure->view()->attach(_act);
-	figure->view()->setPosition(cocos2d::Vec2(size.width / 8.0f, size.height / 1.5f));
-	figure->view()->body()->setVelocity(cocos2d::Vec2(50.0f + std::rand() % 150, 0.0f));
-
-	_pool.insert(
-		std::pair<
-			cocos2d::PhysicsBody *,
-			std::unique_ptr<Objects::Figure>
-		>(
-			figure->view()->body(),
-			std::move(std::unique_ptr<Objects::Figure>(figure))
-		)
-	);
 }
 
 }

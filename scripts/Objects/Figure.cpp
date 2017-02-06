@@ -33,6 +33,20 @@ Figure::view() const
 	return _view.get();
 }
 
+float
+Figure::area() const
+{
+	float result = 0.0f;
+	for (std::size_t i = 0; i < _pattern.size(); ++i)
+	{
+		cocos2d::Vec2 first = _pattern[i];
+		cocos2d::Vec2 second = _pattern[i == _pattern.size() - 1 ? 0 : i + 1];
+
+		result += first.x * second.y - first.y * second.x;
+	}
+	return abs(result / 2.0f);
+}
+
 bool
 Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 {

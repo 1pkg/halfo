@@ -46,13 +46,13 @@ Kit::Kit(Act * act)
 
 	_sensor->onTouchBegan = [this](cocos2d::Touch * touch, cocos2d::Event * event)
 	{
-		slice();
 		_hammer->runAction(
 			cocos2d::Sequence::create(
 				cocos2d::MoveBy::create(
 					0.1f,
 					cocos2d::Vec2(0.0f, -Application::Metric::instance().lenght())
 				),
+				cocos2d::CallFunc::create(std::bind(&Kit::slice, this)),
 				nullptr
 			)
 		); 
@@ -90,15 +90,24 @@ Kit::update(float dt)
 void
 Kit::slice()
 {
-	std::vector<
-		std::unique_ptr<Objects::Figure>
-	> figures = _act->transpoter()->release(Application::Metric::instance().hammer());
-	for (std::unique_ptr<Objects::Figure> & figure : figures)
+	std::vector<Objects::Figure *>
+		figures = _act->transpoter()->find(Application::Metric::instance().hammer());
+	for (Objects::Figure * figure : figures)
 	{
 		std::pair<
 			std::unique_ptr<Objects::Figure>,
 			std::unique_ptr<Objects::Figure>
 		> slice = figure->slice(Application::Metric::instance().hammer());
+
+		float f = slice.first->area(),
+		s =  slice.second->area();
+		if (abs(slice.first->area() - slice.second->area()) < DELTA_AREA)
+			_act->cleaner()->grow();
+		else
+			_act->cleaner()->drop();
+
+		if (slice.first->area() < LIMIT_AREA || slice.second->area() < LIMIT_AREA)
+			continue;
 
 		slice.first->view()->attach(_act);
 		slice.first->view()->setPosition(figure->view()->getPosition());
@@ -129,6 +138,7 @@ Kit::slice()
 
 		slice.first.release();
 		slice.second.release();
+		_act->transpoter()->release(figure);
 	}
 }
 

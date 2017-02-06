@@ -12,6 +12,8 @@ class Figure : public Application::View
 public:
 
 	const float LINE_WIDHT = 3.0f;
+	const float LINEAR_VELOCITY_LIMIT = 500.0f;
+	const float ANGULAR_VELOCITY_LIMIT = 5.0f;
 
 	Figure(
 		const cocos2d::Vec2 * pattern,
