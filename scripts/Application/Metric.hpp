@@ -25,6 +25,8 @@ public:
 	cocos2d::Vec2 anchor() const;
 	cocos2d::Vec2 spawn(bool side) const;
 	cocos2d::Size constraint() const;
+	cocos2d::Vec2 score() const;
+	cocos2d::Vec2 combo() const;
 	float lenght() const;
 	const std::pair<cocos2d::Vec2, cocos2d::Vec2> & anvil() const;
 	const std::pair<cocos2d::Vec2, cocos2d::Vec2> & hammer() const;
@@ -37,6 +39,7 @@ private:
 	std::pair<cocos2d::Vec2, cocos2d::Vec2> _anvil, _hammer;
 	cocos2d::Vec2 _lspawn, _rspawn;
 	cocos2d::Size _spawn;
+	cocos2d::Vec2 _score, _combo;
 	float _scale;
 };
 

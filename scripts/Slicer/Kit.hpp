@@ -13,8 +13,10 @@ class Kit : public Application::Kit
 {
 public:
 
-	const float LIMIT_AREA = 100.0f;
-	const float DELTA_AREA = 2500.0f;
+	const float LIMIT_AREA = 500.0f;
+	const float DELTA_AREA = 5000.0f;
+	const float X_IMPULS = 1000.0f;
+	const float Y_IMPULS = 500.0f;
 
 	Kit(Act * act);
 	~Kit();
@@ -23,13 +25,11 @@ public:
 private:
 
 	void slice();
-	Act * _act;
+	bool contact(cocos2d::PhysicsContact & contact);
 	cocos2d::DrawNode * _anvil, * _hammer;
-	cocos2d::EventListenerTouchOneByOne * _sensor;
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	> _pool;
+	cocos2d::EventListenerTouchOneByOne * _touchSensor;
+	cocos2d::EventListenerPhysicsContact * _physicSensor;
+	Act * _act;
 };
 
 }

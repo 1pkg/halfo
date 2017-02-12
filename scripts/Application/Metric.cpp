@@ -18,7 +18,9 @@ Metric::Metric()
 	_lspawn(_size.width / 6.0f, _size.height / 6.0f * 5.0f),
 	_rspawn(_size.width - _size.width / 6.0f, _size.height / 6.0f * 5.0f),
 	_spawn(_size.width / 9.0f, _size.height / 4.5f),
-	_anchor(_size.width / 18.0f, _size.height / 9.0f)
+	_anchor(_size.width / 18.0f, _size.height / 9.0f),
+	_score(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f),
+	_combo(_size.width / 10.0f * 2.0f, _size.height / 10.0f * 8.0f)
 
 {
 }
@@ -112,6 +114,18 @@ cocos2d::Size
 Metric::constraint() const
 {
 	return _spawn;
+}
+
+cocos2d::Vec2
+Metric::score() const
+{
+	return _score;
+}
+
+cocos2d::Vec2
+Metric::combo() const
+{
+	return _combo;
 }
 
 float

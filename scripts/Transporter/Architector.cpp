@@ -32,11 +32,10 @@ Architector::Architector()
 			new Objects::Figure(
 				pattern->data(),
 				pattern->size(),
-				cocos2d::Color4F::GREEN,
-				cocos2d::PHYSICSBODY_MATERIAL_DEFAULT
+				cocos2d::Color4F::GREEN
 			)
 		);
-		if (object->area() < LIMIT_AREA)
+		if (object->area() < Application::Metric::instance().absolute(Application::Metric::instance().absolute(LIMIT_AREA)))
 			continue;
 
 		_patterns[i] =
@@ -60,8 +59,7 @@ Architector::provide()
 		new Objects::Figure(
 			pattern->data(),
 			pattern->size(),
-			cocos2d::Color4F::GREEN,
-			cocos2d::PHYSICSBODY_MATERIAL_DEFAULT
+			cocos2d::Color4F::GREEN
 		)
 	);
 	figure->view()->body()->setVelocity(
@@ -102,11 +100,10 @@ Architector::refresh()
 			new Objects::Figure(
 				pattern->data(),
 				pattern->size(),
-				cocos2d::Color4F::GREEN,
-				cocos2d::PHYSICSBODY_MATERIAL_DEFAULT
+				cocos2d::Color4F::GREEN
 			)
 		);
-		if (object->area() < LIMIT_AREA)
+		if (object->area() < Application::Metric::instance().absolute(Application::Metric::instance().absolute(LIMIT_AREA)))
 			continue;
 
 		_patterns.push_back(

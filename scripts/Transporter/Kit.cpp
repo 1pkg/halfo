@@ -8,24 +8,25 @@ namespace Transporter
 {
 
 Kit::Kit(Act * act)
-	: _act(act),
+	: _edge(cocos2d::Node::create()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
-	_node(cocos2d::Node::create())
+	_act(act)
 {
-	_act->addChild(_node);
+	/*			Edge			*/
 	cocos2d::Vec2 vector[4] = 
 		{
-			Application::Metric::instance().origin() - cocos2d::Vec2(Application::Metric::instance().origin().x, Application::Metric::instance().size().height),
+			Application::Metric::instance().origin() - cocos2d::Vec2 (Application::Metric::instance().origin().x, Application::Metric::instance().size().height),
 			cocos2d::Vec2(Application::Metric::instance().origin().x, Application::Metric::instance().size().height),
 			cocos2d::Vec2(Application::Metric::instance().size().width, Application::Metric::instance().size().height),
-			cocos2d::Vec2(Application::Metric::instance().size().width, Application::Metric::instance().origin().y) - cocos2d::Vec2(Application::Metric::instance().origin().x, Application::Metric::instance().size().height)
+			cocos2d::Vec2(Application::Metric::instance().size().width, Application::Metric::instance().origin().y) - cocos2d::Vec2 (Application::Metric::instance().origin().x, Application::Metric::instance().size().height)
 		};
 	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeChain(vector, 4);
-	body->setCategoryBitmask(0x4);
-	body->setCollisionBitmask(0x3);
-	body->setContactTestBitmask(0x3);
-	_node->setPhysicsBody(body);
+	body->setDynamic(false);
+	body->setContactTestBitmask(0xFFFFFFFF);
+	_edge->setPhysicsBody(body);
+	_act->addChild(_edge);
 
+	/*			Sensor			*/
 	_sensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
 	{
 		return this->contact(contact);
@@ -35,19 +36,18 @@ Kit::Kit(Act * act)
 
 Kit::~Kit()
 {
+	_edge->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
-
-	_node->removeFromParentAndCleanup(true);
 }
 
 void
 Kit::update(float dt)
 {
-	static float spawn = 0.0f, refresh = 0.0f;
-	spawn += dt;
-	refresh += dt;
+	static float
+		spawn = 0.0f, refresh = 0.0f;
+	spawn += dt, refresh += dt;
 
-	if (spawn >= 5.0f)
+	if (spawn >= SPAWN_TIME)
 	{
 		std::unique_ptr<Objects::Figure> figure = _architector.provide();
 		figure->view()->attach(_act);
@@ -63,7 +63,7 @@ Kit::update(float dt)
 		spawn = 0.0f;
 	}
 
-	if (refresh >= 50.0f)
+	if (refresh >= REFRESH_TIME)
 	{
 		_architector.refresh();
 		refresh = 0.0f;
@@ -87,6 +87,22 @@ Kit::find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line)
 	return result;
 }
 
+std::unique_ptr<Objects::Figure>
+Kit::release(cocos2d::PhysicsBody * body)
+{
+	std::unordered_map<
+		cocos2d::PhysicsBody *,
+		std::unique_ptr<Objects::Figure>
+	>::iterator it = _pool.find(body);
+	if (it == _pool.end())
+		return nullptr;
+
+	std::unique_ptr<Objects::Figure>
+		figure = std::move((*it).second);
+	_pool.erase(it);
+	return figure;
+}
+
 void
 Kit::release(Objects::Figure * figure)
 {
@@ -108,25 +124,43 @@ Kit::release(Objects::Figure * figure)
 bool
 Kit::contact(cocos2d::PhysicsContact & contact)
 {
-	cocos2d::PhysicsBody * first = contact.getShapeA()->getBody();
-	cocos2d::PhysicsBody * second = contact.getShapeB()->getBody();
+	cocos2d::PhysicsBody
+		* first = contact.getShapeA()->getBody(),
+		* second = contact.getShapeB()->getBody();
 	if (_pool.find(first) != _pool.end() && _pool.find(second) != _pool.end())
 		return false;
 
-	if (_pool.find(first) != _pool.end() && second == _node->getPhysicsBody())
+	if (_pool.find(first) != _pool.end() && second == _edge->getPhysicsBody())
 	{
+		_act->cleaner()->reset();
 		_pool.find(first)->second->fill();
-		_pool.find(first)->second.release();
+		_act->cleaner()->attach(
+			std::move(_pool.find(first)->second)
+		);
 		_pool.erase(_pool.find(first));
+		return true;
+	}
+	if (_pool.find(second) != _pool.end() && first == _edge->getPhysicsBody())
+	{
+		_act->cleaner()->reset();
+		_pool.find(second)->second->fill();
+		_act->cleaner()->attach(
+			std::move(_pool.find(second)->second)
+		);
+		_pool.erase(_pool.find(second));
+		return true;
 	}
 
-	if (_pool.find(second) != _pool.end() && first == _node->getPhysicsBody())
-	{
-		_pool.find(second)->second->fill();
-		_pool.find(second)->second.release();
-		_pool.erase(_pool.find(second));
-	}
-	return true;
+	Objects::Figure
+		* firstShard = _act->cleaner()->find(first),
+		* secondShard = _act->cleaner()->find(second);
+	if (firstShard && second == _edge->getPhysicsBody())
+		return true;
+
+	if (secondShard && first == _edge->getPhysicsBody())
+		return true;
+
+	return false;
 }
 
 }

@@ -19,7 +19,6 @@ public:
 		const cocos2d::Vec2 * pattern,
 		std::size_t size,
 		cocos2d::Color4F color,
-		cocos2d::PhysicsMaterial material,
 		bool hollow
 	);
 	~Figure();

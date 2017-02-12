@@ -18,7 +18,6 @@ public:
 		const cocos2d::Vec2 * pattern,
 		std::size_t size,
 		cocos2d::Color4F color,
-		cocos2d::PhysicsMaterial material,
 		bool hollow = true
 	);
 	Views::Figure * view() const override;
@@ -36,7 +35,6 @@ private:
 		rotate(const std::vector<cocos2d::Vec2> & vector) const;
 	std::vector<cocos2d::Vec2> _pattern;
 	cocos2d::Color4F _color;
-	cocos2d::PhysicsMaterial _material;
 	bool _hollow;
 	std::unique_ptr<Views::Figure> _view;
 };

@@ -8,7 +8,6 @@ Figure::Figure(
 		const cocos2d::Vec2 * pattern,
 		std::size_t size,
 		cocos2d::Color4F color,
-		cocos2d::PhysicsMaterial material,
 		bool hollow
 )
 	: _node(cocos2d::DrawNode::create())
@@ -23,8 +22,7 @@ Figure::Figure(
 	cocos2d::PhysicsBody * body =
 		cocos2d::PhysicsBody::createPolygon(
 			pattern,
-			size,
-			material
+			size
 		);
 	body->setVelocityLimit(LINEAR_VELOCITY_LIMIT);
 	body->setAngularVelocityLimit(ANGULAR_VELOCITY_LIMIT);
@@ -80,18 +78,9 @@ void
 Figure::setHollow(bool hollow)
 {
 	cocos2d::PhysicsBody * body = _node->getPhysicsBody();
-	body->setGravityEnable(!hollow); // hollow body doesnt affect by gravity.
-	/*
-		Hollow interact with another hollow, borders, shreadder, and filled.
-		Filled interact with another filled, borders, and hollow.
-		0b0001 - hollow mask
-		0b0010 - filled mask
-		0b0100 - borders mask
-		0b1000 - shreadder mask
-	*/
-	body->setCategoryBitmask(hollow ? 0x1 : 0x2);
-	body->setCollisionBitmask(hollow ? 0xF : 0x7);
-	body->setContactTestBitmask(hollow ? 0xF : 0x7);
+	body->setGravityEnable(!hollow);
+	body->setDynamic(true);
+	body->setContactTestBitmask(0xFFFFFFFF);
 	body->setVelocity(cocos2d::Vec2::ZERO);
 }
 

@@ -8,19 +8,16 @@ Figure::Figure(
 		const cocos2d::Vec2 * pattern,
 		std::size_t size,
 		cocos2d::Color4F color,
-		cocos2d::PhysicsMaterial material,
 		bool hollow
 )
 	: _pattern(pattern, pattern + size),
 	_color(color),
-	_material(material),
 	_hollow(hollow),
 	_view(
 		new Views::Figure(
 			_pattern.data(),
 			_pattern.size(),
 			_color,
-			_material,
 			_hollow
 		)
 	)
@@ -208,12 +205,12 @@ Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 	>(
 		std::move(
 			std::unique_ptr<Figure>(
-				new Figure(left.data(), left.size(), _color, _material, false)
+				new Figure(left.data(), left.size(), _color, false)
 			)
 		),
 		std::move(
 			std::unique_ptr<Figure>(
-				new Figure(right.data(), right.size(), _color, _material, false)
+				new Figure(right.data(), right.size(), _color, false)
 			)
 		)
 	);
@@ -234,7 +231,6 @@ Figure::rotate(const std::vector<cocos2d::Vec2> & vector) const
 {
 	std::vector<cocos2d::Vec2> result(vector.size());
 	float rotation = CC_DEGREES_TO_RADIANS(view()->getRotation());
-
 	for (std::size_t i = 0; i < vector.size(); ++i)
 	{
 		cocos2d::Vec2 point = vector[i];
