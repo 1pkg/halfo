@@ -31,7 +31,7 @@ Kit::Kit(Act * act)
 	{
 		return this->contact(contact);
 	};
-	_act->getEventDispatcher()->addEventListenerWithFixedPriority(_sensor, 1);
+	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
 }
 
 Kit::~Kit()

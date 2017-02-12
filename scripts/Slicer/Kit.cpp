@@ -78,14 +78,14 @@ Kit::Kit(Act * act)
 			)
 		); 
 	};
-	_act->getEventDispatcher()->addEventListenerWithFixedPriority(_touchSensor, 1);
+	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchSensor, _act);
 
 	/*			PhysicsSensor			*/
 	_physicSensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
 	{
 		return this->contact(contact);
 	};
-	_act->getEventDispatcher()->addEventListenerWithFixedPriority(_physicSensor, 1);
+	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_physicSensor, _act);
 }
 
 Kit::~Kit()

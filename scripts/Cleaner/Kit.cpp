@@ -39,7 +39,7 @@ Kit::Kit(Act * act)
 	{
 		return this->contact(contact);
 	};
-	_act->getEventDispatcher()->addEventListenerWithFixedPriority(_sensor, 1);
+	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
 }
 
 Kit::~Kit()
@@ -165,8 +165,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	cocos2d::PhysicsBody
 		* first = contact.getShapeA()->getBody(),
 		* second = contact.getShapeB()->getBody();
-	return true;
-	return
+	return contact.getResult() ||
 		_lpool.find(first) != _lpool.end() && _lpool.find(second) != _lpool.end() ||
 		_rpool.find(first) != _rpool.end() && _rpool.find(second) != _rpool.end() ||
 		_lpool.find(first) != _lpool.end() && _edge->getPhysicsBody() == second ||
