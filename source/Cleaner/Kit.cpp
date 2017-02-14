@@ -9,8 +9,8 @@ namespace Cleaner
 Kit::Kit(Application::Act * act)
 	: _combo(0), _result(0),
 	_edge(cocos2d::Node::create()),
-	_score(cocos2d::Label::createWithTTF(std::to_string(_result), FONT_NAME, FONT_SIZE)),
-	_scale(cocos2d::Label::createWithTTF(std::to_string(1), FONT_NAME, FONT_SIZE)),
+	_score(cocos2d::Label::createWithTTF(toString(_result), FONT_NAME, FONT_SIZE)),
+	_scale(cocos2d::Label::createWithTTF(toString(1), FONT_NAME, FONT_SIZE)),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
@@ -80,7 +80,7 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 		);
 
 	_result += scale();
-	_score->setString(std::to_string(_result));
+	_score->setString(toString(_result));
 }
 
 Objects::Figure *
@@ -111,7 +111,7 @@ Kit::increase()
 	{
 		clean();
 		_scale->setString(
-			std::to_string(scale())
+			toString(scale())
 		);
 	}
 	_edge->runAction(
@@ -128,7 +128,7 @@ Kit::reset()
 {
 	_combo = _combo < COMBO_PROOF ? 0 : _combo - COMBO_PROOF;
 	_scale->setString(
-		std::to_string(scale())
+		toString(scale())
 	);
 	if (!_combo) {
 		_edge->runAction(
