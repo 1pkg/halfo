@@ -46,7 +46,7 @@ Kit::update(float dt)
 	{
 		std::unique_ptr<Objects::Figure> figure = _architector.provide();
 		figure->view()->attach(_act);
-		_pool.insert(
+		_prepool.insert(
 			std::pair<
 				cocos2d::PhysicsBody *,
 				std::unique_ptr<Objects::Figure>
@@ -66,13 +66,13 @@ Kit::update(float dt)
 }
 
 std::vector<Objects::Figure *>
-Kit::find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line)
+Kit::find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
 {
 	std::vector<Objects::Figure *> result;
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
-	>::iterator it = _pool.begin();
+	>::const_iterator it = _pool.begin();
 	while (it != _pool.end())
 	{
 		if ((*it).second->intersect(line))
@@ -82,23 +82,20 @@ Kit::find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line)
 	return result;
 }
 
-std::unique_ptr<Objects::Figure>
-Kit::release(cocos2d::PhysicsBody * body)
+Objects::Figure *
+Kit::find(cocos2d::PhysicsBody * body) const
 {
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
-	>::iterator it = _pool.find(body);
+	>::const_iterator it = _pool.find(body);
 	if (it == _pool.end())
 		return nullptr;
 
-	std::unique_ptr<Objects::Figure>
-		figure = std::move((*it).second);
-	_pool.erase(it);
-	return figure;
+	return it->second.get();
 }
 
-void
+std::unique_ptr<Objects::Figure>
 Kit::release(Objects::Figure * figure)
 {
 	std::unordered_map<
@@ -109,11 +106,26 @@ Kit::release(Objects::Figure * figure)
 	{
 		if ((*it).second.get() == figure)
 		{
+			std::unique_ptr<Objects::Figure>
+				figure = std::move((*it).second);
 			_pool.erase(it);
-			return;
+			return figure;
 		}
 		++it;
 	}
+	return nullptr;
+}
+
+void
+Kit::increase()
+{
+	_architector.increase();
+}
+
+void
+Kit::reset()
+{
+	_architector.reset();
 }
 
 bool
@@ -122,24 +134,57 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	cocos2d::PhysicsBody
 		* first = contact.getShapeA()->getBody(),
 		* second = contact.getShapeB()->getBody();
-	if (_pool.find(first) != _pool.end() && second == _edge->getPhysicsBody())
+	std::unordered_map<
+		cocos2d::PhysicsBody *,
+		std::unique_ptr<Objects::Figure>
+	>::iterator it;
+	if ((it = _prepool.find(first)) != _prepool.end() && second == _edge->getPhysicsBody())
+	{
+		_pool.insert(
+			std::pair<
+				cocos2d::PhysicsBody *,
+				std::unique_ptr<Objects::Figure>
+			>(
+				it->first,
+				std::move(it->second)
+			)
+		);
+		_prepool.erase(it);
+		return false;
+	}
+	if ((it = _prepool.find(second)) != _prepool.end() && first == _edge->getPhysicsBody())
+	{
+		_pool.insert(
+			std::pair<
+				cocos2d::PhysicsBody *,
+				std::unique_ptr<Objects::Figure>
+			>(
+				it->first,
+				std::move(it->second)
+			)
+		);
+		_prepool.erase(it);
+		return false;
+	}
+
+	if ((it = _pool.find(first)) != _pool.end() && second == _edge->getPhysicsBody())
 	{
 		_act->cleaner()->reset();
-		_pool.find(first)->second->fill();
+		it->second->fill();
 		_act->cleaner()->attach(
-			std::move(_pool.find(first)->second)
+			std::move(it->second)
 		);
-		_pool.erase(_pool.find(first));
+		_pool.erase(it);
 		return true;
 	}
-	if (_pool.find(second) != _pool.end() && first == _edge->getPhysicsBody())
+	if ((it = _pool.find(second)) != _pool.end() && first == _edge->getPhysicsBody())
 	{
 		_act->cleaner()->reset();
-		_pool.find(second)->second->fill();
+		it->second->fill();
 		_act->cleaner()->attach(
-			std::move(_pool.find(second)->second)
+			std::move(it->second)
 		);
-		_pool.erase(_pool.find(second));
+		_pool.erase(it);
 		return true;
 	}
 

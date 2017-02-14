@@ -18,16 +18,18 @@ public:
 
 private:
 
-	const float LIMIT_AREA = 500.0f;
-	const float DELTA_AREA = 5000.0f;
-	const float HIT_TIME = 0.2f;
-	const float X_IMPULS = 1000.0f;
-	const float Y_IMPULS = 500.0f;
+	const float HIT_TIME = 0.05f;
+	const float
+		LIMIT_AREA = 1000.0f,
+		DELTA_AREA = 15000.0f;
+	const float
+		X_IMPULS = 25000.0f,
+		Y_IMPULS = 25000.0f;
 
 	bool putDown();
 	void putUp();
-	void slice();
-	bool contact(cocos2d::PhysicsContact & contact);
+	void slice() const;
+	bool contact(cocos2d::PhysicsContact & contact) const;
 	cocos2d::DrawNode * _anvil, * _hammer;
 	cocos2d::EventListenerTouchOneByOne * _touchSensor;
 	cocos2d::EventListenerPhysicsContact * _physicSensor;

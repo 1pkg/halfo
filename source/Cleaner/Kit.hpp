@@ -16,28 +16,34 @@ public:
 	~Kit();
 	void update(float delta) override;
 	void attach(std::unique_ptr<Objects::Figure> figure);
-    Objects::Figure * find(cocos2d::PhysicsBody * body);
+    Objects::Figure * find(cocos2d::PhysicsBody * body) const;
 	void increase();
 	void reset();
 
 private:
 
-	const float EDGE_STEP = 10.0f;
-	const float EDGE_STEP_TIME = 0.5f;
-	const unsigned int COMBO_PROOF = 2;
-	const unsigned int SCALE_LIMIT = 5;
+	const float
+		EDGE_STEP = 30.0f,
+		EDGE_STEP_TIME = 1.0f;
+	const unsigned int
+		COMBO_LIMIT = 12,
+		COMBO_PROOF = 3,
+		SCALE_KOEFICIENT = 2;
+	const std::pair<unsigned int, unsigned int>
+		FIGURE_BURN_LIMIT = std::pair<unsigned int, unsigned int>(1, 3);
 	const std::string FONT_NAME = "sexy.ttf";
 	const float FONT_SIZE = 32.0f;
 
+	unsigned int scale() const;
 	void clean();
-	bool contact(cocos2d::PhysicsContact & contact);
-	unsigned int _scale, _combo, _result;
+	bool contact(cocos2d::PhysicsContact & contact) const;
+	unsigned int _combo, _result;
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	> _lpool, _rpool;
 	cocos2d::Node * _edge;
-	cocos2d::Label * _score, * _multiply;
+	cocos2d::Label * _score, * _scale;
 	cocos2d::EventListenerPhysicsContact * _sensor;
 	Application::Act * _act;
 };

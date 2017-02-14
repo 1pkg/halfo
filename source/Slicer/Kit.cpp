@@ -114,7 +114,7 @@ Kit::putUp()
 }
 
 void
-Kit::slice()
+Kit::slice() const
 {
 	std::vector<Objects::Figure *>
 		figures = _act->transpoter()->find(Application::Metric::instance().hammer());
@@ -157,25 +157,33 @@ Kit::slice()
 }
 
 bool
-Kit::contact(cocos2d::PhysicsContact & contact)
+Kit::contact(cocos2d::PhysicsContact & contact) const
 {
 	cocos2d::PhysicsBody
 		* first = contact.getShapeA()->getBody(),
 		* second = contact.getShapeB()->getBody();
-	std::unique_ptr<Objects::Figure>
-		firstFigure = _act->transpoter()->release(first),
-		secondFigure = _act->transpoter()->release(second);
-	if (firstFigure && (second == _hammer->getPhysicsBody() || second == _anvil->getPhysicsBody()))
+	Objects::Figure * figure;
+	if ((figure = _act->transpoter()->find(first)) && (second == _hammer->getPhysicsBody() || second == _anvil->getPhysicsBody()))
 	{
-		firstFigure->fill();
-		_act->cleaner()->attach(std::move(firstFigure));
+		_act->cleaner()->reset();
+		figure->fill();
+		_act->cleaner()->attach(
+			std::move(
+				_act->transpoter()->release(figure)
+			)
+		);
 		return true;
 	}
 
-	if (secondFigure && (first == _hammer->getPhysicsBody() || first == _anvil->getPhysicsBody()))
+	if ((figure = _act->transpoter()->find(second)) && (first == _hammer->getPhysicsBody() || first == _anvil->getPhysicsBody()))
 	{
-		secondFigure->fill();
-		_act->cleaner()->attach(std::move(secondFigure));
+		_act->cleaner()->reset();
+		figure->fill();
+		_act->cleaner()->attach(
+			std::move(
+				_act->transpoter()->release(figure)
+			)
+		);
 		return true;
 	}
 

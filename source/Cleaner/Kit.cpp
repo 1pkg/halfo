@@ -1,15 +1,16 @@
 #include "Kit.hpp"
 #include "Application/Act.hpp"
 #include "Objects/Figure.hpp"
+#include <algorithm>
 
 namespace Cleaner
 {
 
 Kit::Kit(Application::Act * act)
-	: _scale(1), _combo(0), _result(0),
+	: _combo(0), _result(0),
 	_edge(cocos2d::Node::create()),
 	_score(cocos2d::Label::createWithTTF(std::to_string(_result), FONT_NAME, FONT_SIZE)),
-	_multiply(cocos2d::Label::createWithTTF(std::to_string(_scale), FONT_NAME, FONT_SIZE)),
+	_scale(cocos2d::Label::createWithTTF(std::to_string(1), FONT_NAME, FONT_SIZE)),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
@@ -28,9 +29,9 @@ Kit::Kit(Application::Act * act)
 	_score->setPosition(Application::Metric::instance().score());
 	_act->addChild(_score);
 
-	/*			Multiply			*/
-	_multiply->setPosition(Application::Metric::instance().combo());
-	_act->addChild(_multiply);
+	/*			Scale			*/
+	_scale->setPosition(Application::Metric::instance().combo());
+	_act->addChild(_scale);
 
 	/*			Sensor			*/
 	_sensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
@@ -44,7 +45,7 @@ Kit::~Kit()
 {
 	_edge->removeFromParentAndCleanup(true);
 	_score->removeFromParentAndCleanup(true);
-	_multiply->removeFromParentAndCleanup(true);
+	_scale->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 }
 
@@ -78,17 +79,17 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 			)
 		);
 
-	_result += _scale;
+	_result += scale();
 	_score->setString(std::to_string(_result));
 }
 
 Objects::Figure *
-Kit::find(cocos2d::PhysicsBody * body)
+Kit::find(cocos2d::PhysicsBody * body) const
 {
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
-	>::iterator it = _lpool.find(body);
+	>::const_iterator it = _lpool.find(body);
 	if (it != _lpool.end())
 		return (*it).second.get();
 
@@ -102,14 +103,16 @@ Kit::find(cocos2d::PhysicsBody * body)
 void
 Kit::increase()
 {
+	if (_combo >= COMBO_LIMIT)
+		return;
+
 	++_combo;
 	if (_combo >= COMBO_PROOF)
 	{
 		clean();
-		_edge->setPosition(Application::Metric::instance().origin());
-		_combo = 0;
-		_scale += _scale <= SCALE_LIMIT;
-		_multiply->setString(std::to_string(_scale));
+		_scale->setString(
+			std::to_string(scale())
+		);
 	}
 	_edge->runAction(
 		cocos2d::MoveBy::create(
@@ -117,20 +120,40 @@ Kit::increase()
 			cocos2d::Vec2(0.0f, -Application::Metric::instance().absolute(EDGE_STEP))
 		)
 	);
+	_act->transpoter()->increase();
 }
 
 void
 Kit::reset()
 {
-	_edge->runAction(
-		cocos2d::MoveTo::create(
-			EDGE_STEP_TIME,
-			Application::Metric::instance().origin()
-		)
+	_combo = _combo < COMBO_PROOF ? 0 : _combo - COMBO_PROOF;
+	_scale->setString(
+		std::to_string(scale())
 	);
-	_combo = 0;
-	_scale = 1;
-	_multiply->setString(std::to_string(_scale));
+	if (!_combo) {
+		_edge->runAction(
+			cocos2d::MoveTo::create(
+				EDGE_STEP_TIME,
+				Application::Metric::instance().origin()
+			)
+		);
+	}
+	else
+	{
+		_edge->runAction(
+			cocos2d::MoveBy::create(
+				EDGE_STEP_TIME,
+				cocos2d::Vec2(0.0f, Application::Metric::instance().absolute(EDGE_STEP) * COMBO_PROOF)
+			)
+		);
+	}
+	_act->transpoter()->reset();
+}
+
+unsigned int
+Kit::scale() const
+{
+	return 1 + static_cast<unsigned int>(std::floor(_combo / SCALE_KOEFICIENT));
 }
 
 void
@@ -139,26 +162,43 @@ Kit::clean()
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
-	>::iterator it = _lpool.begin();
-	while (it != _lpool.end())
+	>::iterator it;
+
+	unsigned int lpoolCount =
+		cocos2d::RandomHelper::random_int<
+			unsigned int
+		>(
+			FIGURE_BURN_LIMIT.first,
+			FIGURE_BURN_LIMIT.second
+		);
+	if (lpoolCount <= _lpool.size())
 	{
-		if ((*it).second->view()->getPosition().y < Application::Metric::instance().origin().x)
+		it = _lpool.begin();
+		for (unsigned int i = 0; i < lpoolCount; ++i)
 			it = _lpool.erase(it);
-		else
-			++it;
 	}
-	it = _rpool.begin();
-	while (it != _rpool.end())
+	else
+		_lpool.clear();
+
+	unsigned int rpoolCount =
+		cocos2d::RandomHelper::random_int<
+			unsigned int
+		>(
+			FIGURE_BURN_LIMIT.first,
+			FIGURE_BURN_LIMIT.second
+		);
+	if (rpoolCount <= _rpool.size())
 	{
-		if ((*it).second->view()->getPosition().y < Application::Metric::instance().origin().x)
+		it = _rpool.begin();
+		for (unsigned int i = 0; i < rpoolCount; ++i)
 			it = _rpool.erase(it);
-		else
-			++it;
 	}
+	else
+		_rpool.clear();
 }
 
 bool
-Kit::contact(cocos2d::PhysicsContact & contact)
+Kit::contact(cocos2d::PhysicsContact & contact) const
 {
 	cocos2d::PhysicsBody
 		* first = contact.getShapeA()->getBody(),

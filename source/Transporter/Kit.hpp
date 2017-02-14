@@ -17,10 +17,13 @@ public:
 	~Kit();
 	void update(float delta) override;
 	std::vector<Objects::Figure *>
-		find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line);
+		find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const;
+	Objects::Figure *
+		find(cocos2d::PhysicsBody * body) const;
 	std::unique_ptr<Objects::Figure>
-		release(cocos2d::PhysicsBody * body);
-	void release(Objects::Figure * figure);
+		release(Objects::Figure * figure);
+	void increase();
+	void reset();
 
 private:
 
@@ -31,7 +34,7 @@ private:
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
-	> _pool;
+	> _prepool, _pool;
 	Architector _architector;
 	cocos2d::Node * _edge;
 	cocos2d::EventListenerPhysicsContact * _sensor;

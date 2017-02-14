@@ -6,13 +6,13 @@ namespace Application
 Metric::Metric()
 	: _size(cocos2d::Director::getInstance()->getVisibleSize()),
 	_origin(cocos2d::Director::getInstance()->getVisibleOrigin()),
-	_lspawn(cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
-	_rspawn(cocos2d::Vec2(_size.width - _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
-	_spawn(cocos2d::Vec2(_size.width / 9.0f, _size.height / 4.5f) + _origin ),
+	_lspawn(cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
+	_rspawn(cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
+	_spawn(cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin),
 	_score(cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin),
 	_combo(cocos2d::Vec2(_size.width / 10.0f * 2.0f, _size.height / 10.0f * 8.0f) + _origin),
 	_anvil(
-		cocos2d::Vec2(_size.width / 2.0f, 0.0f) + _origin,
+		cocos2d::Vec2(_size.width / 2.0f, -_size.height * 3.0f) + _origin,
 		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin
 	),
 	_hammer(
@@ -22,14 +22,14 @@ Metric::Metric()
 {
 	_scale = (_size.width / COMMON_SIZE.width + _size.height / COMMON_SIZE.height) / 2.0f;
 	_transporterEdge = {{
-		_origin - cocos2d::Vec2(0.0f, _size.height),
-		cocos2d::Vec2(_origin.x, _size.height),
-		cocos2d::Vec2(_size.width,_size.height),
-		cocos2d::Vec2(_size.width, _origin.y) - cocos2d::Vec2(0.0f, _size.height)
+		_origin - cocos2d::Vec2(0.0f, _size.height * 3.0f),
+		cocos2d::Vec2(0.0f, _size.height) + _origin,
+		cocos2d::Vec2(_size.width,_size.height) + _origin,
+		cocos2d::Vec2(_size.width, 0.0f) - cocos2d::Vec2(0.0f, _size.height * 3.0f) + _origin
 	}},
 	_cleanerEdge = {{
 		_origin,
-		cocos2d::Vec2(_size.width, _origin.y)
+		cocos2d::Vec2(_size.width, 0.0f) + _origin
 	}};
 }
 

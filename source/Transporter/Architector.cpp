@@ -16,7 +16,8 @@ Architector::FIGURES =
 };
 
 Architector::Architector()
-	: _patterns(PATTERNS_CAPACITY),
+	: _linearSpeedScale(0), _angularSpeedScale(0),
+	_patterns(PATTERNS_CAPACITY),
 	_side(false)
 {
 	unsigned int limit = 0;
@@ -25,8 +26,14 @@ Architector::Architector()
 
 	for (size_t i = 0; i < PATTERNS_CAPACITY;)
 	{
-		std::string figure = choseFigure(cocos2d::RandomHelper::random_int<unsigned int>(0, limit));
-		std::unique_ptr<Application::Pattern> pattern = Application::Pattern::create(figure);
+		std::string figure =
+			choseFigure(
+				cocos2d::RandomHelper::random_int<
+					unsigned int
+				>(0, limit)
+			);
+		std::unique_ptr<Application::Pattern> pattern =
+			Application::Pattern::create(figure);
 		std::unique_ptr<Objects::Figure> object(
 			new Objects::Figure(
 				pattern->data(),
@@ -34,13 +41,22 @@ Architector::Architector()
 				cocos2d::Color4F::GREEN
 			)
 		);
-		if (object->area() < Application::Metric::instance().absolute(Application::Metric::instance().absolute(LIMIT_AREA)))
+		if (
+			object->area() <
+			Application::Metric::instance().absolute(
+				Application::Metric::instance().absolute(
+					LIMIT_AREA
+				)
+			)
+		)
 			continue;
 
 		_patterns[i] =
 			std::pair<std::unique_ptr<Application::Pattern>, unsigned int>(
 				std::move(pattern),
-				cocos2d::RandomHelper::random_int<unsigned int>(1, 10)
+				cocos2d::RandomHelper::random_int<
+					unsigned int
+				>(1, 10)
 			);
 		++i;
 	}
@@ -53,7 +69,12 @@ Architector::provide()
 	for (const std::pair<std::unique_ptr<Application::Pattern>, unsigned int> & data : _patterns)
 		limit += data.second;
 
-	Application::Pattern * pattern = chosePattern(cocos2d::RandomHelper::random_int<unsigned int>(0, limit));
+	Application::Pattern * pattern =
+		chosePattern(
+			cocos2d::RandomHelper::random_int<
+				unsigned int
+			>(0, limit)
+		);
 	std::unique_ptr<Objects::Figure> figure(
 		new Objects::Figure(
 			pattern->data(),
@@ -66,7 +87,7 @@ Architector::provide()
 			(_side ? -1 : 1) * cocos2d::RandomHelper::random_real<float>(
 				Application::Metric::instance().absolute(LINEAR_SPEED_LIMIT.first),
 				Application::Metric::instance().absolute(LINEAR_SPEED_LIMIT.second)
-			),
+			) * (1 + _linearSpeedScale),
 			0.0f
 		)
 	);
@@ -74,7 +95,7 @@ Architector::provide()
 		cocos2d::RandomHelper::random_real<float>(
 			Application::Metric::instance().absolute(ANGULAR_SPEED_LIMIT.first),
 			Application::Metric::instance().absolute(ANGULAR_SPEED_LIMIT.second)
-		)
+		) * (1 + _angularSpeedScale)
 	);
 	figure->view()->setPosition(Application::Metric::instance().spawn(_side));
 	_side = !_side;
@@ -93,8 +114,14 @@ Architector::refresh()
 		_patterns.pop_back();
 	for (size_t i = 0; i < REFRESH_DEPTH;)
 	{
-		std::string figure = choseFigure(cocos2d::RandomHelper::random_int<unsigned int>(0, limit));
-		std::unique_ptr<Application::Pattern> pattern = Application::Pattern::create(figure);
+		std::string figure =
+			choseFigure(
+				cocos2d::RandomHelper::random_int<
+					unsigned int
+				>(0, limit)
+			);
+		std::unique_ptr<Application::Pattern> pattern =
+			Application::Pattern::create(figure);
 		std::unique_ptr<Objects::Figure> object(
 			new Objects::Figure(
 				pattern->data(),
@@ -102,7 +129,14 @@ Architector::refresh()
 				cocos2d::Color4F::GREEN
 			)
 		);
-		if (object->area() < Application::Metric::instance().absolute(Application::Metric::instance().absolute(LIMIT_AREA)))
+		if (
+			object->area() <
+			Application::Metric::instance().absolute(
+				Application::Metric::instance().absolute(
+					LIMIT_AREA
+				)
+			)
+		)
 			continue;
 
 		_patterns.push_back(
@@ -113,6 +147,24 @@ Architector::refresh()
 		);
 		++i;
 	}
+}
+
+void
+Architector::increase()
+{
+	_linearSpeedScale =
+		_linearSpeedScale < LINEAR_SPEED_SCALE_LIMIT ? _linearSpeedScale + 1 : LINEAR_SPEED_SCALE_LIMIT;
+	_angularSpeedScale =
+		_angularSpeedScale < ANGULAR_SPEED_SCALE_LIMIT ? _angularSpeedScale + 1 : ANGULAR_SPEED_SCALE_LIMIT;
+}
+
+void
+Architector::reset()
+{
+	_linearSpeedScale =
+		_linearSpeedScale < 2 ? 0 : _linearSpeedScale - 2;
+	_angularSpeedScale =
+		_angularSpeedScale < 1 ? 0 : _angularSpeedScale - 1;
 }
 
 std::string
