@@ -10,7 +10,9 @@ Kit::Kit(Application::Act * act)
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-	/*			Edge			*/
+	/*
+		Initialize border edge.
+	*/
 	const std::array<
 		cocos2d::Vec2, 4
 	> & vector = Application::Metric::instance().transporterEdge();
@@ -21,7 +23,9 @@ Kit::Kit(Application::Act * act)
 	_edge->setPhysicsBody(body);
 	_act->addChild(_edge);
 
-	/*			Sensor			*/
+	/*
+		Initialize physic sensor.
+	*/
 	_sensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
 	{
 		return this->contact(contact);
@@ -138,6 +142,11 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	>::iterator it;
+
+	/*
+		Move to permanent pool from prepool figures provided by Architector on contact with border edge.
+		Set contact result to false.
+	*/
 	if ((it = _prepool.find(first)) != _prepool.end() && second == _edge->getPhysicsBody())
 	{
 		_pool.insert(
@@ -167,6 +176,10 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		return false;
 	}
 
+	/*
+		Fill figures from permanent pool and move to Cleaner::Kit on contact with border edge.
+		Set contact result to true.
+	*/
 	if ((it = _pool.find(first)) != _pool.end() && second == _edge->getPhysicsBody())
 	{
 		_act->cleaner()->reset();
@@ -188,6 +201,58 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		return true;
 	}
 
+	/*
+		Fill figures from permanent pool and move to Cleaner::Kit on contact with each other.
+		Set contact result to true.
+	*/
+	if (_pool.find(first) != _pool.end() && _pool.find(second) != _pool.end())
+	{
+		_act->cleaner()->reset();
+		it = _pool.find(first);
+		it->second->fill();
+		_act->cleaner()->attach(
+			std::move(it->second)
+		);
+		_pool.erase(it);
+		it = _pool.find(second);
+		it->second->fill();
+		_act->cleaner()->attach(
+			std::move(it->second)
+		);
+		_pool.erase(it);
+		return true;
+	}
+
+	/*
+		Fill figures from permanent pool and move to Cleaner::Kit on contact with filled figures from Cleaner::Kit pool.
+		Set contact result to true.
+	*/
+	if ((it = _pool.find(first)) != _pool.end() && _act->cleaner()->find(second))
+	{
+		_act->cleaner()->reset();
+		it->second->fill();
+		_act->cleaner()->attach(
+			std::move(it->second)
+		);
+		_pool.erase(it);
+		return true;
+	}
+
+	if ((it = _pool.find(second)) != _pool.end() && _act->cleaner()->find(first))
+	{
+		_act->cleaner()->reset();
+		it->second->fill();
+		_act->cleaner()->attach(
+			std::move(it->second)
+		);
+		_pool.erase(it);
+		return true;
+	}
+
+	/*
+		Figures from Cleaner::Kit pool on contact with border edge.
+		Set contact result to true.
+	*/
 	if (_act->cleaner()->find(first) && second == _edge->getPhysicsBody())
 		return true;
 

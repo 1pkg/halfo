@@ -22,6 +22,7 @@ Act::init()
 	_slicer.reset(new Slicer::Kit(this));
 	_cleaner.reset(new Cleaner::Kit(this));
 	schedule(schedule_selector(Act::update), 1.0f / 30.0f);
+	setScale(0.7f);
 	return true;
 }
 
@@ -41,6 +42,12 @@ Cleaner::Kit *
 Act::cleaner() const
 {
 	return _cleaner.get();
+}
+
+void
+Act::over()
+{
+	unschedule(schedule_selector(Act::update));
 }
 
 void

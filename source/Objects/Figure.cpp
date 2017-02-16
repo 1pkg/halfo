@@ -92,11 +92,22 @@ Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 	std::vector<cocos2d::Vec2> vector = rotate(_pattern);
 	for (size_t i = 0; i < vector.size(); ++i)
 	{
+		/*
+			Iterate throught polygon edge segments.
+			Where first and second two point of this edge segments.
+		*/
 		cocos2d::Vec2 first =
 			vector[i] + view()->getPosition();
 		cocos2d::Vec2 second =
 			vector[i == vector.size() - 1 ? 0 : i + 1] + view()->getPosition();
 
+		/*
+			Line–line intersection.
+			Where L1(P1(x1, y1), P2(x2, y2)), L2(P3(x3, y3), P4(x4, y4)).
+			Px = ((x1y2 - y1x2)(x3 - x4) - (x1 - x2)(x3y4 - y3x4)) / ((x1 - x2)(y3 - y4) - (y1 - y2)(x3 - x4)).
+			Py = ((x1y2 - y1x2)(y3 - y4) - (y1 - y2)(x3y4 - y3x4)) / ((x1 - x2)(y3 - y4) - (y1 - y2)(x3 - x4)).
+			If divider = 0, point doesnt exists.
+		*/
 		float determinant = 
 			(first.x - second.x) * (line.first.y - line.second.y) -
 			(first.y - second.y) * (line.first.x - line.second.x);
@@ -113,6 +124,9 @@ Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			(first.y - second.y) * (line.first.x * line.second.y - line.first.y * line.second.x))
 			/ determinant;
 
+		/*
+			Rectangle for edge segment.
+		*/
 		cocos2d::Vec2 position = cocos2d::Vec2(
 			(first.x < second.x ? first.x : second.x) - DELTA,
 			(first.y < second.y ? first.y : second.y) - DELTA
@@ -121,6 +135,10 @@ Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			abs(first.x - second.x) + DELTA,
 			abs(first.y - second.y) + DELTA
 		);
+
+		/*
+			Rectangle for intersect line.
+		*/
 		cocos2d::Vec2 lposition = cocos2d::Vec2(
 			(line.first.x < line.second.x ? line.first.x : line.second.x) - DELTA,
 			(line.first.y < line.second.y ? line.first.y : line.second.y) - DELTA
@@ -130,8 +148,8 @@ Figure::intersect(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			abs(line.first.y - line.second.y) + DELTA
 		);
 		if (
-			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
-			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y))
+			//cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
 		)
 			return true;
 	}
@@ -145,34 +163,53 @@ std::pair<
 >
 Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 {
+	/*
+		Vector left represent pattern for left side figure, vector right - right side figure.
+	*/
 	std::vector<cocos2d::Vec2> left, right;
 	std::vector<cocos2d::Vec2> vector = rotate(_pattern);
 	for (size_t i = 0; i < vector.size(); ++i)
 	{
-		cocos2d::Vec2 first = vector[i] + view()->getPosition();
-		cocos2d::Vec2 second = vector[i == vector.size() - 1 ? 0 : i + 1] + view()->getPosition();
+		/*
+			Iterate throught polygon edge segments.
+			Where first and second two point of this edge segments.
+		*/
+		cocos2d::Vec2 first =
+				vector[i] + view()->getPosition();
+		cocos2d::Vec2 second =
+				vector[i == vector.size() - 1 ? 0 : i + 1] + view()->getPosition();
 
 		if (first.x < line.first.x)
 			left.push_back(first - view()->getPosition());
 		else
 			right.push_back(first - view()->getPosition());
 
-		float determinant = 
+		/*
+			Line–line intersection.
+			Where L1(P1(x1, y1), P2(x2, y2)), L2(P3(x3, y3), P4(x4, y4)).
+			Px = ((x1y2 - y1x2)(x3 - x4) - (x1 - x2)(x3y4 - y3x4)) / ((x1 - x2)(y3 - y4) - (y1 - y2)(x3 - x4)).
+			Py = ((x1y2 - y1x2)(y3 - y4) - (y1 - y2)(x3y4 - y3x4)) / ((x1 - x2)(y3 - y4) - (y1 - y2)(x3 - x4)).
+			If divider = 0, point doesnt exists.
+		*/
+		float divider = 
 			(first.x - second.x) * (line.first.y - line.second.y) -
 			(first.y - second.y) * (line.first.x - line.second.x);
-		if (determinant == 0)
+		if (divider == 0)
 			continue;
 
 		float x =
 			((first.x * second.y - first.y * second.x) * (line.first.x - line.second.x) -
 			(first.x - second.x) * (line.first.x * line.second.y - line.first.y * line.second.x))
-			/ determinant;
+			/ divider;
 
 		float y =
 			((first.x * second.y - first.y * second.x) * (line.first.y - line.second.y) -
 			(first.y - second.y) * (line.first.x * line.second.y - line.first.y * line.second.x))
-			/ determinant;
+			/ divider;
 
+		/*
+			Rectangle for edge segment.
+		*/
 		cocos2d::Vec2 position = cocos2d::Vec2(
 			(first.x < second.x ? first.x : second.x) - DELTA,
 			(first.y < second.y ? first.y : second.y) - DELTA
@@ -181,6 +218,10 @@ Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			abs(first.x - second.x) + DELTA,
 			abs(first.y - second.y) + DELTA
 		);
+
+		/*
+			Rectangle for intersect line.
+		*/
 		cocos2d::Vec2 lposition = cocos2d::Vec2(
 			(line.first.x < line.second.x ? line.first.x : line.second.x) - DELTA,
 			(line.first.y < line.second.y ? line.first.y : line.second.y) - DELTA
@@ -189,9 +230,10 @@ Figure::slice(const std::pair<cocos2d::Vec2, cocos2d::Vec2> & line) const
 			abs(line.first.x - line.second.x) + DELTA,
 			abs(line.first.y - line.second.y) + DELTA
 		);
+
 		if (
-			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y)) &&
-			cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
+			cocos2d::Rect(position, dimension).containsPoint(cocos2d::Vec2(x, y))
+			//cocos2d::Rect(lposition, ldimension).containsPoint(cocos2d::Vec2(x, y))
 		)
 		{
 			left.push_back(cocos2d::Vec2(x, y) - view()->getPosition());

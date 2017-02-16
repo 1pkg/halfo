@@ -31,11 +31,12 @@ private:
 		SCALE_KOEFICIENT = 2;
 	const std::pair<unsigned int, unsigned int>
 		FIGURE_BURN_LIMIT = std::pair<unsigned int, unsigned int>(1, 3);
-	const std::string FONT_NAME = "sexy.ttf";
+	const std::string FONT_NAME = "font.ttf";
 	const float FONT_SIZE = 32.0f;
 
 	unsigned int scale() const;
 	void clean();
+	void over() const;
 	bool contact(cocos2d::PhysicsContact & contact) const;
 	unsigned int _combo, _result;
 	std::unordered_map<
@@ -43,7 +44,7 @@ private:
 		std::unique_ptr<Objects::Figure>
 	> _lpool, _rpool;
 	cocos2d::Node * _edge;
-	cocos2d::Label * _score, * _scale;
+	cocos2d::Label * _score;
 	cocos2d::EventListenerPhysicsContact * _sensor;
 	Application::Act * _act;
 };

@@ -9,12 +9,13 @@ namespace Cleaner
 Kit::Kit(Application::Act * act)
 	: _combo(0), _result(0),
 	_edge(cocos2d::Node::create()),
-	_score(cocos2d::Label::createWithTTF(toString(_result), FONT_NAME, FONT_SIZE)),
-	_scale(cocos2d::Label::createWithTTF(toString(1), FONT_NAME, FONT_SIZE)),
+	_score(cocos2d::Label::createWithTTF(std::to_string(_result), FONT_NAME, FONT_SIZE)),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-	/*			Edge			*/
+	/*
+		Initialize platform edge.
+	*/
 	const std::array<
 		cocos2d::Vec2, 2
 	> & vector = Application::Metric::instance().cleanerEdge();
@@ -25,15 +26,15 @@ Kit::Kit(Application::Act * act)
 	_edge->setPhysicsBody(body);
 	_act->addChild(_edge);
 
-	/*			Score			*/
+	/*
+		Initialize score label.
+	*/
 	_score->setPosition(Application::Metric::instance().score());
 	_act->addChild(_score);
 
-	/*			Scale			*/
-	_scale->setPosition(Application::Metric::instance().combo());
-	_act->addChild(_scale);
-
-	/*			Sensor			*/
+	/*
+		Initialize physic sensor.
+	*/
 	_sensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
 	{
 		return this->contact(contact);
@@ -45,7 +46,6 @@ Kit::~Kit()
 {
 	_edge->removeFromParentAndCleanup(true);
 	_score->removeFromParentAndCleanup(true);
-	_scale->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 }
 
@@ -80,7 +80,8 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 		);
 
 	_result += scale();
-	_score->setString(toString(_result));
+	_score->setString(std::to_string(_result));
+	over();
 }
 
 Objects::Figure *
@@ -108,12 +109,8 @@ Kit::increase()
 
 	++_combo;
 	if (_combo >= COMBO_PROOF)
-	{
 		clean();
-		_scale->setString(
-			toString(scale())
-		);
-	}
+
 	_edge->runAction(
 		cocos2d::MoveBy::create(
 			EDGE_STEP_TIME,
@@ -127,10 +124,7 @@ void
 Kit::reset()
 {
 	_combo = _combo < COMBO_PROOF ? 0 : _combo - COMBO_PROOF;
-	_scale->setString(
-		toString(scale())
-	);
-	if (!_combo) {
+	if (_combo == 0) {
 		_edge->runAction(
 			cocos2d::MoveTo::create(
 				EDGE_STEP_TIME,
@@ -197,12 +191,47 @@ Kit::clean()
 		_rpool.clear();
 }
 
+void
+Kit::over() const
+{
+	float overLimit = 
+		Application::Metric::instance().origin().y + Application::Metric::instance().anvilLength();
+	std::unordered_map<
+		cocos2d::PhysicsBody *,
+		std::unique_ptr<Objects::Figure>
+	>::const_iterator it = _lpool.begin();;
+	while (it != _lpool.end())
+		if (
+			it->second->view()->getPosition().y > overLimit &&
+			it->second->view()->body()->getVelocity() == cocos2d::Vec2::ZERO
+		)
+		{
+			_act->over();
+			return;
+		}
+
+	it = _rpool.begin();;
+	while (it != _rpool.end())
+		if (
+			it->second->view()->getPosition().y > overLimit &&
+			it->second->view()->body()->getVelocity() == cocos2d::Vec2::ZERO
+		)
+		{
+			_act->over();
+			return;
+		}
+}
+
 bool
 Kit::contact(cocos2d::PhysicsContact & contact) const
 {
 	cocos2d::PhysicsBody
 		* first = contact.getShapeA()->getBody(),
 		* second = contact.getShapeB()->getBody();
+	/*
+		Figures from lpool or rpool on contact with platform edge.
+		Set contact result to true.
+	*/
 	return contact.getResult() ||
 		_lpool.find(first) != _lpool.end() && _lpool.find(second) != _lpool.end() ||
 		_rpool.find(first) != _rpool.end() && _rpool.find(second) != _rpool.end() ||

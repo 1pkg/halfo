@@ -10,7 +10,6 @@ Metric::Metric()
 	_rspawn(cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
 	_spawn(cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin),
 	_score(cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin),
-	_combo(cocos2d::Vec2(_size.width / 10.0f * 2.0f, _size.height / 10.0f * 8.0f) + _origin),
 	_anvil(
 		cocos2d::Vec2(_size.width / 2.0f, -_size.height * 3.0f) + _origin,
 		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin
@@ -124,12 +123,6 @@ Metric::score() const
 	return _score;
 }
 
-cocos2d::Vec2
-Metric::combo() const
-{
-	return _combo;
-}
-
 const std::pair<
 	cocos2d::Vec2, cocos2d::Vec2
 > &
@@ -142,6 +135,12 @@ const std::pair<cocos2d::Vec2, cocos2d::Vec2> &
 Metric::hammer() const
 {
 	return _hammer;
+}
+
+float
+Metric::anvilLength() const
+{
+	return _size.height / 3.0f * 2.0f;
 }
 
 float

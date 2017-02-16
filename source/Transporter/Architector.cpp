@@ -12,7 +12,11 @@ Architector::FIGURES =
 	std::pair<std::string, unsigned int>("triangle", 50),
 	std::pair<std::string, unsigned int>("quadrangle", 50),
 	std::pair<std::string, unsigned int>("pentagon", 30),
-	std::pair<std::string, unsigned int>("hexagon", 30)
+	std::pair<std::string, unsigned int>("hexagon", 30),
+	std::pair<std::string, unsigned int>("heptagon", 20),
+	std::pair<std::string, unsigned int>("octagon", 20),
+	std::pair<std::string, unsigned int>("enneagon", 10),
+	std::pair<std::string, unsigned int>("decagon", 10)
 };
 
 Architector::Architector()

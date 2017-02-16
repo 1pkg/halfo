@@ -10,13 +10,4 @@
 
 #define DEFAULT_PHYSICS_MASK 0xFFFFFFFF
 
-template <typename T>
-std::string
-toString(T val)
-{
-    std::stringstream stream;
-    stream << val;
-    return stream.str();
-}
-
 #endif

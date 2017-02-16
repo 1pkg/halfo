@@ -3,6 +3,10 @@
 #include "Patterns/Quadrangle.hpp"
 #include "Patterns/Pentagon.hpp"
 #include "Patterns/Hexagon.hpp"
+#include "Patterns/Heptagon.hpp"
+#include "Patterns/Octagon.hpp"
+#include "Patterns/Enneagon.hpp"
+#include "Patterns/Decagon.hpp"
 
 namespace Application
 {
@@ -23,6 +27,18 @@ Pattern::create(const std::string & name)
 
 	if (name == "hexagon")
 		return std::unique_ptr<Pattern>(new Hexagon());
+
+	if (name == "heptagon")
+		return std::unique_ptr<Pattern>(new Heptagon());
+
+	if (name == "octagon")
+		return std::unique_ptr<Pattern>(new Octagon());
+
+	if (name == "enneagon")
+		return std::unique_ptr<Pattern>(new Enneagon());
+
+	if (name == "decagon")
+		return std::unique_ptr<Pattern>(new Decagon());
 
 	return nullptr;
 }

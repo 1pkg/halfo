@@ -12,7 +12,9 @@ Kit::Kit(Application::Act * act)
 	_physicSensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-	/*			Anvil			*/
+	/*
+		Initialize anvil.
+	*/
 	std::pair<cocos2d::Vec2, cocos2d::Vec2>
 		anvil = Application::Metric::instance().anvil();
 	_anvil->drawLine(
@@ -30,7 +32,9 @@ Kit::Kit(Application::Act * act)
 	_anvil->setPhysicsBody(anvilBody);
 	_act->addChild(_anvil);
 
-	/*			Hammmer			*/
+	/*
+		Initialize hammmer.
+	*/
 	std::pair<cocos2d::Vec2, cocos2d::Vec2>
 		hammer = Application::Metric::instance().hammer();
 	cocos2d::Vec2
@@ -50,7 +54,9 @@ Kit::Kit(Application::Act * act)
 	_hammer->setPhysicsBody(hammerBody);
 	_act->addChild(_hammer);
 
-	/*			TouchSensor			*/
+	/*
+		Initialize touch sensor.
+	*/
 	_touchSensor->onTouchBegan = [this](cocos2d::Touch * touch, cocos2d::Event * event)
 	{
 		return putDown();
@@ -61,7 +67,9 @@ Kit::Kit(Application::Act * act)
 	};
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchSensor, _act);
 
-	/*			PhysicsSensor			*/
+	/*
+		Initialize physic sensor.
+	*/
 	_physicSensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
 	{
 		return this->contact(contact);
@@ -163,6 +171,10 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		* first = contact.getShapeA()->getBody(),
 		* second = contact.getShapeB()->getBody();
 	Objects::Figure * figure;
+	/*
+		Fill figures from permanent pool of Transporter::Kit and move to Cleaner::Kit on contact with anvel or hammer.
+		Set contact result to true.
+	*/
 	if ((figure = _act->transpoter()->find(first)) && (second == _hammer->getPhysicsBody() || second == _anvil->getPhysicsBody()))
 	{
 		_act->cleaner()->reset();
@@ -187,6 +199,10 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		return true;
 	}
 
+	/*
+		Figures from Cleaner::Kit pool on contact with anvel or hammer.
+		Set contact result to true.
+	*/
 	if (_act->cleaner()->find(first) && (second == _hammer->getPhysicsBody() || second == _anvil->getPhysicsBody()))
 		return true;
 
