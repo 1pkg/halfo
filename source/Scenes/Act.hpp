@@ -16,15 +16,17 @@ public:
 
     static cocos2d::Scene * instantiate();
 
+	Act();
+	~Act();
+
 	Transporter::Kit * transpoter() const;
 	Slicer::Kit * slicer() const;
 	Cleaner::Kit * cleaner() const;
 
-	void over();
-
 private:
 
 	void update(float dt);
+	unsigned int _time;
 	std::unique_ptr<Transporter::Kit> _transpoter;
 	std::unique_ptr<Slicer::Kit> _slicer;
 	std::unique_ptr<Cleaner::Kit> _cleaner;

@@ -46,10 +46,10 @@ Kit::Kit(Scenes::Act * act)
 	_over->runAction(
 		cocos2d::RepeatForever::create(
 			cocos2d::Sequence::create(
+				cocos2d::DelayTime::create(INSPECTION_TIME),
 				cocos2d::CallFunc::create(
 					std::bind(&Kit::inspection, this)
 				),
-				cocos2d::DelayTime::create(INSPECTION_TIME),
 				nullptr
 			)
 		)
@@ -237,7 +237,11 @@ Kit::inspection() const
 			abs(it->second->view()->body()->getVelocity().y) < DELTA
 		)
 		{
-			_act->over();
+			Application::Main::instance().localStorage().update(
+				_result,
+				0
+			);
+			Application::Main::instance().over();
 			return;
 		}
 		++it;
@@ -251,7 +255,11 @@ Kit::inspection() const
 			abs(it->second->view()->body()->getVelocity().y) < DELTA
 		)
 		{
-			_act->over();
+			Application::Main::instance().localStorage().update(
+				_result,
+				0
+			);
+			Application::Main::instance().over();
 			return;
 		}
 		++it;
