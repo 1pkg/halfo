@@ -1,11 +1,11 @@
 #include "Kit.hpp"
-#include "Application/Act.hpp"
+#include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"
 
 namespace Slicer
 {
 
-Kit::Kit(Application::Act * act)
+Kit::Kit(Scenes::Act * act)
 	: _anvil(cocos2d::DrawNode::create()),
 	_hammer(cocos2d::DrawNode::create()),
 	_touchSensor(cocos2d::EventListenerTouchOneByOne::create()),
@@ -16,7 +16,7 @@ Kit::Kit(Application::Act * act)
 		Initialize anvil.
 	*/
 	std::pair<cocos2d::Vec2, cocos2d::Vec2>
-		anvil = Application::Metric::instance().anvil();
+		anvil = Application::Main::instance().metric().anvil();
 	_anvil->drawLine(
 		anvil.first,
 		anvil.second,
@@ -36,9 +36,9 @@ Kit::Kit(Application::Act * act)
 		Initialize hammmer.
 	*/
 	std::pair<cocos2d::Vec2, cocos2d::Vec2>
-		hammer = Application::Metric::instance().hammer();
+		hammer = Application::Main::instance().metric().hammer();
 	cocos2d::Vec2
-		hammerDeltaLength(0.0f, Application::Metric::instance().hammerLength());
+		hammerDeltaLength(0.0f, Application::Main::instance().metric().hammerLength());
 	_hammer->drawLine(
 		hammer.first + hammerDeltaLength,
 		hammer.second + hammerDeltaLength,
@@ -99,7 +99,7 @@ Kit::putDown()
 			cocos2d::CallFunc::create(std::bind(&Kit::slice, this)),
 			cocos2d::MoveBy::create(
 				HIT_TIME,
-				cocos2d::Vec2(0.0f, -Application::Metric::instance().hammerLength())
+				cocos2d::Vec2(0.0f, -Application::Main::instance().metric().hammerLength())
 			),
 			nullptr
 		)
@@ -114,7 +114,7 @@ Kit::putUp()
 		cocos2d::Sequence::create(
 			cocos2d::MoveBy::create(
 				HIT_TIME,
-				cocos2d::Vec2(0.0f, Application::Metric::instance().hammerLength())
+				cocos2d::Vec2(0.0f, Application::Main::instance().metric().hammerLength())
 			),
 			nullptr
 		)
@@ -125,17 +125,17 @@ void
 Kit::slice() const
 {
 	std::vector<Objects::Figure *>
-		figures = _act->transpoter()->find(Application::Metric::instance().hammer());
+		figures = _act->transpoter()->find(Application::Main::instance().metric().hammer());
 	for (Objects::Figure * figure : figures)
 	{
 		std::pair<
 			std::unique_ptr<Objects::Figure>,
 			std::unique_ptr<Objects::Figure>
-		> slice = figure->slice(Application::Metric::instance().hammer());
+		> slice = figure->slice(Application::Main::instance().metric().hammer());
 
 		float firstArea = slice.first->area(), secondArea = slice.second->area(),
-			  deltaArea = Application::Metric::instance().absolute(Application::Metric::instance().absolute(DELTA_AREA)),
-			  limitArea = Application::Metric::instance().absolute(Application::Metric::instance().absolute(LIMIT_AREA));
+			  deltaArea = Application::Main::instance().metric().absolute(Application::Main::instance().metric().absolute(DELTA_AREA)),
+			  limitArea = Application::Main::instance().metric().absolute(Application::Main::instance().metric().absolute(LIMIT_AREA));
 		if (firstArea < limitArea || secondArea < limitArea)
 			continue;
 
@@ -145,7 +145,7 @@ Kit::slice() const
 			_act->cleaner()->reset();
 
 		cocos2d::Vec2 firstImpuls =
-			cocos2d::Vec2(Application::Metric::instance().reliative(-X_IMPULS), Application::Metric::instance().reliative(-Y_IMPULS));
+			cocos2d::Vec2(Application::Main::instance().metric().reliative(-X_IMPULS), Application::Main::instance().metric().reliative(-Y_IMPULS));
 		slice.first->view()->attach(_act);
 		slice.first->view()->setPosition(figure->view()->getPosition());
 		slice.first->view()->body()->applyImpulse(firstImpuls);
@@ -153,7 +153,7 @@ Kit::slice() const
 		slice.first.release();
 
 		cocos2d::Vec2 secondImpuls =
-			cocos2d::Vec2(Application::Metric::instance().reliative(X_IMPULS), Application::Metric::instance().reliative(-Y_IMPULS));
+			cocos2d::Vec2(Application::Main::instance().metric().reliative(X_IMPULS), Application::Main::instance().metric().reliative(-Y_IMPULS));
 		slice.second->view()->attach(_act);
 		slice.second->view()->setPosition(figure->view()->getPosition());
 		slice.second->view()->body()->applyImpulse(secondImpuls);

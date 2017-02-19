@@ -1,11 +1,11 @@
 #include "Metric.hpp"
 
-namespace Application
+namespace Components
 {
 
-Metric::Metric()
-	: _size(cocos2d::Director::getInstance()->getVisibleSize()),
-	_origin(cocos2d::Director::getInstance()->getVisibleOrigin()),
+Metric::Metric(cocos2d::Size size, cocos2d::Vec2 origin)
+	: _size(size),
+	_origin(origin),
 	_lspawn(cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
 	_rspawn(cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
 	_spawn(cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin),
@@ -26,17 +26,14 @@ Metric::Metric()
 		cocos2d::Vec2(_size.width,_size.height) + _origin,
 		cocos2d::Vec2(_size.width, 0.0f) - cocos2d::Vec2(0.0f, _size.height * 3.0f) + _origin
 	}},
-	_cleanerEdge = {{
+	_platformEdge = {{
 		_origin,
 		cocos2d::Vec2(_size.width, 0.0f) + _origin
+	}},
+	_overEdge = {{
+		cocos2d::Vec2(0.0f, _size.height / 3.0f * 2.0f) + _origin,
+		cocos2d::Vec2(_size.width, _size.height / 3.0f * 2.0f) + _origin
 	}};
-}
-
-Metric &
-Metric::instance()
-{
-	static Metric metric;
-	return metric;
 }
 
 float
@@ -160,9 +157,17 @@ Metric::transporterEdge() const
 const std::array<
 	cocos2d::Vec2, 2
 > &
-Metric::cleanerEdge() const
+Metric::platformEdge() const
 {
-	return _cleanerEdge;
+	return _platformEdge;
+}
+
+const std::array<
+	cocos2d::Vec2, 2
+> &
+Metric::overEdge() const
+{
+	return _overEdge;
 }
 
 }

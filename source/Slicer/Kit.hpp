@@ -3,7 +3,7 @@
 
 #include "include.hpp"
 
-namespace Application{class Act;}
+namespace Scenes{class Act;}
 namespace Objects{class Figure;}
 namespace Slicer
 {
@@ -12,7 +12,7 @@ class Kit : public Application::Kit
 {
 public:
 
-	Kit(Application::Act * act);
+	Kit(Scenes::Act * act);
 	~Kit();
 	void update(float delta) override;
 
@@ -33,7 +33,7 @@ private:
 	cocos2d::DrawNode * _anvil, * _hammer;
 	cocos2d::EventListenerTouchOneByOne * _touchSensor;
 	cocos2d::EventListenerPhysicsContact * _physicSensor;
-	Application::Act * _act;
+	Scenes::Act * _act;
 };
 
 }

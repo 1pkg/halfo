@@ -1,29 +1,28 @@
 #include "Act.hpp"
 
-namespace Application
+namespace Scenes
 {
 
 cocos2d::Scene *
-Act::scene()
+Act::instantiate()
 {
     cocos2d::Scene * scene = cocos2d::Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(cocos2d::Vec2(0.0f, -100.0f));
-    Act * layer = Act::create();
-    scene->addChild(layer);
-    return scene;
-}
 
-bool
-Act::init()
-{
-	cocos2d::LayerColor::initWithColor(cocos2d::Color4B::GRAY);
-	_transpoter.reset(new Transporter::Kit(this));
-	_slicer.reset(new Slicer::Kit(this));
-	_cleaner.reset(new Cleaner::Kit(this));
-	schedule(schedule_selector(Act::update), 1.0f / 30.0f);
-	setScale(0.7f);
-	return true;
+	Act * act = new Act();
+    act->autorelease();
+	act->initWithColor(cocos2d::Color4B::GRAY);
+	act->setScale(0.7f);
+	scene->addChild(act);
+
+	act->_transpoter.reset(new Transporter::Kit(act));
+	act->_slicer.reset(new Slicer::Kit(act));
+	act->_cleaner.reset(new Cleaner::Kit(act));
+
+	act->schedule(schedule_selector(Act::update), 1.0f / 30.0f);
+
+    return scene;
 }
 
 Transporter::Kit *

@@ -1,25 +1,25 @@
-#ifndef APPLICATION_ACT
-#define APPLICATION_ACT
+#ifndef SCENES_ACT
+#define SCENES_ACT
 
-#include "include.hpp"
+#include "Application/Wrapper.hpp"
 #include "Transporter/Kit.hpp"
 #include "Slicer/Kit.hpp"
 #include "Cleaner/Kit.hpp"
+#include <cocos2d.h>
 
-namespace Application
+namespace Scenes
 {
 
-class Act : public cocos2d::LayerColor
+class Act : public Application::Wrapper, public cocos2d::LayerColor
 {
 public:
 
-	CREATE_FUNC(Act);
-    static cocos2d::Scene* scene();
-    virtual bool init();
+    static cocos2d::Scene * instantiate();
 
 	Transporter::Kit * transpoter() const;
 	Slicer::Kit * slicer() const;
 	Cleaner::Kit * cleaner() const;
+
 	void over();
 
 private:

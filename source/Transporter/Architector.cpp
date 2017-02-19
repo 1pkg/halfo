@@ -12,11 +12,11 @@ Architector::FIGURES =
 	std::pair<std::string, unsigned int>("triangle", 50),
 	std::pair<std::string, unsigned int>("quadrangle", 50),
 	std::pair<std::string, unsigned int>("pentagon", 30),
-	std::pair<std::string, unsigned int>("hexagon", 30),
-	std::pair<std::string, unsigned int>("heptagon", 20),
-	std::pair<std::string, unsigned int>("octagon", 20),
-	std::pair<std::string, unsigned int>("enneagon", 10),
-	std::pair<std::string, unsigned int>("decagon", 10)
+	std::pair<std::string, unsigned int>("hexagon", 30)
+	//std::pair<std::string, unsigned int>("heptagon", 20)
+	//std::pair<std::string, unsigned int>("octagon", 20),
+	//std::pair<std::string, unsigned int>("enneagon", 10),
+	//std::pair<std::string, unsigned int>("decagon", 10)
 };
 
 Architector::Architector()
@@ -47,8 +47,8 @@ Architector::Architector()
 		);
 		if (
 			object->area() <
-			Application::Metric::instance().absolute(
-				Application::Metric::instance().absolute(
+			Application::Main::instance().metric().absolute(
+				Application::Main::instance().metric().absolute(
 					LIMIT_AREA
 				)
 			)
@@ -89,19 +89,19 @@ Architector::provide()
 	figure->view()->body()->setVelocity(
 		cocos2d::Vec2(
 			(_side ? -1 : 1) * cocos2d::RandomHelper::random_real<float>(
-				Application::Metric::instance().absolute(LINEAR_SPEED_LIMIT.first),
-				Application::Metric::instance().absolute(LINEAR_SPEED_LIMIT.second)
+				Application::Main::instance().metric().absolute(LINEAR_SPEED_LIMIT.first),
+				Application::Main::instance().metric().absolute(LINEAR_SPEED_LIMIT.second)
 			) * (1 + _linearSpeedScale),
 			0.0f
 		)
 	);
 	figure->view()->body()->setAngularVelocity(
 		cocos2d::RandomHelper::random_real<float>(
-			Application::Metric::instance().absolute(ANGULAR_SPEED_LIMIT.first),
-			Application::Metric::instance().absolute(ANGULAR_SPEED_LIMIT.second)
+			Application::Main::instance().metric().absolute(ANGULAR_SPEED_LIMIT.first),
+			Application::Main::instance().metric().absolute(ANGULAR_SPEED_LIMIT.second)
 		) * (1 + _angularSpeedScale)
 	);
-	figure->view()->setPosition(Application::Metric::instance().spawn(_side));
+	figure->view()->setPosition(Application::Main::instance().metric().spawn(_side));
 	_side = !_side;
 	return figure;
 }
@@ -135,8 +135,8 @@ Architector::refresh()
 		);
 		if (
 			object->area() <
-			Application::Metric::instance().absolute(
-				Application::Metric::instance().absolute(
+			Application::Main::instance().metric().absolute(
+				Application::Main::instance().metric().absolute(
 					LIMIT_AREA
 				)
 			)

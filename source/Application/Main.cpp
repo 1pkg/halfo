@@ -1,35 +1,40 @@
 #include "Main.hpp"
-#include "Act.hpp"
+#include "Scenes/Act.hpp"
+#include "Components/Metric.hpp"
 
 namespace Application
 {
 
+const Main &
+Main::instance()
+{
+	return *dynamic_cast<Main *>(cocos2d::Application::getInstance());
+}
+
 void
 Main::initGLContextAttrs()
 {
-    GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
-    cocos2d::GLView::setGLContextAttrs(glContextAttrs);
+    cocos2d::GLView::setGLContextAttrs(GLContextAttrs{8, 8, 8, 8, 24, 8});
 }
 
 bool
 Main::applicationDidFinishLaunching()
 {
-    cocos2d::Director * director = cocos2d::Director::getInstance();
-    if(!director->getOpenGLView())
-	{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-		director->setOpenGLView(
-			cocos2d::GLViewImpl::createWithRect("shredder", cocos2d::Rect(0, 0, 800, 480))
+    if(!cocos2d::Director::getInstance()->getOpenGLView())
+		cocos2d::Director::getInstance()->setOpenGLView(
+			cocos2d::GLViewImpl::create("halfo")
 		);
-#else
-		director->setOpenGLView(
-			cocos2d::GLViewImpl::create("")
-		);
-#endif
-    }
-    director->setDisplayStats(true);
-    director->setAnimationInterval(1.0f / 30.0f);
-    director->runWithScene(Act::scene());
+
+	_metric = new Components::Metric(
+		cocos2d::Director::getInstance()->getVisibleSize(),
+		cocos2d::Director::getInstance()->getVisibleOrigin()
+	);
+
+
+    cocos2d::Director::getInstance()->setDisplayStats(true);
+    cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
+    cocos2d::Director::getInstance()->runWithScene(Scenes::Act::instantiate());
+
     return true;
 }
 
@@ -43,6 +48,12 @@ void
 Main::applicationWillEnterForeground()
 {
     cocos2d::Director::getInstance()->startAnimation();
+}
+
+const Components::Metric &
+Main::metric() const
+{
+	return *_metric;
 }
 
 }

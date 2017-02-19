@@ -1,12 +1,12 @@
 #include "Kit.hpp"
-#include "Application/Act.hpp"
+#include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"
 
 namespace Transporter
 {
 
-Kit::Kit(Application::Act * act)
-	: _edge(cocos2d::Node::create()),
+Kit::Kit(Scenes::Act * act)
+	: _edge(cocos2d::DrawNode::create()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
@@ -15,7 +15,13 @@ Kit::Kit(Application::Act * act)
 	*/
 	const std::array<
 		cocos2d::Vec2, 4
-	> & vector = Application::Metric::instance().transporterEdge();
+	> & vector = Application::Main::instance().metric().transporterEdge();
+	_edge->drawPoly(
+		vector.data(),
+		vector.size(),
+		false,
+		cocos2d::Color4F::BLACK
+	);
 	cocos2d::PhysicsBody * body =
 		cocos2d::PhysicsBody::createEdgeChain(vector.data(), vector.size());
 	body->setDynamic(false);

@@ -1,17 +1,18 @@
-#ifndef APPLICATION_METRIC
-#define APPLICATION_METRIC
+#ifndef COMPONENTS_METRIC
+#define COMPONENTS_METRIC
 
+#include "Application\Wrapper.hpp"
 #include <cocos2d.h>
 #include <array>
 
-namespace Application
+namespace Components
 {
 
-class Metric
+class Metric : public Application::Wrapper
 {
 public:
 
-	static Metric & instance();
+	Metric(cocos2d::Size size, cocos2d::Vec2 origin);
 
 	float absolute(float reliative) const;
 	cocos2d::Vec2 absolute(cocos2d::Vec2 reliative) const;
@@ -43,13 +44,15 @@ public:
 	> & transporterEdge() const;
 	const std::array<
 		cocos2d::Vec2, 2
-	> & cleanerEdge() const;
+	> & platformEdge() const;
+	const std::array<
+		cocos2d::Vec2, 2
+	> & overEdge() const;
 
 private:
 
 	const cocos2d::Size COMMON_SIZE = cocos2d::Size(1920, 1080);
 
-	Metric();
 	float _scale;
 	cocos2d::Size _size;
 	cocos2d::Vec2 _origin;
@@ -64,7 +67,10 @@ private:
 	> _transporterEdge;
 	std::array<
 		cocos2d::Vec2, 2
-	> _cleanerEdge;
+	> _platformEdge;
+	std::array<
+		cocos2d::Vec2, 2
+	> _overEdge;
 
 };
 

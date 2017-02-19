@@ -4,7 +4,7 @@
 #include "include.hpp"
 #include "Architector.hpp"
 
-namespace Application{class Act;}
+namespace Scenes{class Act;}
 namespace Objects{class Figure;}
 namespace Transporter
 {
@@ -13,7 +13,7 @@ class Kit : public Application::Kit
 {
 public:
 
-	Kit(Application::Act * act);
+	Kit(Scenes::Act * act);
 	~Kit();
 	void update(float delta) override;
 	std::vector<Objects::Figure *>
@@ -27,7 +27,7 @@ public:
 
 private:
 
-	const float SPAWN_TIME = 2.0f;
+	const float SPAWN_TIME = 1.0f;
 	const float REFRESH_TIME = 100.0f;
 
 	bool contact(cocos2d::PhysicsContact & contact);
@@ -36,9 +36,9 @@ private:
 		std::unique_ptr<Objects::Figure>
 	> _prepool, _pool;
 	Architector _architector;
-	cocos2d::Node * _edge;
+	cocos2d::DrawNode * _edge;
 	cocos2d::EventListenerPhysicsContact * _sensor;
-	Application::Act * _act;
+	Scenes::Act * _act;
 };
 
 }
