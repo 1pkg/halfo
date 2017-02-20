@@ -16,6 +16,7 @@ public:
 
 	Over();
 	~Over();
+	static Over * create();
 
 private:
 

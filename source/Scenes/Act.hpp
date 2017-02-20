@@ -18,6 +18,7 @@ public:
 
 	Act();
 	~Act();
+	static Act * create();
 
 	Transporter::Kit * transpoter() const;
 	Slicer::Kit * slicer() const;
@@ -25,8 +26,10 @@ public:
 
 private:
 
-	void update(float dt);
-	unsigned int _time;
+	const cocos2d::Vec2 GRAVITY = cocos2d::Vec2(0.0f, -100.0f);
+	const float UPDATE_TIME = 1.0f;
+
+	void update(float delta);
 	std::unique_ptr<Transporter::Kit> _transpoter;
 	std::unique_ptr<Slicer::Kit> _slicer;
 	std::unique_ptr<Cleaner::Kit> _cleaner;

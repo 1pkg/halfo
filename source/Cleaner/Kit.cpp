@@ -43,17 +43,6 @@ Kit::Kit(Scenes::Act * act)
 		cocos2d::Color4F::BLACK
 	);
 	_act->addChild(_over);
-	_over->runAction(
-		cocos2d::RepeatForever::create(
-			cocos2d::Sequence::create(
-				cocos2d::DelayTime::create(INSPECTION_TIME),
-				cocos2d::CallFunc::create(
-					std::bind(&Kit::inspection, this)
-				),
-				nullptr
-			)
-		)
-	);
 
 	/*
 		Initialize score label.
@@ -69,6 +58,14 @@ Kit::Kit(Scenes::Act * act)
 		return this->contact(contact);
 	};
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
+
+	Application::Main::instance().sheduler()->schedule(
+		std::bind(&Kit::inspection, this, std::placeholders::_1),
+		this,
+		INSPECTION_TIME,
+		false,
+		"Cleaner::Kit::inspection"
+	);
 }
 
 Kit::~Kit()
@@ -77,6 +74,11 @@ Kit::~Kit()
 	_over->removeFromParentAndCleanup(true);
 	_score->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
+
+	Application::Main::instance().sheduler()->unschedule(
+		"Cleaner::Kit::inspection",
+		this
+	);
 }
 
 void
@@ -221,7 +223,7 @@ Kit::clean()
 }
 
 void
-Kit::inspection() const
+Kit::inspection(float delta)
 {
 	float overLimit = 
 		Application::Main::instance().metric().origin().y + Application::Main::instance().metric().anvilLength();
@@ -237,10 +239,9 @@ Kit::inspection() const
 			abs(it->second->view()->body()->getVelocity().y) < DELTA
 		)
 		{
-			Application::Main::instance().localStorage().update(
-				_result,
-				0
-			);
+			Components::Storage::Result result;
+			result.score = _result;
+			Application::Main::instance().storage().update(result);
 			Application::Main::instance().over();
 			return;
 		}
@@ -255,10 +256,9 @@ Kit::inspection() const
 			abs(it->second->view()->body()->getVelocity().y) < DELTA
 		)
 		{
-			Application::Main::instance().localStorage().update(
-				_result,
-				0
-			);
+			Components::Storage::Result result;
+			result.score = _result;
+			Application::Main::instance().storage().update(result);
 			Application::Main::instance().over();
 			return;
 		}

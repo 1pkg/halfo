@@ -31,8 +31,14 @@ Main::applicationDidFinishLaunching()
 			cocos2d::Director::getInstance()->getVisibleOrigin()
 		)
 	);
-	_localStorage.reset(
-		new Components::LocalStorage()
+	_integrity.reset(
+		new Components::Integrity()
+	);
+	_storage.reset(
+		new Components::Storage()
+	);
+	_resource.reset(
+		new Components::Resource()
 	);
 
     cocos2d::Director::getInstance()->setDisplayStats(true);
@@ -72,16 +78,34 @@ Main::end()
 	cocos2d::Director::getInstance()->end();
 }
 
+cocos2d::Scheduler *
+Main::sheduler() const
+{
+	return cocos2d::Director::getInstance()->getScheduler();
+}
+
 const Components::Metric &
 Main::metric() const
 {
 	return *_metric;
 }
 
-Components::LocalStorage &
-Main::localStorage() const
+Components::Storage &
+Main::storage() const
 {
-	return *_localStorage;
+	return *_storage;
+}
+
+const Components::Resource &
+Main::resource() const
+{
+	return *_resource;
+}
+
+Components::Integrity &
+Main::integrity() const
+{
+	return *_integrity;
 }
 
 }

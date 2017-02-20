@@ -3,7 +3,9 @@
 
 #include "Wrapper.hpp"
 #include "Components/Metric.hpp"
-#include "Components/LocalStorage.hpp"
+#include "Components/Storage.hpp"
+#include "Components/Resource.hpp"
+#include "Components/Integrity.hpp"
 #include <cocos2d.h>
 
 namespace Application
@@ -25,13 +27,18 @@ public:
 	void over();
 	void end();
 
+	cocos2d::Scheduler * sheduler() const;
 	const Components::Metric & metric() const;
-	Components::LocalStorage & localStorage() const;
+	Components::Storage & storage() const;
+	const Components::Resource & resource() const;
+	Components::Integrity & integrity() const;
 
 private:
 	
 	std::unique_ptr<Components::Metric> _metric;
-	std::unique_ptr<Components::LocalStorage> _localStorage;
+	std::unique_ptr<Components::Integrity> _integrity;
+	std::unique_ptr<Components::Storage> _storage;
+	std::unique_ptr<Components::Resource> _resource;
 };
 
 }

@@ -34,11 +34,11 @@ private:
 	const std::string FONT_NAME = "font.ttf";
 	const float FONT_SIZE = 32.0f;
 	const float DELTA = 0.01f;
-	const float INSPECTION_TIME = 2.0f;
+	const float INSPECTION_TIME = 3.0f;
 
 	unsigned int scale() const;
 	void clean();
-	void inspection() const;
+	void inspection(float delta);
 	bool contact(cocos2d::PhysicsContact & contact) const;
 	unsigned int _combo, _result;
 	std::unordered_map<
