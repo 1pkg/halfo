@@ -24,6 +24,8 @@ Main::applicationDidFinishLaunching()
 		cocos2d::Director::getInstance()->setOpenGLView(
 			cocos2d::GLViewImpl::create("halfo")
 		);
+	cocos2d::Director::getInstance()->setDisplayStats(true);
+    cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
 
 	_metric.reset(
 		new Components::Metric(
@@ -40,11 +42,11 @@ Main::applicationDidFinishLaunching()
 	_resource.reset(
 		new Components::Resource()
 	);
+	_integrity->pull();
+	_storage->pull();
+	_resource->pull();
 
-    cocos2d::Director::getInstance()->setDisplayStats(true);
-    cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
     act();
-
     return true;
 }
 
@@ -75,6 +77,10 @@ Main::over()
 void
 Main::end()
 {
+	_storage->flush();
+	_resource->flush();
+	_integrity->flush();
+
 	cocos2d::Director::getInstance()->end();
 }
 

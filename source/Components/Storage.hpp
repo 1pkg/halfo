@@ -7,27 +7,33 @@
 namespace Components
 {
 
+struct Result
+{
+	unsigned int
+		score,
+		seconds,
+		integral;
+	Result(
+		unsigned int score,
+		unsigned int seconds,
+		unsigned int integral
+	);
+	Result();
+	bool operator<(const Result & result);
+};
+
 class Storage : public File
 {
 public:
-
-	struct Result
-	{
-		unsigned int score, seconds, integral;
-		bool operator<(const Result & result){ return integral < result.integral || (integral == result.integral && score < result.score); }
-	};
 
 	const std::string DISABLE_ADDS_FEATURE = "disable-adds";
 
 	const std::string FIGURE_SKIN_SETTING = "figure-skin";
 	const std::string HAMMER_SKIN_SETTING = "hammer-skin";
 
-	std::string path() const override;
-	void flush() const override;
-	void fetch() override;
-
 	Storage();
-	~Storage();
+	void flush() const override;
+	void pull() override;
 
 	bool feature(const std::string & feature) const;
 	std::string setting(const std::string & setting) const;
@@ -38,13 +44,17 @@ public:
 	void change(const std::string & setting, const std::string & value);
 	void update(const Result & score);
 
+protected:
+
+	std::string path() const override;
+	cocos2d::Data serialize() const override;
+	bool unserialize(const cocos2d::Data & buffer) override;
+	void default() override;
+
 private:
 
-	const unsigned int RESULT_LIMIT = 100;
+	const unsigned int RESULTS_LIMIT = 100;
 
-	void write() const;
-	void read();
-	void default();
 	std::unordered_map<
 		std::string,
 		bool

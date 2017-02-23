@@ -3,9 +3,9 @@
 
 #include "Wrapper.hpp"
 #include "Components/Metric.hpp"
+#include "Components/Integrity.hpp"
 #include "Components/Storage.hpp"
 #include "Components/Resource.hpp"
-#include "Components/Integrity.hpp"
 #include <cocos2d.h>
 
 namespace Application

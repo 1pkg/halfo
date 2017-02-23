@@ -2,7 +2,7 @@
 #define COMPONENTS_FILE
 
 #include "Application\Wrapper.hpp"
-#include <string>
+#include <cocos2d.h>
 
 namespace Components
 {
@@ -11,18 +11,33 @@ class File : public Application::Wrapper
 {
 public:
 
+	File(bool encrypted);
+	virtual void flush() const;
+	virtual void pull();
+
+
+protected:
+
 	virtual std::string path() const = 0;
-	virtual void flush() const = 0;
-	virtual void fetch() = 0;
-	std::string hash(const std::string & file) const;
+	virtual cocos2d::Data serialize() const = 0;
+	virtual bool unserialize(const cocos2d::Data & buffer) = 0;
+	virtual void default();
+
+	static std::string hash(const std::string & path);
 
 private:
 
-	const std::size_t LIMIT = 128;
-	const std::size_t STEP = 4;
+	static const std::size_t HASH_SIZE = 32;
+	static const std::size_t CRYPTO_CHUNK_SIZE = 256;
+	static const unsigned char CRYPTO_KEY[HASH_SIZE + 1], CRYPTO_IV[HASH_SIZE + 1];
 
-	std::string pad(const std::string & hash) const;
-	std::string trim(const std::string & hash) const;
+	static std::string pad(const std::string & hash);
+	static std::string trim(const std::string & hash);
+
+	static cocos2d::Data encrypt(const cocos2d::Data & data);
+	static cocos2d::Data decrypt(const cocos2d::Data & data);
+
+	bool _encrypted;
 };
 
 }

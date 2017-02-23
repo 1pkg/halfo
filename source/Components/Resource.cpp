@@ -7,85 +7,74 @@
 namespace Components
 {
 
+Resource::Resource()
+	: File(true)
+{
+}
+
+void
+Resource::flush() const
+{
+	File::flush();
+	Application::Main::instance().integrity().resource(
+		File::hash(path())
+	);
+}
+
+void
+Resource::pull()
+{
+	if (cocos2d::FileUtils::getInstance()->isFileExist(path())
+		&& Application::Main::instance().integrity().resource() != File::hash(path())
+	)
+	{
+		default();
+		return;
+	}
+	File::pull();
+	for (const std::pair<std::string, std::tuple<std::string, std::string>> & pair : _resources)
+		if (File::hash(std::get<0>(pair.second)) != std::get<1>(pair.second))
+			default();
+}
+
+cocos2d::Data
+Resource::resource(const std::string & alias) const
+{
+	cocos2d::Data buffer =
+		cocos2d::FileUtils::getInstance()->getDataFromFile(
+			std::get<0>(_resources.find(alias)->second)
+		);
+	return std::move(buffer);
+}
+
 std::string
 Resource::path() const
 {
 	return cocos2d::FileUtils::getInstance()->getWritablePath() + "rc.hf";
 }
 
-void
-Resource::flush() const
-{
-	write();
-}
-
-void
-Resource::fetch()
-{
-	read();
-}
-
-Resource::Resource()
-{
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "rc.hf";
-	if (
-		!cocos2d::FileUtils::getInstance()->isFileExist(path) ||
-		Application::Main::instance().integrity().resource() != hash(path)
-	)
-	{
-		default();
-		return;
-	}
-
-	read();
-	for (const std::pair<std::string, Rsc> & pair : _resources)
-		if (hash(pair.second.path) != pair.second.hash)
-			default();
-
-}
-
-Resource::~Resource()
-{
-	write();
-}
-
-Buffer
-Resource::resource(const std::string & alias) const
-{
-	ssize_t size;
-	Buffer::byte * data =
-		cocos2d::FileUtils::getInstance()->getFileData(
-			_resources.find(alias)->second.path,
-			nullptr,
-			&size
-		);
-
-	return Buffer(data, size);
-}
-
-void
-Resource::write() const
+cocos2d::Data
+Resource::serialize() const
 {
 	using namespace rapidjson;
     Document document(kObjectType);
-	Document::AllocatorType & allocator =
-		document.GetAllocator();
+	Document::AllocatorType & allocator = document.GetAllocator();
 
 	/*
 		Serialize resources.
 	*/
 	Value resources(kObjectType);
-	for (const std::pair<std::string, Rsc> & pair : _resources)
+	for (const std::pair<std::string, std::tuple<std::string, std::string>> & pair : _resources)
 	{
 		Value rsc(kObjectType);
 		rsc.AddMember(
 			"path",
-			Value(pair.second.path.data(), allocator),
+			Value(std::get<0>(pair.second).data(), allocator),
 			allocator
 		);
 		rsc.AddMember(
 			"hash",
-			Value(pair.second.hash.data(), allocator),
+			Value(std::get<1>(pair.second).data(), allocator),
 			allocator
 		);
 
@@ -100,29 +89,26 @@ Resource::write() const
 		resources,
 		allocator
 	);
-	
-	/*
-		Write to file.
-	*/
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "rc.hf";
-	StringBuffer buffer;
-	Writer<StringBuffer> writer(buffer);
+
+	StringBuffer bufffer;
+	Writer<StringBuffer> writer(bufffer);
 	document.Accept(writer);
-	cocos2d::FileUtils::getInstance()->writeStringToFile(
-		buffer.GetString(),
-		path
-	);
-	Application::Main::instance().integrity().resource(hash(path));
+	cocos2d::Data data;
+	data.copy((unsigned char *)bufffer.GetString(), bufffer.GetSize());
+	return std::move(data);
 }
 
-void
-Resource::read()
+bool
+Resource::unserialize(const cocos2d::Data & buffer)
 {
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "rc.hf";
 	using namespace rapidjson;
-	std::string data = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
 	Document document;
-	document.Parse<0>(data.data());
+	document.Parse<kParseNoFlags>(
+		(char *)buffer.getBytes(),
+		buffer.getSize()
+	);
+	if (document.HasParseError())
+		return false;
 
 	/*
 		Unserialize resources.
@@ -133,7 +119,7 @@ Resource::read()
 		++it
 	)
 	{
-		Rsc rsc;
+		std::tuple<std::string, std::string> tuple;
 		for (
 			Value::ConstMemberIterator nestedIt = it->value.MemberBegin();
 			nestedIt != it->value.MemberEnd();
@@ -141,17 +127,21 @@ Resource::read()
 		)
 		{
 			if (nestedIt->name == "path")
-				rsc.path = nestedIt->value.GetString();
+				std::get<0>(tuple) = nestedIt->value.GetString();
 			if (nestedIt->name == "hash")
-				rsc.hash = nestedIt->value.GetUint();
+				std::get<1>(tuple) = nestedIt->value.GetString();
 		}
 		_resources.insert(
 			std::pair<
 				std::string,
-				Rsc
-			>(it->name.GetString(), rsc)
+				std::tuple<
+					std::string,
+					std::string
+				>
+			>(it->name.GetString(), tuple)
 		);
 	}
+	return true;
 }
 
 void

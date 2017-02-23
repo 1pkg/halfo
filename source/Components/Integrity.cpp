@@ -6,37 +6,9 @@
 namespace Components
 {
 
-std::string
-Integrity::path() const
-{
-	return cocos2d::FileUtils::getInstance()->getWritablePath() + "inr.hf";
-}
-
-void
-Integrity::flush() const
-{
-	write();
-}
-
-void
-Integrity::fetch()
-{
-	read();
-}
-
 Integrity::Integrity()
+	: File(false)
 {
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "inr.hf";
-	if (!cocos2d::FileUtils::getInstance()->isFileExist(path))
-		return;
-
-	read();
-
-}
-
-Integrity::~Integrity()
-{
-	write();
 }
 
 
@@ -64,13 +36,18 @@ Integrity::resource(const std::string & resource)
 	_resource = resource;
 }
 
-void
-Integrity::write() const
+std::string
+Integrity::path() const
+{
+	return cocos2d::FileUtils::getInstance()->getWritablePath() + "gt.hf";
+}
+
+cocos2d::Data
+Integrity::serialize() const
 {
 	using namespace rapidjson;
     Document document(kObjectType);
-	Document::AllocatorType & allocator =
-		document.GetAllocator();
+	Document::AllocatorType & allocator = document.GetAllocator();
 	document.AddMember(
 		"sth",
 		Value(_storage.data(), allocator),
@@ -81,30 +58,37 @@ Integrity::write() const
 		Value(_resource.data(), allocator),
 		allocator
 	);
-	
-	/*
-		Write to file.
-	*/
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "inr.hf";
-	StringBuffer buffer;
-	Writer<StringBuffer> writer(buffer);
-	document.Accept(writer);
-	cocos2d::FileUtils::getInstance()->writeStringToFile(
-		buffer.GetString(),
-		path
+	document.AddMember(
+		"gth",
+		Value(File::hash(path()).data(), allocator),
+		allocator
 	);
+
+	StringBuffer bufffer;
+	Writer<StringBuffer> writer(bufffer);
+	document.Accept(writer);
+	cocos2d::Data data;
+	data.copy((unsigned char *)bufffer.GetString(), bufffer.GetSize());
+	return std::move(data);
 }
 
-void
-Integrity::read()
+bool
+Integrity::unserialize(const cocos2d::Data & buffer)
 {
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "inr.hf";
 	using namespace rapidjson;
-	std::string data = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
 	Document document;
-	document.Parse<0>(data.data());
+	document.Parse<kParseNoFlags>(
+		(char *)buffer.getBytes(),
+		buffer.getSize()
+	);
+	if (document.HasParseError())
+		return false;
+
 	_storage = document["sth"].GetString();
 	_resource = document["rch"].GetString();
+	_self = document["gth"].GetString();
+
+	return true;
 }
 
 }

@@ -27,7 +27,7 @@ public:
 
 private:
 
-	const float SPAWN_TIME = 2.0f;
+	const float SPAWN_TIME = 0.5f;
 	const float REFRESH_TIME = 100.0f;
 
 	bool contact(cocos2d::PhysicsContact & contact);

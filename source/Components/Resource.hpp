@@ -2,7 +2,6 @@
 #define COMPONENTS_RESOURCE
 
 #include "File.hpp"
-#include "Buffer.hpp"
 #include <unordered_map>
 
 namespace Components
@@ -12,31 +11,27 @@ class Resource : public File
 {
 public:
 
-	std::string path() const override;
-	void flush() const override;
-	void fetch() override;
-
 	Resource();
-	~Resource();
+	void flush() const override;
+	void pull() override;
+	cocos2d::Data resource(const std::string & alias) const;
 
-	Buffer resource(const std::string & alias) const;
+protected:
+
+	std::string path() const override;
+	cocos2d::Data serialize() const override;
+	bool unserialize(const  cocos2d::Data & buffer) override;
+	void default() override;
 
 private:
 
-	struct Rsc
-	{
-		std::string path;
-		std::string hash;
-	};
-
-	void write() const;
-	void read();
-	void default();
 	std::unordered_map<
 		std::string,
-		Rsc
+		std::tuple<
+			std::string,
+			std::string
+		>
 	> _resources;
-
 };
 
 }

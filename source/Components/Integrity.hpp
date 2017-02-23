@@ -10,12 +10,7 @@ class Integrity : public File
 {
 public:
 
-	std::string path() const override;
-	void flush() const override;
-	void fetch() override;
-
 	Integrity();
-	~Integrity();
 
 	const std::string & storage() const;
 	const std::string & resource() const;
@@ -23,11 +18,15 @@ public:
 	void storage(const std::string & storage);
 	void resource(const std::string & resource);
 
+protected:
+
+	std::string path() const override;
+	cocos2d::Data serialize() const override;
+	bool unserialize(const cocos2d::Data & buffer) override;
+
 private:
 
-	void write() const;
-	void read();
-	std::string _storage, _resource;
+	std::string _storage, _resource, _self;
 
 };
 

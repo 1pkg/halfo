@@ -8,42 +8,54 @@
 namespace Components
 {
 
-std::string
-Storage::path() const
+Result::Result(
+	unsigned int score,
+	unsigned int seconds,
+	unsigned int integral
+)
 {
-	return cocos2d::FileUtils::getInstance()->getWritablePath() + "st.hf";
+	this->score = score,
+	this->seconds = seconds,
+	this->integral = integral;
+}
+
+Result::Result()
+{
+}
+
+bool
+Result::operator<(const Result & result)
+{
+	return
+		integral < result.integral ||
+		(integral == result.integral && score < result.score);
+}
+
+Storage::Storage()
+	: File(true)
+{
 }
 
 void
 Storage::flush() const
 {
-	write();
+	File::flush();
+	Application::Main::instance().integrity().storage(
+		File::hash(path())
+	);
 }
 
 void
-Storage::fetch()
+Storage::pull()
 {
-	read();
-}
-
-Storage::Storage()
-{
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "st.hf";
-	if (
-		!cocos2d::FileUtils::getInstance()->isFileExist(path) ||
-		Application::Main::instance().integrity().storage() != hash(path)
+	if (cocos2d::FileUtils::getInstance()->isFileExist(path())
+		&& Application::Main::instance().integrity().storage() != File::hash(path())
 	)
 	{
 		default();
 		return;
 	}
-
-	read();
-}
-
-Storage::~Storage()
-{
-	write();
+	File::pull();
 }
 
 bool
@@ -58,7 +70,7 @@ Storage::setting(const std::string & setting) const
 	return _settings.find(setting)->second;
 }
 
-const Storage::Result &
+const Result &
 Storage::result(unsigned int index) const
 {
 	return _results.at(index);
@@ -83,22 +95,27 @@ Storage::change(const std::string & setting, const std::string & value)
 }
 
 void
-Storage::update(const Storage::Result & result)
+Storage::update(const Result & result)
 {
 	++_total;
 	_results.push_back(result);
 	std::sort(_results.begin(), _results.end());
-	if (_results.size() > RESULT_LIMIT)
+	if (_results.size() > RESULTS_LIMIT)
 		_results.pop_back();
 }
 
-void
-Storage::write() const
+std::string
+Storage::path() const
+{
+	return cocos2d::FileUtils::getInstance()->getWritablePath() + "st.hf";
+}
+
+cocos2d::Data
+Storage::serialize() const
 {
 	using namespace rapidjson;
     Document document(kObjectType);
-	Document::AllocatorType & allocator =
-		document.GetAllocator();
+	Document::AllocatorType & allocator = document.GetAllocator();
 
 	/*
 		Serialize features.
@@ -167,28 +184,25 @@ Storage::write() const
 		allocator
 	);
 	
-	/*
-		Write to file.
-	*/
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "st.hf";
-	StringBuffer buffer;
-	Writer<StringBuffer> writer(buffer);
+	StringBuffer bufffer;
+	Writer<StringBuffer> writer(bufffer);
 	document.Accept(writer);
-	cocos2d::FileUtils::getInstance()->writeStringToFile(
-		buffer.GetString(),
-		path
-	);
-	Application::Main::instance().integrity().storage(hash(path));
+	cocos2d::Data data;
+	data.copy((unsigned char *)bufffer.GetString(), bufffer.GetSize());
+	return std::move(data);
 }
 
-void
-Storage::read()
+bool
+Storage::unserialize(const cocos2d::Data & buffer)
 {
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "st.hf";
 	using namespace rapidjson;
-	std::string data = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
 	Document document;
-	document.Parse<0>(data.data());
+	document.Parse<kParseNoFlags>(
+		(char *)buffer.getBytes(),
+		buffer.getSize()
+	);
+	if (document.HasParseError())
+		return false;
 
 	/*
 		Unserialize features.
@@ -246,6 +260,7 @@ Storage::read()
 		}
 		_results.push_back(result);
 	}
+	return true;
 }
 
 void

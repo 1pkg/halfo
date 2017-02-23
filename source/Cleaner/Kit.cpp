@@ -231,16 +231,19 @@ Kit::inspection(float delta)
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	>::const_iterator it = _lpool.begin();
+	const std::array<
+		cocos2d::Vec2, 2
+	> & overVector = Application::Main::instance().metric().overEdge();
+	std::pair<cocos2d::Vec2, cocos2d::Vec2> over(overVector[0], overVector[1]);
 	while (it != _lpool.end())
 	{
 
 		if (
-			it->second->view()->getPosition().y > overLimit &&
-			abs(it->second->view()->body()->getVelocity().y) < DELTA
+			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
+			it->second->intersect(over)
 		)
 		{
-			Components::Storage::Result result;
-			result.score = _result;
+			Components::Result result(_result, 0, _result);
 			Application::Main::instance().storage().update(result);
 			Application::Main::instance().over();
 			return;
@@ -252,12 +255,11 @@ Kit::inspection(float delta)
 	while (it != _rpool.end())
 	{
 		if (
-			it->second->view()->getPosition().y > overLimit &&
-			abs(it->second->view()->body()->getVelocity().y) < DELTA
+			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
+			it->second->intersect(over)
 		)
 		{
-			Components::Storage::Result result;
-			result.score = _result;
+			Components::Result result(_result, 0, _result);
 			Application::Main::instance().storage().update(result);
 			Application::Main::instance().over();
 			return;
