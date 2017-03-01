@@ -1,86 +1,42 @@
 #include "Kit.hpp"
 #include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"
+#include "Objects/Hammer.hpp"
+#include "Objects/Anvil.hpp"
 
 namespace Slicer
 {
 
 Kit::Kit(Scenes::Act * act)
-	: _anvil(cocos2d::DrawNode::create()),
-	_hammer(cocos2d::DrawNode::create()),
+	: _hammer(new Objects::Hammer()), 
+	_anvil(new Objects::Anvil()),
 	_touchSensor(cocos2d::EventListenerTouchOneByOne::create()),
 	_physicSensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-	/*
-		Initialize anvil.
-	*/
-	std::pair<cocos2d::Vec2, cocos2d::Vec2>
-		anvil = Application::Main::instance().metric().anvil();
-	_anvil->drawLine(
-		anvil.first,
-		anvil.second,
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody
-		* anvilBody = cocos2d::PhysicsBody::createEdgeSegment(
-			anvil.first,
-			anvil.second
-		);
-	anvilBody->setDynamic(false);
-	anvilBody->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_anvil->setPhysicsBody(anvilBody);
-	_act->addChild(_anvil);
-
-	/*
-		Initialize hammmer.
-	*/
-	std::pair<cocos2d::Vec2, cocos2d::Vec2>
-		hammer = Application::Main::instance().metric().hammer();
-	cocos2d::Vec2
-		hammerDeltaLength(0.0f, Application::Main::instance().metric().hammerLength());
-	_hammer->drawLine(
-		hammer.first + hammerDeltaLength,
-		hammer.second + hammerDeltaLength,
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody
-		* hammerBody = cocos2d::PhysicsBody::createEdgeSegment(
-			hammer.first + hammerDeltaLength,
-			hammer.second + hammerDeltaLength
-		);
-	hammerBody->setDynamic(false);
-	hammerBody->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_hammer->setPhysicsBody(hammerBody);
-	_act->addChild(_hammer);
-
-	/*
-		Initialize touch sensor.
-	*/
-	_touchSensor->onTouchBegan = [this](cocos2d::Touch * touch, cocos2d::Event * event)
-	{
-		return putDown();
-	};
-	_touchSensor->onTouchEnded = [this](cocos2d::Touch * touch, cocos2d::Event * event)
-	{
-		putUp();
-	};
+	_touchSensor->onTouchBegan =
+		[this](cocos2d::Touch * touch, cocos2d::Event * event) -> bool
+		{
+			slice();
+			_hammer->downward();
+			return true;
+		};
+	_touchSensor->onTouchEnded =
+		[this](cocos2d::Touch * touch, cocos2d::Event * event)
+		{
+			_hammer->upward();
+		};
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchSensor, _act);
 
-	/*
-		Initialize physic sensor.
-	*/
-	_physicSensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
-	{
-		return this->contact(contact);
-	};
+	_physicSensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_physicSensor, _act);
+
+	_hammer->view()->attach(_act);
+	_anvil->view()->attach(_act);
 }
 
 Kit::~Kit()
 {
-	_anvil->removeFromParentAndCleanup(true);
-	_hammer->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_touchSensor);
 	_act->getEventDispatcher()->removeEventListener(_physicSensor);
 }
@@ -89,36 +45,6 @@ void
 Kit::update(float dt)
 {
 	return;
-}
-
-bool
-Kit::putDown()
-{
-	_hammer->runAction(
-		cocos2d::Sequence::create(
-			cocos2d::CallFunc::create(std::bind(&Kit::slice, this)),
-			cocos2d::MoveBy::create(
-				HIT_TIME,
-				cocos2d::Vec2(0.0f, -Application::Main::instance().metric().hammerLength())
-			),
-			nullptr
-		)
-	);
-	return true;
-}
-
-void
-Kit::putUp()
-{
-	_hammer->runAction(
-		cocos2d::Sequence::create(
-			cocos2d::MoveBy::create(
-				HIT_TIME,
-				cocos2d::Vec2(0.0f, Application::Main::instance().metric().hammerLength())
-			),
-			nullptr
-		)
-	);
 }
 
 void
@@ -175,7 +101,7 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		Fill figures from permanent pool of Transporter::Kit and move to Cleaner::Kit on contact with anvel or hammer.
 		Set contact result to true.
 	*/
-	if ((figure = _act->transpoter()->find(first)) && (second == _hammer->getPhysicsBody() || second == _anvil->getPhysicsBody()))
+	if ((figure = _act->transpoter()->find(first)) && (second == _hammer->view()->body() || second == _anvil->view()->body()))
 	{
 		_act->cleaner()->reset();
 		figure->fill();
@@ -187,7 +113,7 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		return true;
 	}
 
-	if ((figure = _act->transpoter()->find(second)) && (first == _hammer->getPhysicsBody() || first == _anvil->getPhysicsBody()))
+	if ((figure = _act->transpoter()->find(second)) && (first == _hammer->view()->body() || first == _anvil->view()->body()))
 	{
 		_act->cleaner()->reset();
 		figure->fill();
@@ -203,10 +129,10 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		Figures from Cleaner::Kit pool on contact with anvel or hammer.
 		Set contact result to true.
 	*/
-	if (_act->cleaner()->find(first) && (second == _hammer->getPhysicsBody() || second == _anvil->getPhysicsBody()))
+	if (_act->cleaner()->find(first) && (second == _hammer->view()->body() || second == _anvil->view()->body()))
 		return true;
 
-	if (_act->cleaner()->find(second) && (first == _hammer->getPhysicsBody() || first == _anvil->getPhysicsBody()))
+	if (_act->cleaner()->find(second) && (first == _hammer->view()->body() || first == _anvil->view()->body()))
 		return true;
 
 	return contact.getResult();

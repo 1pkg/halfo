@@ -9,28 +9,28 @@ Metric::Metric(cocos2d::Size size, cocos2d::Vec2 origin)
 	_lspawn(cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
 	_rspawn(cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
 	_spawn(cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin),
-	_score(cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin),
-	_anvil(
-		cocos2d::Vec2(_size.width / 2.0f, -_size.height * 3.0f) + _origin,
-		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin
-	),
-	_hammer(
-		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin,
-		cocos2d::Vec2(_size.width / 2.0f, _size.height) + _origin
-	)
+	_score(cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin)
 {
 	_scale = (_size.width / COMMON_SIZE.width + _size.height / COMMON_SIZE.height) / 2.0f;
-	_transporterEdge = {{
+	_hammer = {{
+		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin,
+		cocos2d::Vec2(_size.width / 2.0f, _size.height) + _origin
+	}},
+	_anvil = {{
+		cocos2d::Vec2(_size.width / 2.0f, -_size.height * 3.0f) + _origin,
+		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin
+	}},
+	_edge = {{
 		_origin - cocos2d::Vec2(0.0f, _size.height * 3.0f),
 		cocos2d::Vec2(0.0f, _size.height) + _origin,
 		cocos2d::Vec2(_size.width,_size.height) + _origin,
 		cocos2d::Vec2(_size.width, 0.0f) - cocos2d::Vec2(0.0f, _size.height * 3.0f) + _origin
 	}},
-	_platformEdge = {{
+	_platform = {{
 		_origin,
 		cocos2d::Vec2(_size.width, 0.0f) + _origin
 	}},
-	_overEdge = {{
+	_over = {{
 		cocos2d::Vec2(0.0f, _size.height / 3.0f * 2.0f) + _origin,
 		cocos2d::Vec2(_size.width, _size.height / 3.0f * 2.0f) + _origin
 	}};
@@ -120,18 +120,10 @@ Metric::score() const
 	return _score;
 }
 
-const std::pair<
-	cocos2d::Vec2, cocos2d::Vec2
-> &
-Metric::anvil() const
+float
+Metric::hammerLength() const
 {
-	return _anvil;
-}
-
-const std::pair<cocos2d::Vec2, cocos2d::Vec2> &
-Metric::hammer() const
-{
-	return _hammer;
+	return _size.height / 3.0f;
 }
 
 float
@@ -140,34 +132,44 @@ Metric::anvilLength() const
 	return _size.height / 3.0f * 2.0f;
 }
 
-float
-Metric::hammerLength() const
+const std::array<
+	cocos2d::Vec2, 2
+> &
+Metric::hammer() const
 {
-	return _size.height / 3.0f;
+	return _hammer;
+}
+
+const std::array<
+	cocos2d::Vec2, 2
+> &
+Metric::anvil() const
+{
+	return _anvil;
 }
 
 const std::array<
 	cocos2d::Vec2, 4
 > &
-Metric::transporterEdge() const
+Metric::edge() const
 {
-	return _transporterEdge;
+	return _edge;
 }
 
 const std::array<
 	cocos2d::Vec2, 2
 > &
-Metric::platformEdge() const
+Metric::platform() const
 {
-	return _platformEdge;
+	return _platform;
 }
 
 const std::array<
 	cocos2d::Vec2, 2
 > &
-Metric::overEdge() const
+Metric::over() const
 {
-	return _overEdge;
+	return _over;
 }
 
 }

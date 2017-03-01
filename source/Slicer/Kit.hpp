@@ -4,7 +4,7 @@
 #include "include.hpp"
 
 namespace Scenes{class Act;}
-namespace Objects{class Figure;}
+namespace Objects{class Figure; class Hammer; class Anvil;}
 namespace Slicer
 {
 
@@ -26,11 +26,10 @@ private:
 		X_IMPULS = 25000.0f,
 		Y_IMPULS = 25000.0f;
 
-	bool putDown();
-	void putUp();
 	void slice() const;
 	bool contact(cocos2d::PhysicsContact & contact) const;
-	cocos2d::DrawNode * _anvil, * _hammer;
+	std::unique_ptr<Objects::Hammer> _hammer;
+	std::unique_ptr<Objects::Anvil> _anvil;
 	cocos2d::EventListenerTouchOneByOne * _touchSensor;
 	cocos2d::EventListenerPhysicsContact * _physicSensor;
 	Scenes::Act * _act;

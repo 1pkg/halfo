@@ -1,47 +1,24 @@
 #include "Kit.hpp"
 #include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"
+#include "Objects/Edge.hpp"
 
 namespace Transporter
 {
 
 Kit::Kit(Scenes::Act * act)
-	: _edge(cocos2d::DrawNode::create()),
+	: _edge(new Objects::Edge()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-	/*
-		Initialize border edge.
-	*/
-	const std::array<
-		cocos2d::Vec2, 4
-	> & vector = Application::Main::instance().metric().transporterEdge();
-	_edge->drawPoly(
-		vector.data(),
-		vector.size(),
-		false,
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody * body =
-		cocos2d::PhysicsBody::createEdgeChain(vector.data(), vector.size());
-	body->setDynamic(false);
-	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_edge->setPhysicsBody(body);
-	_act->addChild(_edge);
-
-	/*
-		Initialize physic sensor.
-	*/
-	_sensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
-	{
-		return this->contact(contact);
-	};
+	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
+
+	_edge->view()->attach(_act);
 }
 
 Kit::~Kit()
 {
-	_edge->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 }
 
@@ -76,7 +53,7 @@ Kit::update(float dt)
 }
 
 std::vector<Objects::Figure *>
-Kit::find(std::pair<cocos2d::Vec2, cocos2d::Vec2> line) const
+Kit::find(const std::array<cocos2d::Vec2, 2> & line) const
 {
 	std::vector<Objects::Figure *> result;
 	std::unordered_map<
@@ -153,7 +130,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		Move to permanent pool from prepool figures provided by Architector on contact with border edge.
 		Set contact result to false.
 	*/
-	if ((it = _prepool.find(first)) != _prepool.end() && second == _edge->getPhysicsBody())
+	if ((it = _prepool.find(first)) != _prepool.end() && second == _edge->view()->body())
 	{
 		_pool.insert(
 			std::pair<
@@ -167,7 +144,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		_prepool.erase(it);
 		return false;
 	}
-	if ((it = _prepool.find(second)) != _prepool.end() && first == _edge->getPhysicsBody())
+	if ((it = _prepool.find(second)) != _prepool.end() && first == _edge->view()->body())
 	{
 		_pool.insert(
 			std::pair<
@@ -186,7 +163,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		Fill figures from permanent pool and move to Cleaner::Kit on contact with border edge.
 		Set contact result to true.
 	*/
-	if ((it = _pool.find(first)) != _pool.end() && second == _edge->getPhysicsBody())
+	if ((it = _pool.find(first)) != _pool.end() && second == _edge->view()->body())
 	{
 		_act->cleaner()->reset();
 		it->second->fill();
@@ -196,7 +173,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		_pool.erase(it);
 		return true;
 	}
-	if ((it = _pool.find(second)) != _pool.end() && first == _edge->getPhysicsBody())
+	if ((it = _pool.find(second)) != _pool.end() && first == _edge->view()->body())
 	{
 		_act->cleaner()->reset();
 		it->second->fill();
@@ -259,10 +236,10 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		Figures from Cleaner::Kit pool on contact with border edge.
 		Set contact result to true.
 	*/
-	if (_act->cleaner()->find(first) && second == _edge->getPhysicsBody())
+	if (_act->cleaner()->find(first) && second == _edge->view()->body())
 		return true;
 
-	if (_act->cleaner()->find(second) && first == _edge->getPhysicsBody())
+	if (_act->cleaner()->find(second) && first == _edge->view()->body())
 		return true;
 
 	return contact.getResult();

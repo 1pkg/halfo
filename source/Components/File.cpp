@@ -57,20 +57,19 @@ File::hash(const std::string & path)
 {
 	cocos2d::Data buffer =
 		cocos2d::FileUtils::getInstance()->getDataFromFile(path);
-	if (buffer.isNull() || buffer.getSize() == 0)
+	if (buffer.isNull())
 		return "";
 
-	const std::size_t STEP = 4;
 	std::stringstream stream;
 	std::size_t size = buffer.getSize();
 	unsigned char * data = buffer.getBytes();
-	for (std::size_t i = 0; i < size; i += STEP)
-		stream << std::hex << (size ^ data[i]);
+	for (std::size_t i = 0; i < size; i += 0x8)
+		stream << std::hex << ((size ^ data[i]) % 15);
 
 	std::string hash = stream.str();
-	if (hash.length() > HASH_SIZE)
+	if (hash.length() > CRYPTO_SIZE)
 		return trim(hash);
-	if (hash.length() < HASH_SIZE)
+	if (hash.length() < CRYPTO_SIZE)
 		return pad(hash);
 	return hash;
 }
@@ -79,19 +78,20 @@ std::string
 File::pad(const std::string & hash)
 {
 	std::stringstream stream;
-	stream << hash;
 	std::size_t size = hash.size();
+	stream << hash;
+	if (size % 2 != 0)
+		stream << std::hex << 0;
 	for (std::size_t i = 0; i < size / 2; ++i)
 	{
-		stream << std::hex << (hash[i] ^ hash[size - 1 - i]);
-		if (size + i == HASH_SIZE)
+		stream << std::hex << ((hash[i] ^ hash[size - 1 - i]) % 15);
+		if (size + i == CRYPTO_SIZE)
 			break;
 	}
 
 	std::string phash = stream.str();
-	if (phash.length() < HASH_SIZE)
+	if (phash.length() < CRYPTO_SIZE)
 		return pad(phash);
-
 	return phash;
 }
 
@@ -100,15 +100,20 @@ File::trim(const std::string & hash)
 {
 	std::stringstream stream;
 	std::size_t size = hash.size();
+	if (size % 2 != 0)
+		stream << std::hex << 15;
 	for (std::size_t i = 0; i < size / 2; ++i)
-		stream << std::hex << (hash[i] ^ hash[size - 1 - i]);
-
+	{
+		stream << std::hex << ((hash[i] ^ hash[size - 1 - i]) % 15);
+		if (size - i == CRYPTO_SIZE)
+		{
+			stream << hash.substr(i, size - 1 - i);
+			break;
+		}
+	}
 	std::string thash = stream.str();
-	if (thash.length() > HASH_SIZE)
+	if (thash.length() > CRYPTO_SIZE)
 		return trim(thash);
-	if (thash.length() < HASH_SIZE)
-		return pad(thash);
-
 	return thash;
 }
 
@@ -116,35 +121,40 @@ cocos2d::Data
 File::encrypt(const cocos2d::Data & data)
 {
 	aes_encrypt_ctx cx[1];
-	aes_encrypt_key256(CRYPTO_KEY, cx);
+	aes_encrypt_key128(CRYPTO_KEY.data(), cx);
 	cocos2d::Data iv;
-	iv.copy(CRYPTO_IV, HASH_SIZE + 1);
-
+	iv.copy(CRYPTO_IV.data(), CRYPTO_SIZE);
+	std::size_t
+		blockSize = CRYPTO_SIZE * CRYPTO_SIZE,
+		dataSize = data.getSize(),
+		bufferSize = (std::size_t)(ceil((float)dataSize / (float)blockSize) * blockSize),
+		currentSize = 0;
+	unsigned char eof = std::char_traits<unsigned char>::eof();
 	cocos2d::Data buffer;
-	buffer.fastSet(new unsigned char[data.getSize()]{0}, data.getSize());
-	std::size_t size = 0, block = 0;
+	buffer.fastSet(new unsigned char[bufferSize], bufferSize);
 	do
 	{
-		if (data.getSize() - size < CRYPTO_CHUNK_SIZE)
-			block = data.getSize() - size;
-		else
-			block = CRYPTO_CHUNK_SIZE;
-
 		cocos2d::Data in, out;
-		in.fastSet(new unsigned char[CRYPTO_CHUNK_SIZE]{0}, CRYPTO_CHUNK_SIZE);
-		out.fastSet(new unsigned char[CRYPTO_CHUNK_SIZE]{0}, CRYPTO_CHUNK_SIZE);
-		memcpy(in.getBytes(), data.getBytes() + size, block);
+		in.fastSet(new unsigned char[blockSize], blockSize);
+		out.fastSet(new unsigned char[blockSize], blockSize);
+		if (dataSize - currentSize < blockSize)
+		{
+			memcpy(in.getBytes(), data.getBytes() + currentSize, dataSize - currentSize);
+			memset(in.getBytes() + dataSize - currentSize, (unsigned char)std::char_traits<unsigned char>::eof(), blockSize - (dataSize - currentSize));
+		}
+		else
+			memcpy(in.getBytes(), data.getBytes() + currentSize, blockSize);
 
 		aes_cbc_encrypt(
 			in.getBytes(),
 			out.getBytes(),
-			CRYPTO_CHUNK_SIZE,
+			blockSize,
 			iv.getBytes(),
 			cx
 		);
-		memcpy(buffer.getBytes() + size, out.getBytes(), block);
-		size += block;
-	} while (block == CRYPTO_CHUNK_SIZE);
+		memcpy(buffer.getBytes() + currentSize, out.getBytes(), blockSize);
+		currentSize += blockSize;
+	} while (currentSize != bufferSize);
 	return std::move(buffer);
 }
 
@@ -152,42 +162,43 @@ cocos2d::Data
 File::decrypt(const cocos2d::Data & data)
 {
 	aes_decrypt_ctx cx[1];
-	aes_decrypt_key256(CRYPTO_KEY, cx);
+	aes_decrypt_key128(CRYPTO_KEY.data(), cx);
 	cocos2d::Data iv;
-	iv.copy(CRYPTO_IV, HASH_SIZE + 1);
-
+	iv.copy(CRYPTO_IV.data(), CRYPTO_SIZE);
+	std::size_t
+		blockSize = CRYPTO_SIZE * CRYPTO_SIZE,
+		dataSize = data.getSize(),
+		currentSize = 0;
 	cocos2d::Data buffer;
-	buffer.fastSet(new unsigned char[data.getSize()]{0}, data.getSize());
-	std::size_t size = 0, block = 0;
+	buffer.fastSet(new unsigned char[dataSize], dataSize);
 	do
 	{
-		if (data.getSize() - size < CRYPTO_CHUNK_SIZE)
-			block = data.getSize() - size;
-		else
-			block = CRYPTO_CHUNK_SIZE;
-
 		cocos2d::Data in, out;
-		in.fastSet(new unsigned char[CRYPTO_CHUNK_SIZE]{0}, CRYPTO_CHUNK_SIZE);
-		out.fastSet(new unsigned char[CRYPTO_CHUNK_SIZE]{0}, CRYPTO_CHUNK_SIZE);
-		memcpy(in.getBytes(), data.getBytes() + size, block);
+		in.fastSet(new unsigned char[blockSize], blockSize);
+		out.fastSet(new unsigned char[blockSize], blockSize);
+		memcpy(in.getBytes(), data.getBytes() + currentSize, blockSize);
 
 		aes_cbc_decrypt(
 			in.getBytes(),
 			out.getBytes(),
-			CRYPTO_CHUNK_SIZE,
+			blockSize,
 			iv.getBytes(),
 			cx
 		);
-		memcpy(buffer.getBytes() + size, out.getBytes(), block);
-		size += block;
-	} while (block == CRYPTO_CHUNK_SIZE);
-	return std::move(buffer);
+		memcpy(buffer.getBytes() + currentSize, out.getBytes(), blockSize);
+		currentSize += blockSize;
+	} while (currentSize != dataSize);
+	while (buffer.getBytes()[currentSize - 1] == (unsigned char)std::char_traits<unsigned char>::eof())
+		--currentSize;
+	cocos2d::Data tbuffer;
+	tbuffer.copy(buffer.getBytes(), currentSize);
+	return std::move(tbuffer);
 }
 
-const unsigned char
-File::CRYPTO_KEY[HASH_SIZE + 1] = "49984386545308851686356475384311";
+const std::array<unsigned char, File::CRYPTO_SIZE>
+File::CRYPTO_KEY = {'2','4','8','9','5','1','7','5','6','2','4','6','7','9','1','5'};
 
-const unsigned char
-File::CRYPTO_IV[HASH_SIZE + 1] = "14584768657157232041968904477990";
+const std::array<unsigned char, File::CRYPTO_SIZE>
+File::CRYPTO_IV = {'9','4','8','9','9','1','7','5','6','3','4','6','7','9','1','3'};
 
 }

@@ -4,7 +4,7 @@
 #include "include.hpp"
 
 namespace Scenes{class Act;}
-namespace Objects{class Figure;}
+namespace Objects{class Figure; class Platform; class Over;}
 namespace Cleaner
 {
 
@@ -22,9 +22,6 @@ public:
 
 private:
 
-	const float
-		EDGE_STEP = 30.0f,
-		EDGE_STEP_TIME = 1.0f;
 	const unsigned int
 		COMBO_LIMIT = 12,
 		COMBO_PROOF = 3,
@@ -41,12 +38,13 @@ private:
 	void inspection(float delta);
 	bool contact(cocos2d::PhysicsContact & contact) const;
 	unsigned int _combo, _result;
+	cocos2d::Label * _score;
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	> _lpool, _rpool;
-	cocos2d::DrawNode * _platfrom, * _over;
-	cocos2d::Label * _score;
+	std::unique_ptr<Objects::Platform> _platform;
+	std::unique_ptr<Objects::Over> _over;
 	cocos2d::EventListenerPhysicsContact * _sensor;
 	Scenes::Act * _act;
 };

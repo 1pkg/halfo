@@ -41,8 +41,7 @@ Architector::Architector()
 		std::unique_ptr<Objects::Figure> object(
 			new Objects::Figure(
 				pattern->data(),
-				pattern->size(),
-				cocos2d::Color4F::GREEN
+				pattern->size()
 			)
 		);
 		if (
@@ -82,8 +81,7 @@ Architector::provide()
 	std::unique_ptr<Objects::Figure> figure(
 		new Objects::Figure(
 			pattern->data(),
-			pattern->size(),
-			cocos2d::Color4F::GREEN
+			pattern->size()
 		)
 	);
 	figure->view()->body()->setVelocity(
@@ -129,8 +127,7 @@ Architector::refresh()
 		std::unique_ptr<Objects::Figure> object(
 			new Objects::Figure(
 				pattern->data(),
-				pattern->size(),
-				cocos2d::Color4F::GREEN
+				pattern->size()
 			)
 		);
 		if (

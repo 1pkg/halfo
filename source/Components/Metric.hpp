@@ -30,24 +30,25 @@ public:
 
 	cocos2d::Vec2 score() const;
 
-	const std::pair<
-		cocos2d::Vec2, cocos2d::Vec2
-	> & anvil() const;
-	const std::pair<
-		cocos2d::Vec2, cocos2d::Vec2
-	> & hammer() const;
-	float anvilLength() const;
 	float hammerLength() const;
+	float anvilLength() const;
+
+	const std::array<
+		cocos2d::Vec2, 2
+	> & hammer() const;
+	const std::array<
+		cocos2d::Vec2, 2
+	> & anvil() const;
 
 	const std::array<
 		cocos2d::Vec2, 4
-	> & transporterEdge() const;
+	> & edge() const;
 	const std::array<
 		cocos2d::Vec2, 2
-	> & platformEdge() const;
+	> & platform() const;
 	const std::array<
 		cocos2d::Vec2, 2
-	> & overEdge() const;
+	> & over() const;
 
 private:
 
@@ -59,18 +60,18 @@ private:
 	cocos2d::Vec2 _lspawn, _rspawn;
 	cocos2d::Size _spawn;
 	cocos2d::Vec2 _score;
-	std::pair<
-		cocos2d::Vec2, cocos2d::Vec2
+	std::array<
+		cocos2d::Vec2, 2
 	> _anvil, _hammer;
 	std::array<
 		cocos2d::Vec2, 4
-	> _transporterEdge;
+	> _edge;
 	std::array<
 		cocos2d::Vec2, 2
-	> _platformEdge;
+	> _platform;
 	std::array<
 		cocos2d::Vec2, 2
-	> _overEdge;
+	> _over;
 
 };
 

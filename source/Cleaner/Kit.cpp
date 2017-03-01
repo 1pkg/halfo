@@ -1,48 +1,20 @@
 #include "Kit.hpp"
 #include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"
+#include "Objects/Platform.hpp"
+#include "Objects/Over.hpp"
 
 namespace Cleaner
 {
 
 Kit::Kit(Scenes::Act * act)
 	: _combo(0), _result(0),
-	_platfrom(cocos2d::DrawNode::create()),
-	_over(cocos2d::DrawNode::create()),
 	_score(cocos2d::Label::createWithTTF(std::to_string(_result), FONT_NAME, FONT_SIZE)),
+	_platform(new Objects::Platform()),
+	_over(new Objects::Over()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-	/*
-		Initialize platform edge.
-	*/
-	const std::array<
-		cocos2d::Vec2, 2
-	> & platformVector = Application::Main::instance().metric().platformEdge();
-	_platfrom->drawLine(
-		platformVector[0],
-		platformVector[1],
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody * edgeBody =
-		cocos2d::PhysicsBody::createEdgeChain(platformVector.data(), platformVector.size());
-	edgeBody->setDynamic(false);
-	edgeBody->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_platfrom->setPhysicsBody(edgeBody);
-	_act->addChild(_platfrom);
-
-	/*
-		Initialize over edge.
-	*/
-	const std::array<
-		cocos2d::Vec2, 2
-	> & overVector = Application::Main::instance().metric().overEdge();
-	_over->drawLine(
-		overVector[0],
-		overVector[1],
-		cocos2d::Color4F::BLACK
-	);
-	_act->addChild(_over);
 
 	/*
 		Initialize score label.
@@ -50,14 +22,12 @@ Kit::Kit(Scenes::Act * act)
 	_score->setPosition(Application::Main::instance().metric().score());
 	_act->addChild(_score);
 
-	/*
-		Initialize physic sensor.
-	*/
-	_sensor->onContactBegin = [this](cocos2d::PhysicsContact & contact)
-	{
-		return this->contact(contact);
-	};
+
+	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
+
+	_platform->view()->attach(_act);
+	_over->view()->attach(_act);
 
 	Application::Main::instance().sheduler()->schedule(
 		std::bind(&Kit::inspection, this, std::placeholders::_1),
@@ -70,8 +40,6 @@ Kit::Kit(Scenes::Act * act)
 
 Kit::~Kit()
 {
-	_platfrom->removeFromParentAndCleanup(true);
-	_over->removeFromParentAndCleanup(true);
 	_score->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 
@@ -142,12 +110,7 @@ Kit::increase()
 	if (_combo >= COMBO_PROOF)
 		clean();
 
-	_platfrom->runAction(
-		cocos2d::MoveBy::create(
-			EDGE_STEP_TIME,
-			cocos2d::Vec2(0.0f, -Application::Main::instance().metric().absolute(EDGE_STEP))
-		)
-	);
+	_platform->downward();
 	_act->transpoter()->increase();
 }
 
@@ -155,23 +118,7 @@ void
 Kit::reset()
 {
 	_combo = _combo < COMBO_PROOF ? 0 : _combo - COMBO_PROOF;
-	if (_combo == 0) {
-		_platfrom->runAction(
-			cocos2d::MoveTo::create(
-				EDGE_STEP_TIME,
-				Application::Main::instance().metric().origin()
-			)
-		);
-	}
-	else
-	{
-		_platfrom->runAction(
-			cocos2d::MoveBy::create(
-				EDGE_STEP_TIME,
-				cocos2d::Vec2(0.0f, Application::Main::instance().metric().absolute(EDGE_STEP) * COMBO_PROOF)
-			)
-		);
-	}
+	_platform->upward();
 	_act->transpoter()->reset();
 }
 
@@ -231,16 +178,12 @@ Kit::inspection(float delta)
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	>::const_iterator it = _lpool.begin();
-	const std::array<
-		cocos2d::Vec2, 2
-	> & overVector = Application::Main::instance().metric().overEdge();
-	std::pair<cocos2d::Vec2, cocos2d::Vec2> over(overVector[0], overVector[1]);
 	while (it != _lpool.end())
 	{
 
 		if (
 			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
-			it->second->intersect(over)
+			it->second->intersect(Application::Main::instance().metric().over())
 		)
 		{
 			Components::Result result(_result, 0, _result);
@@ -256,7 +199,7 @@ Kit::inspection(float delta)
 	{
 		if (
 			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
-			it->second->intersect(over)
+			it->second->intersect(Application::Main::instance().metric().over())
 		)
 		{
 			Components::Result result(_result, 0, _result);
@@ -282,10 +225,10 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 	return contact.getResult() ||
 		_lpool.find(first) != _lpool.end() && _lpool.find(second) != _lpool.end() ||
 		_rpool.find(first) != _rpool.end() && _rpool.find(second) != _rpool.end() ||
-		_lpool.find(first) != _lpool.end() && _platfrom->getPhysicsBody() == second ||
-		_lpool.find(second) != _lpool.end() && _platfrom->getPhysicsBody() == first ||
-		_rpool.find(first) != _rpool.end() && _platfrom->getPhysicsBody() == second ||
-		_rpool.find(second) != _rpool.end() && _platfrom->getPhysicsBody() == first;
+		_lpool.find(first) != _lpool.end() && _platform->view()->body() == second ||
+		_lpool.find(second) != _lpool.end() && _platform->view()->body() == first ||
+		_rpool.find(first) != _rpool.end() && _platform->view()->body() == second ||
+		_rpool.find(second) != _rpool.end() && _platform->view()->body() == first;
 }
 
 }

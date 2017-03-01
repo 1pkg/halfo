@@ -3,6 +3,7 @@
 #include <cocos2d.h>
 #include <json/document.h>
 #include <json/writer.h>
+#include <json/memorybuffer.h>
 #include <algorithm>
 
 namespace Components
@@ -184,11 +185,11 @@ Storage::serialize() const
 		allocator
 	);
 	
-	StringBuffer bufffer;
-	Writer<StringBuffer> writer(bufffer);
+	MemoryBuffer bufffer;
+	Writer<MemoryBuffer> writer(bufffer);
 	document.Accept(writer);
 	cocos2d::Data data;
-	data.copy((unsigned char *)bufffer.GetString(), bufffer.GetSize());
+	data.copy((unsigned char *)bufffer.GetBuffer(), bufffer.GetSize());
 	return std::move(data);
 }
 

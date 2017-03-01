@@ -2,6 +2,7 @@
 #define COMPONENTS_FILE
 
 #include "Application\Wrapper.hpp"
+#include <array>
 #include <cocos2d.h>
 
 namespace Components
@@ -27,9 +28,8 @@ protected:
 
 private:
 
-	static const std::size_t HASH_SIZE = 32;
-	static const std::size_t CRYPTO_CHUNK_SIZE = 256;
-	static const unsigned char CRYPTO_KEY[HASH_SIZE + 1], CRYPTO_IV[HASH_SIZE + 1];
+	static const std::size_t CRYPTO_SIZE = 16;
+	static const std::array<unsigned char, CRYPTO_SIZE> CRYPTO_KEY, CRYPTO_IV;
 
 	static std::string pad(const std::string & hash);
 	static std::string trim(const std::string & hash);

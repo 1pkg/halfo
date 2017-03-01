@@ -6,7 +6,6 @@ namespace Views
 Figure::Figure(
 		const cocos2d::Vec2 * pattern,
 		std::size_t size,
-		cocos2d::Color4F color,
 		bool hollow
 )
 	: _node(cocos2d::DrawNode::create())
@@ -14,19 +13,16 @@ Figure::Figure(
 	_node->drawPolygon(
 		pattern,
 		size,
-		color,
-		LINE_WIDHT,
+		cocos2d::Color4F::GREEN,
+		0.0f,
 		cocos2d::Color4F::BLACK
 	);
 	cocos2d::PhysicsBody * body =
-		cocos2d::PhysicsBody::createPolygon(
-			pattern,
-			size
-		);
-	body->setVelocityLimit(LINEAR_VELOCITY_LIMIT);
-	body->setAngularVelocityLimit(ANGULAR_VELOCITY_LIMIT);
+		cocos2d::PhysicsBody::createPolygon(pattern,size);
+	body->setDynamic(true);
+	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
+	body->setGravityEnable(!hollow);
 	_node->setPhysicsBody(body);
-	setHollow(hollow);
 }
 
 Figure::~Figure()
@@ -71,16 +67,6 @@ void
 Figure::setRotation(float angle) const
 {
 	_node->setRotation(angle);
-}
-
-void
-Figure::setHollow(bool hollow)
-{
-	cocos2d::PhysicsBody * body = _node->getPhysicsBody();
-	body->setGravityEnable(!hollow);
-	body->setDynamic(true);
-	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	body->setVelocity(cocos2d::Vec2::ZERO);
 }
 
 }
