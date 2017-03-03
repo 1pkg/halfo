@@ -1,17 +1,16 @@
-#ifndef APPLICATION_PATTERN
-#define APPLICATION_PATTERN
+#ifndef TRANSPORTER_PATTERN
+#define TRANSPORTER_PATTERN
 
-#include "Wrapper.hpp"
+#include "Application/Wrapper.hpp"
 #include <cocos2d.h>
 
-namespace Application
+namespace Transporter
 {
 
-class Pattern : public Wrapper
+class Pattern : public Application::Wrapper
 {
 public:
 
-	static std::unique_ptr<Pattern> create(const std::string & name);
 	const cocos2d::Vec2 * data() const;
 	std::size_t size() const;
 

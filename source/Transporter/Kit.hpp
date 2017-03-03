@@ -22,8 +22,6 @@ public:
 		find(cocos2d::PhysicsBody * body) const;
 	std::unique_ptr<Objects::Figure>
 		release(Objects::Figure * figure);
-	void increase();
-	void reset();
 
 private:
 

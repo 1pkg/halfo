@@ -8,7 +8,7 @@ Platform::Platform()
 {
 	const std::array<
 		cocos2d::Vec2, 2
-	> & platform = Application::Main::instance().metric().platform();
+	> & platform = Master::instance().metric().platform();
 	_node->drawLine(
 		platform[0],
 		platform[1],

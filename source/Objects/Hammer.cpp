@@ -20,7 +20,7 @@ Hammer::upward()
 	_view->run(
 		cocos2d::MoveBy::create(
 			STROKE_TIME,
-			cocos2d::Vec2(0.0f, Application::Main::instance().metric().hammerLength())
+			cocos2d::Vec2(0.0f, Master::instance().metric().hammerLength())
 		)
 	);
 }
@@ -31,7 +31,7 @@ Hammer::downward()
 	_view->run(
 		cocos2d::MoveBy::create(
 			STROKE_TIME,
-			cocos2d::Vec2(0.0f, -Application::Main::instance().metric().hammerLength())
+			cocos2d::Vec2(0.0f, -Master::instance().metric().hammerLength())
 		)
 	);
 }

@@ -5,13 +5,24 @@ namespace Components
 
 Metric::Metric(cocos2d::Size size, cocos2d::Vec2 origin)
 	: _size(size),
-	_origin(origin),
-	_lspawn(cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
-	_rspawn(cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin),
-	_spawn(cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin),
-	_score(cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin)
+	_origin(origin)
+{
+}
+
+void
+Metric::initialize()
 {
 	_scale = (_size.width / COMMON_SIZE.width + _size.height / COMMON_SIZE.height) / 2.0f;
+
+	_lspawn =
+		cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
+	_rspawn =
+		cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
+	_spawn =
+		cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin;
+
+	_score = cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin;
+
 	_hammer = {{
 		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin,
 		cocos2d::Vec2(_size.width / 2.0f, _size.height) + _origin
@@ -42,6 +53,30 @@ Metric::absolute(float reliative) const
 	return reliative * _scale;
 }
 
+float
+Metric::absolute2(float reliative) const
+{
+	return
+		absolute(
+			absolute(
+				reliative
+			)
+		);
+}
+
+float
+Metric::absolute3(float reliative) const
+{
+	return
+		absolute(
+			absolute(
+				absolute(
+					reliative
+				)
+			)
+		);
+}
+
 cocos2d::Vec2
 Metric::absolute(cocos2d::Vec2 reliative) const
 {
@@ -64,6 +99,30 @@ float
 Metric::reliative(float absolute) const
 {
 	return absolute / _scale;
+}
+
+float
+Metric::reliative2(float absolute) const
+{
+	return
+		reliative(
+			reliative(
+				absolute
+			)
+		);
+}
+
+float
+Metric::reliative3(float absolute) const
+{
+	return
+		reliative(
+			reliative(
+				reliative(
+					absolute
+				)
+			)
+		);
 }
 
 cocos2d::Vec2

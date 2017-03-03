@@ -11,7 +11,7 @@ Act::instantiate()
 	scene->addChild(act);
 	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(
-		Application::Main::instance().metric().absolute(act->GRAVITY)
+		Master::instance().metric().absolute(act->GRAVITY)
 	);
     return scene;
 }

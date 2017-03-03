@@ -103,18 +103,6 @@ Kit::release(Objects::Figure * figure)
 	return nullptr;
 }
 
-void
-Kit::increase()
-{
-	_architector.increase();
-}
-
-void
-Kit::reset()
-{
-	_architector.reset();
-}
-
 bool
 Kit::contact(cocos2d::PhysicsContact & contact)
 {

@@ -1,24 +1,29 @@
 #ifndef COMPONENTS_METRIC
 #define COMPONENTS_METRIC
 
-#include "Application\Wrapper.hpp"
+#include "Application/Component.hpp"
 #include <cocos2d.h>
 #include <array>
 
 namespace Components
 {
 
-class Metric : public Application::Wrapper
+class Metric : public Application::Component
 {
 public:
 
 	Metric(cocos2d::Size size, cocos2d::Vec2 origin);
+	void initialize() override;
 
 	float absolute(float reliative) const;
+	float absolute2(float reliative) const;
+	float absolute3(float reliative) const;
 	cocos2d::Vec2 absolute(cocos2d::Vec2 reliative) const;
 	cocos2d::Size absolute(cocos2d::Size reliative) const;
 
 	float reliative(float absolute) const;
+	float reliative2(float absolute) const;
+	float reliative3(float absolute) const;
 	cocos2d::Vec2 reliative(cocos2d::Vec2 absolute) const;
 	cocos2d::Size reliative(cocos2d::Size absolute) const;
 
@@ -39,7 +44,6 @@ public:
 	const std::array<
 		cocos2d::Vec2, 2
 	> & anvil() const;
-
 	const std::array<
 		cocos2d::Vec2, 4
 	> & edge() const;
@@ -72,7 +76,6 @@ private:
 	std::array<
 		cocos2d::Vec2, 2
 	> _over;
-
 };
 
 }

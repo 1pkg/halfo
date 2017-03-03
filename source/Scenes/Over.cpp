@@ -1,5 +1,5 @@
 #include "Over.hpp"
-#include "Application/Main.hpp"
+#include "Master.hpp"
 
 namespace Scenes
 {
@@ -37,7 +37,7 @@ Over::Over()
 			switch (type)
 			{
 				case cocos2d::ui::Widget::TouchEventType::BEGAN:
-					Application::Main::instance().act();
+					Master::instance().change("Act");
 					break;
 
 				default: break;
@@ -53,7 +53,7 @@ Over::Over()
 			switch (type)
 			{
 				case cocos2d::ui::Widget::TouchEventType::BEGAN:
-					Application::Main::instance().end();
+					Master::instance().end();
 					break;
 
 				default: break;

@@ -18,7 +18,7 @@ public:
 
 private:
 
-	const float STROKE_TIME = 0.5f;
+	const float STROKE_TIME = 0.1f;
 
 	std::unique_ptr<Views::Hammer> _view;
 };

@@ -8,8 +8,8 @@ Hammer::Hammer(const std::string & skin)
 {
 	const std::array<
 		cocos2d::Vec2, 2
-	> & hammer = Application::Main::instance().metric().hammer();
-	cocos2d::Vec2 delta(0.0f, Application::Main::instance().metric().hammerLength());
+	> & hammer = Master::instance().metric().hammer();
+	cocos2d::Vec2 delta(0.0f, Master::instance().metric().hammerLength());
 	_node->drawLine(
 		hammer[0] + delta,
 		hammer[1] + delta,

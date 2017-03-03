@@ -19,7 +19,7 @@ Kit::Kit(Scenes::Act * act)
 	/*
 		Initialize score label.
 	*/
-	_score->setPosition(Application::Main::instance().metric().score());
+	_score->setPosition(Master::instance().metric().score());
 	_act->addChild(_score);
 
 
@@ -29,7 +29,7 @@ Kit::Kit(Scenes::Act * act)
 	_platform->view()->attach(_act);
 	_over->view()->attach(_act);
 
-	Application::Main::instance().sheduler()->schedule(
+	Master::instance().sheduler()->schedule(
 		std::bind(&Kit::inspection, this, std::placeholders::_1),
 		this,
 		INSPECTION_TIME,
@@ -43,7 +43,7 @@ Kit::~Kit()
 	_score->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 
-	Application::Main::instance().sheduler()->unschedule(
+	Master::instance().sheduler()->unschedule(
 		"Cleaner::Kit::inspection",
 		this
 	);
@@ -58,7 +58,7 @@ Kit::update(float dt)
 void
 Kit::attach(std::unique_ptr<Objects::Figure> figure)
 {
-	if (figure->view()->getPosition().x < Application::Main::instance().metric().center().x)
+	if (figure->view()->getPosition().x < Master::instance().metric().center().x)
 		_lpool.insert(
 			std::pair<
 				cocos2d::PhysicsBody *,
@@ -111,7 +111,6 @@ Kit::increase()
 		clean();
 
 	_platform->downward();
-	_act->transpoter()->increase();
 }
 
 void
@@ -119,7 +118,6 @@ Kit::reset()
 {
 	_combo = _combo < COMBO_PROOF ? 0 : _combo - COMBO_PROOF;
 	_platform->upward();
-	_act->transpoter()->reset();
 }
 
 unsigned int
@@ -173,22 +171,21 @@ void
 Kit::inspection(float delta)
 {
 	float overLimit = 
-		Application::Main::instance().metric().origin().y + Application::Main::instance().metric().anvilLength();
+		Master::instance().metric().origin().y + Master::instance().metric().anvilLength();
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
 	>::const_iterator it = _lpool.begin();
 	while (it != _lpool.end())
 	{
-
 		if (
 			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
-			it->second->intersect(Application::Main::instance().metric().over())
+			it->second->intersect(Master::instance().metric().over())
 		)
 		{
-			Components::Result result(_result, 0, _result);
-			Application::Main::instance().storage().update(result);
-			Application::Main::instance().over();
+			Application::Result result(_result, 0, 0);
+			Master::instance().result().update(result);
+			Master::instance().change("Over");
 			return;
 		}
 		++it;
@@ -199,12 +196,12 @@ Kit::inspection(float delta)
 	{
 		if (
 			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
-			it->second->intersect(Application::Main::instance().metric().over())
+			it->second->intersect(Master::instance().metric().over())
 		)
 		{
-			Components::Result result(_result, 0, _result);
-			Application::Main::instance().storage().update(result);
-			Application::Main::instance().over();
+			Application::Result result(_result, 0, 0);
+			Master::instance().result().update(result);
+			Master::instance().change("Over");
 			return;
 		}
 		++it;

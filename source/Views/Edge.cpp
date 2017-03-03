@@ -8,7 +8,7 @@ Edge::Edge()
 {
 	const std::array<
 		cocos2d::Vec2, 4
-	> & edge = Application::Main::instance().metric().edge();
+	> & edge = Master::instance().metric().edge();
 	_node->drawPoly(
 		edge.data(),
 		edge.size(),

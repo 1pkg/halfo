@@ -8,7 +8,7 @@ Over::Over()
 {
 	const std::array<
 		cocos2d::Vec2, 2
-	> & over = Application::Main::instance().metric().over();
+	> & over = Master::instance().metric().over();
 	_node->drawLine(
 		over[0],
 		over[1],

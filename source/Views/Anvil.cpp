@@ -8,7 +8,7 @@ Anvil::Anvil()
 {
 	const std::array<
 		cocos2d::Vec2, 2
-	> & anvil = Application::Main::instance().metric().anvil();
+	> & anvil = Master::instance().metric().anvil();
 	_node->drawLine(
 		anvil[0],
 		anvil[1],

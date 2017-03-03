@@ -1,37 +1,31 @@
-#ifndef APPLICATION_MAIN
-#define APPLICATION_MAIN
+#ifndef MASTER
+#define MASTER
 
-#include "Wrapper.hpp"
+#include "Application/Wrapper.hpp"
 #include "Components/Metric.hpp"
 #include "Components/Integrity.hpp"
 #include "Components/Storage.hpp"
 #include "Components/Resource.hpp"
 #include <cocos2d.h>
 
-namespace Application
-{
-
-class Act;
-class Main : public Wrapper, public cocos2d::Application
+class Master : public Application::Wrapper, public cocos2d::Application
 {
 public:
 
-	static Main & instance();
+	static Master & instance();
 
-    void initGLContextAttrs() override;
     bool applicationDidFinishLaunching() override;
     void applicationDidEnterBackground() override;
     void applicationWillEnterForeground() override;
-
-	void act();
-	void over();
-	void end();
+	void initGLContextAttrs() override;
 
 	cocos2d::Scheduler * sheduler() const;
 	const Components::Metric & metric() const;
-	Components::Storage & storage() const;
 	const Components::Resource & resource() const;
+	Components::Storage & storage() const;
 	Components::Integrity & integrity() const;
+
+	void change(const std::string & scene);
 
 private:
 	
@@ -40,7 +34,5 @@ private:
 	std::unique_ptr<Components::Storage> _storage;
 	std::unique_ptr<Components::Resource> _resource;
 };
-
-}
 
 #endif

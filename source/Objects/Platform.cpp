@@ -20,7 +20,7 @@ Platform::upward()
 	_view->run(
 		cocos2d::MoveBy::create(
 			EDGE_STEP_TIME,
-			cocos2d::Vec2(0.0f, Application::Main::instance().metric().absolute(EDGE_STEP))
+			cocos2d::Vec2(0.0f, Master::instance().metric().absolute(EDGE_STEP))
 		)
 	);
 }
@@ -31,7 +31,7 @@ Platform::downward()
 	_view->run(
 		cocos2d::MoveBy::create(
 			EDGE_STEP_TIME,
-			cocos2d::Vec2(0.0f, -Application::Main::instance().metric().absolute(EDGE_STEP))
+			cocos2d::Vec2(0.0f, -Master::instance().metric().absolute(EDGE_STEP))
 		)
 	);
 }
