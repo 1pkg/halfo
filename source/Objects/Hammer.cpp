@@ -4,7 +4,7 @@ namespace Objects
 {
 
 Hammer::Hammer()
-	: _view(new Views::Hammer(""))
+	: _view(new Views::Hammer())
 {
 }
 
@@ -20,7 +20,7 @@ Hammer::upward()
 	_view->run(
 		cocos2d::MoveBy::create(
 			STROKE_TIME,
-			cocos2d::Vec2(0.0f, Master::instance().metric().hammerLength())
+			cocos2d::Vec2(0.0f, Master::instance().metric().hammer().size.height)
 		)
 	);
 }
@@ -31,7 +31,7 @@ Hammer::downward()
 	_view->run(
 		cocos2d::MoveBy::create(
 			STROKE_TIME,
-			cocos2d::Vec2(0.0f, -Master::instance().metric().hammerLength())
+			cocos2d::Vec2(0.0f, -Master::instance().metric().hammer().size.height)
 		)
 	);
 }

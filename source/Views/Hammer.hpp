@@ -10,7 +10,7 @@ class Hammer : public Application::View
 {
 public:
 
-	Hammer(const std::string & skin);
+	Hammer();
 	~Hammer();
 	void attach(cocos2d::Layer * layer) override;
 	cocos2d::PhysicsBody * body() const;
@@ -18,7 +18,8 @@ public:
 
 private:
 
-	cocos2d::DrawNode * _node;
+	cocos2d::Sprite * _node;
+	cocos2d::Image * _image;
 };
 
 }

@@ -11,13 +11,13 @@ class Setting : public Application::Component
 {
 public:
 
-	const std::string FIGURE_SKIN = "figure-skin";
-	const std::string HAMMER_SKIN = "hammer-skin";
+	static const std::string FIGURE_SKIN;
+	static const std::string HAMMER_SKIN;
+	static const std::string DISABLE_ADDS;
 
 	void initialize() override;
-	bool has(const std::string & setting) const;
-	const std::string & value(const std::string & setting) const;
-	void change(const std::string & setting, const std::string & value);
+	const std::string & get(const std::string & setting) const;
+	void set(const std::string & setting, const std::string & value);
 
 private:
 

@@ -51,13 +51,13 @@ void
 Kit::slice() const
 {
 	std::vector<Objects::Figure *>
-		figures = _act->transpoter()->find(Master::instance().metric().hammer());
+		figures = _act->transpoter()->find(Master::instance().metric().slice());
 	for (Objects::Figure * figure : figures)
 	{
 		std::pair<
 			std::unique_ptr<Objects::Figure>,
 			std::unique_ptr<Objects::Figure>
-		> slice = figure->slice(Master::instance().metric().hammer());
+		> slice = figure->slice(Master::instance().metric().slice());
 
 		float firstArea = slice.first->area(), secondArea = slice.second->area(),
 			  deltaArea = Master::instance().metric().absolute(Master::instance().metric().absolute(DELTA_AREA)),

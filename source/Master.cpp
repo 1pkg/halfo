@@ -2,11 +2,10 @@
 #include "Scenes/Act.hpp"
 #include "Scenes/Over.hpp"
 #include "Components/Metric.hpp"
-#include "Components/Feature.hpp"
 #include "Components/Setting.hpp"
-#include "Components/Result.hpp"
-#include "Components/Stat.hpp"
+#include "Components/Statistic.hpp"
 #include "Components/Storage.hpp"
+#include "Components/Resource.hpp"
 
 bool
 Master::applicationDidFinishLaunching()
@@ -64,14 +63,6 @@ Master::metric() const
 	return metric;
 }
 
-Components::Feature &
-Master::feature() const
-{
-	static Components::Feature & feature =
-		*dynamic_cast<Components::Feature *>(_components.at("feature").get());
-	return feature;
-}
-
 Components::Setting &
 Master::setting() const
 {
@@ -80,20 +71,20 @@ Master::setting() const
 	return setting;
 }
 
-Components::Result &
-Master::result() const
+Components::Statistic &
+Master::statistic() const
 {
-	static Components::Result & result =
-		*dynamic_cast<Components::Result *>(_components.at("result").get());
-	return result;
+	static Components::Statistic & statistic =
+		*dynamic_cast<Components::Statistic *>(_components.at("statistic").get());
+	return statistic;
 }
 
-Components::Stat &
-Master::stat() const
+Components::Resource &
+Master::resource() const
 {
-	static Components::Stat & stat =
-		*dynamic_cast<Components::Stat *>(_components.at("stat").get());
-	return stat;
+	static Components::Resource & resource =
+		*dynamic_cast<Components::Resource *>(_components.at("resource").get());
+	return resource;
 }
 
 void
@@ -116,62 +107,60 @@ Master::change(const std::string & scene)
 void
 Master::end()
 {
-	(*dynamic_cast<Components::Storage *>(_components.at("stat").get())).flush();
+	(*dynamic_cast<Components::Storage *>(_components.at("storage").get())).flush();
 	cocos2d::Director::getInstance()->end();
 }
 
 void
 Master::components()
 {
-	_components.insert(
+	std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>> components;
+
+	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"feature",
-			std::move(std::unique_ptr<Components::Feature>(new Components::Feature()))
+			"metric",
+			std::move(
+				std::unique_ptr<Components::Metric>(
+					new Components::Metric(
+						cocos2d::Director::getInstance()->getVisibleSize(),
+						cocos2d::Director::getInstance()->getVisibleOrigin()
+					)
+				)
+			)
 		)
 	);
-	_components.insert(
+	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
 			"setting",
 			std::move(std::unique_ptr<Components::Setting>(new Components::Setting()))
 		)
 	);
-	_components.insert(
+	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"result",
-			std::move(std::unique_ptr<Components::Result>(new Components::Result()))
+			"statistic",
+			std::move(std::unique_ptr<Components::Statistic>(new Components::Statistic()))
 		)
 	);
-	_components.insert(
+	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"stat",
-			std::move(std::unique_ptr<Components::Stat>(new Components::Stat()))
+			"resource",
+			std::move(std::unique_ptr<Components::Resource>(new Components::Resource()))
 		)
 	);
-	for (std::unordered_map<std::string, std::unique_ptr<::Application::Component>>::iterator it = _components.begin(); it != _components.end(); ++it)
-		it->second->initialize();
-
-	std::unique_ptr<Components::Metric> metric(
-		new Components::Metric(
-			cocos2d::Director::getInstance()->getVisibleSize(),
-			cocos2d::Director::getInstance()->getVisibleOrigin()
-		)
-	);
-	metric->initialize();
-	_components.insert(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"metric",
-			std::move(metric)
-		)
-	);
-	std::unique_ptr<Components::Storage> storage(
-		new Components::Storage()
-	);
-	storage->initialize();
-	storage->pull();
-	_components.insert(
+	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
 			"storage",
-			std::move(storage)
+			std::move(std::unique_ptr<Components::Storage>(new Components::Storage()))
 		)
 	);
+	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
+	{
+		it->second->initialize();
+		_components.insert(
+			std::pair<std::string, std::unique_ptr<::Application::Component>>(
+				it->first,
+				std::move(it->second)
+			)
+		);
+	}
 }

@@ -3,6 +3,13 @@
 namespace Components
 {
 
+const std::string
+Setting::FIGURE_SKIN = "figure-skin";
+const std::string
+Setting::HAMMER_SKIN = "hammer-skin";
+const std::string
+Setting::DISABLE_ADDS = "disable-adds";
+
 void
 Setting::initialize()
 {
@@ -12,22 +19,19 @@ Setting::initialize()
 	_settings.insert(
 		std::pair<std::string, std::string>(HAMMER_SKIN, "deault")
 	);
-}
-
-bool
-Setting::has(const std::string & setting) const
-{
-	return _settings.find(setting) != _settings.end();
+	_settings.insert(
+		std::pair<std::string, std::string>(DISABLE_ADDS, "disable")
+	);
 }
 
 const std::string &
-Setting::value(const std::string & setting) const
+Setting::get(const std::string & setting) const
 {
 	return _settings.find(setting)->second;
 }
 
 void
-Setting::change(const std::string & setting, const std::string & value)
+Setting::set(const std::string & setting, const std::string & value)
 {
 	_settings.find(setting)->second = value;
 }

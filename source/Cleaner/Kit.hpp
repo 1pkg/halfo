@@ -37,7 +37,7 @@ private:
 	void clean();
 	void inspection(float delta);
 	bool contact(cocos2d::PhysicsContact & contact) const;
-	unsigned int _combo, _result;
+	unsigned int _combo, _result, _time;
 	cocos2d::Label * _score;
 	std::unordered_map<
 		cocos2d::PhysicsBody *,

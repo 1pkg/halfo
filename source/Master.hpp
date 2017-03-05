@@ -6,7 +6,14 @@
 #include <cocos2d.h>
 #include <unordered_map>
 
-namespace Components {class Metric; class Feature; class Setting; class Result; class Storage; class Stat;}
+namespace Components
+{
+	class Metric;
+	class Setting;
+	class Storage;
+	class Statistic;
+	class Resource;
+}
 class Master : public Application::Wrapper, public cocos2d::Application
 {
 public:
@@ -20,10 +27,9 @@ public:
 
 	cocos2d::Scheduler * sheduler() const;
 	const Components::Metric & metric() const;
-	Components::Feature & feature() const;
 	Components::Setting & setting() const;
-	Components::Result & result() const;
-	Components::Stat & stat() const;
+	Components::Statistic & statistic() const;
+	Components::Resource & resource() const;
 
 	void change(const std::string & scene);
 	void end();

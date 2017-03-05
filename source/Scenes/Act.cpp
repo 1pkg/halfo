@@ -9,7 +9,7 @@ Act::instantiate()
     cocos2d::Scene * scene = cocos2d::Scene::createWithPhysics();
 	Act * act = Act::create();
 	scene->addChild(act);
-	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(
 		Master::instance().metric().absolute(act->GRAVITY)
 	);
@@ -32,7 +32,7 @@ Act::Act()
 	_slicer(new Slicer::Kit(this)),
 	_cleaner(new Cleaner::Kit(this))
 {
-	setScale(0.7f);
+	//setScale(0.7f);
 
 	schedule(
 		schedule_selector(Act::update),

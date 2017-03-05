@@ -19,11 +19,17 @@ Metric::initialize()
 	_rspawn =
 		cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_spawn =
-		cocos2d::Vec2(_size.width / 6.0f, _size.height / 6.0f) + _origin;
+		cocos2d::Size(_size.width / 6.0f, _size.height / 6.0f);
 
 	_score = cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin;
 
-	_hammer = {{
+	_hammer =
+		cocos2d::Rect(
+			cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin,
+			cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f)
+		);
+
+	_slice = {{
 		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin,
 		cocos2d::Vec2(_size.width / 2.0f, _size.height) + _origin
 	}},
@@ -179,10 +185,10 @@ Metric::score() const
 	return _score;
 }
 
-float
-Metric::hammerLength() const
+cocos2d::Rect
+Metric::hammer() const
 {
-	return _size.height / 3.0f;
+	return _hammer;
 }
 
 float
@@ -194,9 +200,9 @@ Metric::anvilLength() const
 const std::array<
 	cocos2d::Vec2, 2
 > &
-Metric::hammer() const
+Metric::slice() const
 {
-	return _hammer;
+	return _slice;
 }
 
 const std::array<

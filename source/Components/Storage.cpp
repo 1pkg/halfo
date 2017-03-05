@@ -11,6 +11,7 @@ namespace Components
 void
 Storage::initialize()
 {
+	pull();
 }
 
 void
@@ -55,26 +56,9 @@ Storage::serialize() const
 	using namespace rapidjson;
     Document document(kObjectType);
 	Document::AllocatorType & allocator = document.GetAllocator();
-
 	document.AddMember(
 		"identifier",
 		Value(/*cocos2d::identifier()*/ 0),
-		allocator
-	);
-
-	/*
-		Serialize features.
-	*/
-	Value features(kObjectType);
-	for (const std::pair<std::string, bool> & feature : Master::instance().feature()._features)
-		features.AddMember(
-			Value(feature.first.data(), allocator),
-			Value(feature.second),
-			allocator
-		);
-	document.AddMember(
-		"features",
-		features,
 		allocator
 	);
 
@@ -95,47 +79,53 @@ Storage::serialize() const
 	);
 
 	/*
-		Serialize results.
+		Serialize statistic.
 	*/
-	Value results(kArrayType);
-	for (const Application::Result & result : Master::instance().result()._results)
+	Value statistic(kObjectType);
+	Value table(kArrayType), totals(kObjectType);
+	for (const Components::Result & result : Master::instance().statistic()._table)
 	{
+		if (result.empty())
+			continue;
+
 		Value res(kObjectType);
 		res.AddMember(
 			"score",
-			result.score,
+			result.score(),
 			allocator
 		);
 		res.AddMember(
-			"seconds",
-			result.seconds,
+			"time",
+			result.time(),
 			allocator
 		);
 		res.AddMember(
 			"integral",
-			result.integral,
+			result.integral(),
 			allocator
 		);
-		results.PushBack(res, allocator);
+		table.PushBack(res, allocator);
 	}
-	document.AddMember(
-		"results",
-		results,
-		allocator
-	);
+	for (const std::pair<std::string, unsigned int> & total : Master::instance().statistic()._totals)
+		totals.AddMember(
+			Value(total.first.data(), allocator),
+			Value(total.second),
+			allocator
+		);
 
-	/*
-		Serialize stats.
-	*/
-	Value stats(kObjectType);
-	stats.AddMember(
-		"total",
-		Value(Master::instance().stat()._total),
+	statistic.AddMember(
+		"table",
+		table,
+		allocator
+	);
+	statistic.AddMember(
+		"totals",
+		totals,
 		allocator
 	);
 	document.AddMember(
-		"stats",
-		stats,
+		"statistic",
+		statistic,
 		allocator
 	);
 
@@ -158,22 +148,8 @@ Storage::unserialize(const cocos2d::Data & buffer)
 	);
 	if (document.HasParseError())
 		return false;
-
 	if (/*cocos2d::identifier()*/ 0 != document["identifier"].GetInt())
 		return false;
-
-	/*
-		Unserialize features.
-	*/
-	for (
-		Value::ConstMemberIterator it = document["features"].MemberBegin();
-		it != document["features"].MemberEnd();
-		++it
-	)
-		Master::instance().feature().change(
-			it->name.GetString(),
-			it->value.GetBool()
-		);
 
 	/*
 		Unserialize settings.
@@ -183,32 +159,30 @@ Storage::unserialize(const cocos2d::Data & buffer)
 		it != document["settings"].MemberEnd();
 		++it
 	)
-		Master::instance().setting().change(
-			it->name.GetString(),
-			it->value.GetString()
-		);
+		Master::instance().setting()._settings.at(it->name.GetString()) = it->value.GetString();
 
 	/*
-		Unserialize results.
+		Unserialize statistic.
 	*/
+	std::size_t position = 0;
 	for (
-		Value::ConstValueIterator it = document["results"].Begin();
-		it != document["results"].End();
+		Value::ConstValueIterator it = document["statistic"]["table"].Begin();
+		it != document["statistic"]["table"].End();
 		++it
 	)
 	{
-		Application::Result result(
+		Components::Result result(
 			(*it)["score"].GetUint(),
-			(*it)["seconds"].GetUint(),
-			(*it)["integral"].GetUint()
+			(*it)["seconds"].GetUint()
 		);
-		Master::instance().result().update(result);
+		Master::instance().statistic()._table[position++] = result;
 	}
-
-	/*
-		Unserialize stats.
-	*/
-	Master::instance().stat()._total = document["stats"]["total"].GetUint();
+	for (
+		Value::ConstMemberIterator it = document["statistic"]["totals"].MemberBegin();
+		it != document["statistic"]["totals"].MemberEnd();
+		++it
+	)
+		Master::instance().statistic()._totals.at(it->name.GetString()) = it->value.GetUint();
 
 	return true;
 }
@@ -217,9 +191,9 @@ cocos2d::Data
 Storage::encrypt(const cocos2d::Data & data)
 {
 	aes_encrypt_ctx cx[1];
-	aes_encrypt_key128(CRYPTO_KEY.data(), cx);
+	aes_encrypt_key128(CRYPTO_KEY, cx);
 	cocos2d::Data iv;
-	iv.copy(CRYPTO_IV.data(), CRYPTO_SIZE);
+	iv.copy(CRYPTO_IV, CRYPTO_SIZE);
 	std::size_t
 		blockSize = CRYPTO_SIZE * CRYPTO_SIZE,
 		dataSize = data.getSize(),
@@ -258,9 +232,9 @@ cocos2d::Data
 Storage::decrypt(const cocos2d::Data & data)
 {
 	aes_decrypt_ctx cx[1];
-	aes_decrypt_key128(CRYPTO_KEY.data(), cx);
+	aes_decrypt_key128(CRYPTO_KEY, cx);
 	cocos2d::Data iv;
-	iv.copy(CRYPTO_IV.data(), CRYPTO_SIZE);
+	iv.copy(CRYPTO_IV, CRYPTO_SIZE);
 	std::size_t
 		blockSize = CRYPTO_SIZE * CRYPTO_SIZE,
 		dataSize = data.getSize(),
@@ -291,10 +265,10 @@ Storage::decrypt(const cocos2d::Data & data)
 	return std::move(tbuffer);
 }
 
-const std::array<unsigned char, Storage::CRYPTO_SIZE>
-Storage::CRYPTO_KEY = {'2','4','8','9','5','1','7','5','6','2','4','6','7','9','1','5'};
+const unsigned char
+Storage::CRYPTO_KEY[CRYPTO_SIZE + 1] = "1564949426338204";
 
-const std::array<unsigned char, Storage::CRYPTO_SIZE>
-Storage::CRYPTO_IV = {'9','4','8','9','9','1','7','5','6','3','4','6','7','9','1','3'};
+const unsigned char
+Storage::CRYPTO_IV[CRYPTO_SIZE + 1] = "2832340405100085";
 
 }

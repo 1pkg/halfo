@@ -1,27 +1,24 @@
 #ifndef COMPONENTS_RESULT
 #define COMPONENTS_RESULT
 
-#include "Application/Component.hpp"
-#include "Application/Result.hpp"
-#include <vector>
-
 namespace Components
 {
 
-class Result : public Application::Component
+class Result
 {
 public:
 
-	void initialize() override;
-	std::size_t size() const;
-	const Application::Result & at(std::size_t position) const;
-	void update(const Application::Result & result);
+	Result();
+	Result(unsigned int score, unsigned int time);
+	unsigned int score() const;
+	unsigned int time() const;
+	unsigned int integral() const;
+	bool empty() const;
+	bool operator<(const Result & result) const;
 
 private:
 
-	friend class Storage;
-	const unsigned int RESULTS_LIMIT = 100;
-	std::vector<Application::Result> _results;
+	unsigned int _score, _time, _integral;
 };
 
 }

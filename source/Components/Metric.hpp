@@ -35,12 +35,13 @@ public:
 
 	cocos2d::Vec2 score() const;
 
-	float hammerLength() const;
+	cocos2d::Rect hammer() const;
+
 	float anvilLength() const;
 
 	const std::array<
 		cocos2d::Vec2, 2
-	> & hammer() const;
+	> & slice() const;
 	const std::array<
 		cocos2d::Vec2, 2
 	> & anvil() const;
@@ -64,9 +65,13 @@ private:
 	cocos2d::Vec2 _lspawn, _rspawn;
 	cocos2d::Size _spawn;
 	cocos2d::Vec2 _score;
+	cocos2d::Rect _hammer;
 	std::array<
 		cocos2d::Vec2, 2
-	> _anvil, _hammer;
+	> _slice;
+	std::array<
+		cocos2d::Vec2, 2
+	> _anvil;
 	std::array<
 		cocos2d::Vec2, 4
 	> _edge;

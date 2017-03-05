@@ -1,34 +1,52 @@
 #include "Result.hpp"
-#include <algorithm>
 
 namespace Components
 {
 
-void
-Result::initialize()
+Result::Result()
+	: _score(0),
+	_time(0),
+	_integral(0)
+	
 {
-	_results.clear();
 }
 
-std::size_t
-Result::size() const
+Result::Result(unsigned int score, unsigned int time)
+	: _score(score),
+	_time(time),
+	_integral(score + time)
+	
 {
-	return _results.size();
 }
 
-const Application::Result &
-Result::at(std::size_t position) const
+unsigned int
+Result::score() const
 {
-	return _results.at(position);
+	return _score;
 }
 
-void
-Result::update(const Application::Result & result)
+unsigned int
+Result::time() const
 {
-	_results.push_back(result);
-	std::sort(_results.begin(), _results.end());
-	if (_results.size() > RESULTS_LIMIT)
-		_results.pop_back();
+	return _time;
+}
+
+unsigned int
+Result::integral() const
+{
+	return _integral;
+}
+
+bool
+Result::empty() const
+{
+	return _integral != 0 && _score != 0 && _time != 0;
+}
+
+bool
+Result::operator<(const Result & result) const
+{
+	return _integral < result._integral;
 }
 
 }

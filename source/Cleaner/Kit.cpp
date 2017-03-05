@@ -8,7 +8,7 @@ namespace Cleaner
 {
 
 Kit::Kit(Scenes::Act * act)
-	: _combo(0), _result(0),
+	: _combo(0), _result(0), _time(0),
 	_score(cocos2d::Label::createWithTTF(std::to_string(_result), FONT_NAME, FONT_SIZE)),
 	_platform(new Objects::Platform()),
 	_over(new Objects::Over()),
@@ -52,7 +52,7 @@ Kit::~Kit()
 void
 Kit::update(float dt)
 {
-	return;
+	++_time;
 }
 
 void
@@ -183,8 +183,7 @@ Kit::inspection(float delta)
 			it->second->intersect(Master::instance().metric().over())
 		)
 		{
-			Application::Result result(_result, 0, 0);
-			Master::instance().result().update(result);
+			Master::instance().statistic().update(_result, _time);
 			Master::instance().change("Over");
 			return;
 		}
@@ -199,8 +198,7 @@ Kit::inspection(float delta)
 			it->second->intersect(Master::instance().metric().over())
 		)
 		{
-			Application::Result result(_result, 0, 0);
-			Master::instance().result().update(result);
+			Master::instance().statistic().update(_result, _time);
 			Master::instance().change("Over");
 			return;
 		}
