@@ -4,47 +4,40 @@ namespace Views
 {
 
 Platform::Platform()
-	: _node(cocos2d::DrawNode::create())
 {
-	const std::array<
-		cocos2d::Vec2, 2
-	> & platform = Master::instance().metric().platform();
-	_node->drawLine(
-		platform[0],
-		platform[1],
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody * body =
-		cocos2d::PhysicsBody::createEdgeSegment(platform[0], platform[1]);
+	const std::array<cocos2d::Vec2, 2> & platform = Master::instance().metric().platform();
+	_draw = cocos2d::DrawNode::create();
+	_draw->drawLine(platform[0], platform[1], cocos2d::Color4F::BLACK);
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(platform[0], platform[1]);
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_node->setPhysicsBody(body);
+	_draw->setPhysicsBody(body);
 }
 
 Platform::~Platform()
 {
-	_node->removeFromParentAndCleanup(true);
+	_draw->removeFromParentAndCleanup(true);
 }
 
 void
 Platform::attach(cocos2d::Layer * layer)
 {
-	if (_node->getParent() != nullptr)
+	if (_draw->getParent())
 		return;
 
-	layer->addChild(_node);
+	layer->addChild(_draw);
 }
 
 cocos2d::PhysicsBody *
 Platform::body() const
 {
-	return _node->getPhysicsBody();
+	return _draw->getPhysicsBody();
 }
 
 void
 Platform::run(cocos2d::Action * action)
 {
-	_node->runAction(action);
+	_draw->runAction(action);
 }
 
 }

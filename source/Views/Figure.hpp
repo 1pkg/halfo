@@ -10,11 +10,7 @@ class Figure : public Application::View
 {
 public:
 
-	Figure(
-		const cocos2d::Vec2 * pattern,
-		std::size_t size,
-		bool hollow
-	);
+	Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, bool hollow);
 	~Figure();
 	void attach(cocos2d::Layer * layer) override;
 	cocos2d::PhysicsBody * body() const;
@@ -25,7 +21,9 @@ public:
 
 private:
 
-	cocos2d::DrawNode * _node;
+	cocos2d::Sprite * _sprite;
+	cocos2d::ClippingNode * _clipper;
+	cocos2d::DrawNode * _stencil;
 };
 
 }

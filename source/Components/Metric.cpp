@@ -13,21 +13,12 @@ void
 Metric::initialize()
 {
 	_scale = (_size.width / COMMON_SIZE.width + _size.height / COMMON_SIZE.height) / 2.0f;
-
-	_lspawn =
-		cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
-	_rspawn =
-		cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
-	_spawn =
-		cocos2d::Size(_size.width / 6.0f, _size.height / 6.0f);
+	_lspawn = cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
+	_rspawn = cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
+	_spawn = cocos2d::Size(_size.width / 6.0f, _size.height / 6.0f);
+	_hammer = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin, cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f));
 
 	_score = cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin;
-
-	_hammer =
-		cocos2d::Rect(
-			cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin,
-			cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f)
-		);
 
 	_slice = {{
 		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin,
@@ -62,43 +53,25 @@ Metric::absolute(float reliative) const
 float
 Metric::absolute2(float reliative) const
 {
-	return
-		absolute(
-			absolute(
-				reliative
-			)
-		);
+	return absolute(absolute(reliative));
 }
 
 float
 Metric::absolute3(float reliative) const
 {
-	return
-		absolute(
-			absolute(
-				absolute(
-					reliative
-				)
-			)
-		);
+	return absolute(absolute(absolute(reliative)));
 }
 
 cocos2d::Vec2
 Metric::absolute(cocos2d::Vec2 reliative) const
 {
-	return cocos2d::Vec2(
-		absolute(reliative.x),
-		absolute(reliative.y)
-	);
+	return cocos2d::Vec2(absolute(reliative.x), absolute(reliative.y));
 }
 
 cocos2d::Size
 Metric::absolute(cocos2d::Size reliative) const
 {
-	return cocos2d::Size(
-		absolute(reliative.width),
-		absolute(reliative.height)
-	);
+	return cocos2d::Size(absolute(reliative.width), absolute(reliative.height));
 }
 
 float
@@ -110,43 +83,25 @@ Metric::reliative(float absolute) const
 float
 Metric::reliative2(float absolute) const
 {
-	return
-		reliative(
-			reliative(
-				absolute
-			)
-		);
+	return reliative(reliative(absolute));
 }
 
 float
 Metric::reliative3(float absolute) const
 {
-	return
-		reliative(
-			reliative(
-				reliative(
-					absolute
-				)
-			)
-		);
+	return reliative(reliative(reliative(absolute)));
 }
 
 cocos2d::Vec2
 Metric::reliative(cocos2d::Vec2 absolute) const
 {
-	return cocos2d::Vec2(
-		reliative(absolute.x),
-		reliative(absolute.y)
-	);
+	return cocos2d::Vec2(reliative(absolute.x),reliative(absolute.y));
 }
 
 cocos2d::Size
 Metric::reliative(cocos2d::Size absolute) const
 {
-	return cocos2d::Size(
-		reliative(absolute.width),
-		reliative(absolute.height)
-	);
+	return cocos2d::Size(reliative(absolute.width), reliative(absolute.height));
 }
 
 cocos2d::Vec2
@@ -197,41 +152,31 @@ Metric::anvilLength() const
 	return _size.height / 3.0f * 2.0f;
 }
 
-const std::array<
-	cocos2d::Vec2, 2
-> &
+const std::array<cocos2d::Vec2, 2> &
 Metric::slice() const
 {
 	return _slice;
 }
 
-const std::array<
-	cocos2d::Vec2, 2
-> &
+const std::array<cocos2d::Vec2, 2> &
 Metric::anvil() const
 {
 	return _anvil;
 }
 
-const std::array<
-	cocos2d::Vec2, 4
-> &
+const std::array<cocos2d::Vec2, 4> &
 Metric::edge() const
 {
 	return _edge;
 }
 
-const std::array<
-	cocos2d::Vec2, 2
-> &
+const std::array<cocos2d::Vec2, 2> &
 Metric::platform() const
 {
 	return _platform;
 }
 
-const std::array<
-	cocos2d::Vec2, 2
-> &
+const std::array<cocos2d::Vec2, 2> &
 Metric::over() const
 {
 	return _over;

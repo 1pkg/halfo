@@ -3,13 +3,14 @@
 #include "Objects/Figure.hpp"
 #include "Objects/Platform.hpp"
 #include "Objects/Over.hpp"
+#include "Helpers/Result.hpp"
 
 namespace Cleaner
 {
 
 Kit::Kit(Scenes::Act * act)
 	: _combo(0), _result(0), _time(0),
-	_score(cocos2d::Label::createWithTTF(std::to_string(_result), FONT_NAME, FONT_SIZE)),
+	_score(cocos2d::Label::createWithTTF(std::to_string(_result), "font.ttf", 32.0f)),
 	_platform(new Objects::Platform()),
 	_over(new Objects::Over()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
@@ -29,13 +30,7 @@ Kit::Kit(Scenes::Act * act)
 	_platform->view()->attach(_act);
 	_over->view()->attach(_act);
 
-	Master::instance().sheduler()->schedule(
-		std::bind(&Kit::inspection, this, std::placeholders::_1),
-		this,
-		INSPECTION_TIME,
-		false,
-		"Cleaner::Kit::inspection"
-	);
+	Master::instance().sheduler()->schedule(std::bind(&Kit::inspection, this, std::placeholders::_1), this, INSPECTION_TIME, false, "Cleaner::Kit::inspection");
 }
 
 Kit::~Kit()
@@ -43,10 +38,7 @@ Kit::~Kit()
 	_score->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 
-	Master::instance().sheduler()->unschedule(
-		"Cleaner::Kit::inspection",
-		this
-	);
+	Master::instance().sheduler()->unschedule("Cleaner::Kit::inspection", this);
 }
 
 void
@@ -58,27 +50,7 @@ Kit::update(float dt)
 void
 Kit::attach(std::unique_ptr<Objects::Figure> figure)
 {
-	if (figure->view()->getPosition().x < Master::instance().metric().center().x)
-		_lpool.insert(
-			std::pair<
-				cocos2d::PhysicsBody *,
-				std::unique_ptr<Objects::Figure>
-			>(
-				figure->view()->body(),
-				std::move(figure)
-			)
-		);
-	else
-		_rpool.insert(
-			std::pair<
-				cocos2d::PhysicsBody *,
-				std::unique_ptr<Objects::Figure>
-			>(
-				figure->view()->body(),
-				std::move(figure)
-			)
-		);
-
+	_pool.insert(std::pair<cocos2d::PhysicsBody *,std::unique_ptr<Objects::Figure>>(figure->view()->body(), std::move(figure)));
 	_result += scale();
 	_score->setString(std::to_string(_result));
 }
@@ -86,17 +58,9 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 Objects::Figure *
 Kit::find(cocos2d::PhysicsBody * body) const
 {
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::const_iterator it = _lpool.find(body);
-	if (it != _lpool.end())
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::const_iterator it = _pool.find(body);
+	if (it != _pool.end())
 		return (*it).second.get();
-
-	it = _rpool.begin();
-	if (it != _rpool.end())
-		return (*it).second.get();
-
 	return nullptr;
 }
 
@@ -129,76 +93,31 @@ Kit::scale() const
 void
 Kit::clean()
 {
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::iterator it;
-
-	unsigned int lpoolCount =
-		cocos2d::RandomHelper::random_int<
-			unsigned int
-		>(
-			FIGURE_BURN_LIMIT.first,
-			FIGURE_BURN_LIMIT.second
-		);
-	if (lpoolCount <= _lpool.size())
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::iterator it;
+	unsigned int count = cocos2d::RandomHelper::random_int<unsigned int>(FIGURE_CLEAN_LIMIT.first, FIGURE_CLEAN_LIMIT.second);
+	if (count <= _pool.size())
 	{
-		it = _lpool.begin();
-		for (unsigned int i = 0; i < lpoolCount; ++i)
-			it = _lpool.erase(it);
+		it = _pool.begin();
+		for (unsigned int i = 0; i < count; ++i)
+			it = _pool.erase(it);
 	}
 	else
-		_lpool.clear();
-
-	unsigned int rpoolCount =
-		cocos2d::RandomHelper::random_int<
-			unsigned int
-		>(
-			FIGURE_BURN_LIMIT.first,
-			FIGURE_BURN_LIMIT.second
-		);
-	if (rpoolCount <= _rpool.size())
-	{
-		it = _rpool.begin();
-		for (unsigned int i = 0; i < rpoolCount; ++i)
-			it = _rpool.erase(it);
-	}
-	else
-		_rpool.clear();
+		_pool.clear();
 }
 
 void
 Kit::inspection(float delta)
 {
-	float overLimit = 
-		Master::instance().metric().origin().y + Master::instance().metric().anvilLength();
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::const_iterator it = _lpool.begin();
-	while (it != _lpool.end())
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::const_iterator it = _pool.begin();
+	while (it != _pool.end())
 	{
 		if (
-			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
+			abs(it->second->view()->body()->getVelocity().y) < REST_SPEAD_DELTA &&
 			it->second->intersect(Master::instance().metric().over())
 		)
 		{
-			Master::instance().statistic().update(_result, _time);
-			Master::instance().change("Over");
-			return;
-		}
-		++it;
-	}
-
-	it = _rpool.begin();;
-	while (it != _rpool.end())
-	{
-		if (
-			abs(it->second->view()->body()->getVelocity().y) < DELTA &&
-			it->second->intersect(Master::instance().metric().over())
-		)
-		{
-			Master::instance().statistic().update(_result, _time);
+			Helpers::Result result(_result, _time);
+			Master::instance().statistic().update(result);
 			Master::instance().change("Over");
 			return;
 		}
@@ -218,12 +137,9 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		Set contact result to true.
 	*/
 	return contact.getResult() ||
-		_lpool.find(first) != _lpool.end() && _lpool.find(second) != _lpool.end() ||
-		_rpool.find(first) != _rpool.end() && _rpool.find(second) != _rpool.end() ||
-		_lpool.find(first) != _lpool.end() && _platform->view()->body() == second ||
-		_lpool.find(second) != _lpool.end() && _platform->view()->body() == first ||
-		_rpool.find(first) != _rpool.end() && _platform->view()->body() == second ||
-		_rpool.find(second) != _rpool.end() && _platform->view()->body() == first;
+		_pool.find(first) != _pool.end() && _pool.find(second) != _pool.end() ||
+		_pool.find(first) != _pool.end() && _platform->view()->body() == second ||
+		_pool.find(second) != _pool.end() && _platform->view()->body() == first;
 }
 
 }

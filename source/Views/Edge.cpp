@@ -4,42 +4,34 @@ namespace Views
 {
 
 Edge::Edge()
-	: _node(cocos2d::DrawNode::create())
 {
-	const std::array<
-		cocos2d::Vec2, 4
-	> & edge = Master::instance().metric().edge();
-	_node->drawPoly(
-		edge.data(),
-		edge.size(),
-		false,
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody * body =
-		cocos2d::PhysicsBody::createEdgeChain(edge.data(), edge.size());
+	const std::array<cocos2d::Vec2, 4> & edge = Master::instance().metric().edge();
+	_draw = cocos2d::DrawNode::create();
+	_draw->drawPoly(edge.data(), edge.size(), false,cocos2d::Color4F::BLACK);
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeChain(edge.data(), edge.size());
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_node->setPhysicsBody(body);
+	_draw->setPhysicsBody(body);
 }
 
 Edge::~Edge()
 {
-	_node->removeFromParentAndCleanup(true);
+	_draw->removeFromParentAndCleanup(true);
 }
 
 void
 Edge::attach(cocos2d::Layer * layer)
 {
-	if (_node->getParent() != nullptr)
+	if (_draw->getParent())
 		return;
 
-	layer->addChild(_node);
+	layer->addChild(_draw);
 }
 
 cocos2d::PhysicsBody *
 Edge::body() const
 {
-	return _node->getPhysicsBody();
+	return _draw->getPhysicsBody();
 }
 
 }

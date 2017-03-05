@@ -34,12 +34,7 @@ Architector::provide()
 		else
 			current += data.second;
 	}
-	std::unique_ptr<Objects::Figure> figure(
-		new Objects::Figure(
-			pattern->data(),
-			pattern->size()
-		)
-	);
+	std::unique_ptr<Objects::Figure> figure(new Objects::Figure(pattern->data(), pattern->size()));
 	figure->view()->body()->setVelocity(
 		cocos2d::Vec2(
 			(_side ? -1 : 1) * cocos2d::RandomHelper::random_real<float>(
@@ -75,24 +70,11 @@ Architector::fill(unsigned int count)
 	for (size_t i = 0; i < count;)
 	{
 		std::unique_ptr<Pattern> pattern = roll();
-		std::unique_ptr<Objects::Figure> object(
-			new Objects::Figure(
-				pattern->data(),
-				pattern->size()
-			)
-		);
-
-		if (
-			object->area() <
-			Master::instance().metric().absolute2(LIMIT_AREA)
-		)
+		std::unique_ptr<Objects::Figure> object(new Objects::Figure(pattern->data(), pattern->size()));
+		if (object->area() < Master::instance().metric().absolute2(LIMIT_AREA))
 			continue;
 
-		_patterns[i] =
-			std::pair<std::unique_ptr<Pattern>, unsigned int>(
-				std::move(pattern),
-				cocos2d::RandomHelper::random_int<unsigned int>(1, 10)
-			);
+		_patterns[i] = std::pair<std::unique_ptr<Pattern>, unsigned int>(std::move(pattern), cocos2d::RandomHelper::random_int<unsigned int>(1, 10));
 		++i;
 	}
 }

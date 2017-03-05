@@ -16,7 +16,7 @@ public:
 
 private:
 
-	cocos2d::DrawNode * _node;
+	cocos2d::DrawNode * _draw;
 };
 
 }

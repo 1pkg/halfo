@@ -25,23 +25,14 @@ Kit::~Kit()
 void
 Kit::update(float dt)
 {
-	static float
-		spawn = 0.0f, refresh = 0.0f;
+	static float spawn = 0.0f, refresh = 0.0f;
 	spawn += dt, refresh += dt;
 
 	if (spawn >= SPAWN_TIME)
 	{
 		std::unique_ptr<Objects::Figure> figure = _architector.provide();
 		figure->view()->attach(_act);
-		_prepool.insert(
-			std::pair<
-				cocos2d::PhysicsBody *,
-				std::unique_ptr<Objects::Figure>
-			>(
-				figure->view()->body(),
-				std::move(figure)
-			)
-		);
+		_prepool.insert(std::pair<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>(figure->view()->body(), std::move(figure)));
 		spawn = 0.0f;
 	}
 
@@ -56,10 +47,7 @@ std::vector<Objects::Figure *>
 Kit::find(const std::array<cocos2d::Vec2, 2> & line) const
 {
 	std::vector<Objects::Figure *> result;
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::const_iterator it = _pool.begin();
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::const_iterator it = _pool.begin();
 	while (it != _pool.end())
 	{
 		if ((*it).second->intersect(line))
@@ -72,10 +60,7 @@ Kit::find(const std::array<cocos2d::Vec2, 2> & line) const
 Objects::Figure *
 Kit::find(cocos2d::PhysicsBody * body) const
 {
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::const_iterator it = _pool.find(body);
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::const_iterator it = _pool.find(body);
 	if (it == _pool.end())
 		return nullptr;
 
@@ -85,16 +70,12 @@ Kit::find(cocos2d::PhysicsBody * body) const
 std::unique_ptr<Objects::Figure>
 Kit::release(Objects::Figure * figure)
 {
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::iterator it = _pool.begin();
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::iterator it = _pool.begin();
 	while (it != _pool.end())
 	{
 		if ((*it).second.get() == figure)
 		{
-			std::unique_ptr<Objects::Figure>
-				figure = std::move((*it).second);
+			std::unique_ptr<Objects::Figure> figure = std::move((*it).second);
 			_pool.erase(it);
 			return figure;
 		}
@@ -106,13 +87,8 @@ Kit::release(Objects::Figure * figure)
 bool
 Kit::contact(cocos2d::PhysicsContact & contact)
 {
-	cocos2d::PhysicsBody
-		* first = contact.getShapeA()->getBody(),
-		* second = contact.getShapeB()->getBody();
-	std::unordered_map<
-		cocos2d::PhysicsBody *,
-		std::unique_ptr<Objects::Figure>
-	>::iterator it;
+	cocos2d::PhysicsBody * first = contact.getShapeA()->getBody(), * second = contact.getShapeB()->getBody();
+	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>::iterator it;
 
 	/*
 		Move to permanent pool from prepool figures provided by Architector on contact with border edge.
@@ -120,29 +96,13 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	*/
 	if ((it = _prepool.find(first)) != _prepool.end() && second == _edge->view()->body())
 	{
-		_pool.insert(
-			std::pair<
-				cocos2d::PhysicsBody *,
-				std::unique_ptr<Objects::Figure>
-			>(
-				it->first,
-				std::move(it->second)
-			)
-		);
+		_pool.insert(std::pair<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>(it->first, std::move(it->second)));
 		_prepool.erase(it);
 		return false;
 	}
 	if ((it = _prepool.find(second)) != _prepool.end() && first == _edge->view()->body())
 	{
-		_pool.insert(
-			std::pair<
-				cocos2d::PhysicsBody *,
-				std::unique_ptr<Objects::Figure>
-			>(
-				it->first,
-				std::move(it->second)
-			)
-		);
+		_pool.insert(std::pair<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>(it->first, std::move(it->second)));
 		_prepool.erase(it);
 		return false;
 	}
@@ -155,9 +115,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	{
 		_act->cleaner()->reset();
 		it->second->fill();
-		_act->cleaner()->attach(
-			std::move(it->second)
-		);
+		_act->cleaner()->attach(std::move(it->second));
 		_pool.erase(it);
 		return true;
 	}
@@ -165,9 +123,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	{
 		_act->cleaner()->reset();
 		it->second->fill();
-		_act->cleaner()->attach(
-			std::move(it->second)
-		);
+		_act->cleaner()->attach(std::move(it->second));
 		_pool.erase(it);
 		return true;
 	}
@@ -181,15 +137,11 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		_act->cleaner()->reset();
 		it = _pool.find(first);
 		it->second->fill();
-		_act->cleaner()->attach(
-			std::move(it->second)
-		);
+		_act->cleaner()->attach(std::move(it->second));
 		_pool.erase(it);
 		it = _pool.find(second);
 		it->second->fill();
-		_act->cleaner()->attach(
-			std::move(it->second)
-		);
+		_act->cleaner()->attach(std::move(it->second));
 		_pool.erase(it);
 		return true;
 	}
@@ -202,9 +154,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	{
 		_act->cleaner()->reset();
 		it->second->fill();
-		_act->cleaner()->attach(
-			std::move(it->second)
-		);
+		_act->cleaner()->attach(std::move(it->second));
 		_pool.erase(it);
 		return true;
 	}
@@ -213,9 +163,7 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 	{
 		_act->cleaner()->reset();
 		it->second->fill();
-		_act->cleaner()->attach(
-			std::move(it->second)
-		);
+		_act->cleaner()->attach(std::move(it->second));
 		_pool.erase(it);
 		return true;
 	}

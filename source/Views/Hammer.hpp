@@ -18,8 +18,7 @@ public:
 
 private:
 
-	cocos2d::Sprite * _node;
-	cocos2d::Image * _image;
+	cocos2d::Sprite * _sprite;
 };
 
 }

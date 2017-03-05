@@ -16,11 +16,7 @@ public:
 
 private:
 
-	friend class Storage;
-	std::unordered_map<
-		std::string,
-		cocos2d::Data
-	> _resources;
+	std::unordered_map<std::string, cocos2d::Data> _resources;
 };
 
 }

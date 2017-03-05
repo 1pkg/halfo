@@ -4,41 +4,34 @@ namespace Views
 {
 
 Anvil::Anvil()
-	: _node(cocos2d::DrawNode::create())
 {
-	const std::array<
-		cocos2d::Vec2, 2
-	> & anvil = Master::instance().metric().anvil();
-	_node->drawLine(
-		anvil[0],
-		anvil[1],
-		cocos2d::Color4F::BLACK
-	);
-	cocos2d::PhysicsBody * body =
-		cocos2d::PhysicsBody::createEdgeSegment(anvil[0], anvil[1]);
+	const std::array<cocos2d::Vec2, 2> & anvil = Master::instance().metric().anvil();
+	_draw = cocos2d::DrawNode::create();
+	_draw->drawLine(anvil[0], anvil[1], cocos2d::Color4F::BLACK);
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(anvil[0], anvil[1]);
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
-	_node->setPhysicsBody(body);
+	_draw->setPhysicsBody(body);
 }
 
 Anvil::~Anvil()
 {
-	_node->removeFromParentAndCleanup(true);
+	_draw->removeFromParentAndCleanup(true);
 }
 
 void
 Anvil::attach(cocos2d::Layer * layer)
 {
-	if (_node->getParent() != nullptr)
+	if (_draw->getParent())
 		return;
 
-	layer->addChild(_node);
+	layer->addChild(_draw);
 }
 
 cocos2d::PhysicsBody *
 Anvil::body() const
 {
-	return _node->getPhysicsBody();
+	return _draw->getPhysicsBody();
 }
 
 }

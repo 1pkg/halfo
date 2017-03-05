@@ -11,15 +11,12 @@ bool
 Master::applicationDidFinishLaunching()
 {
     if(!cocos2d::Director::getInstance()->getOpenGLView())
-		cocos2d::Director::getInstance()->setOpenGLView(
-			cocos2d::GLViewImpl::create("halfo")
-		);
+		cocos2d::Director::getInstance()->setOpenGLView(cocos2d::GLViewImpl::create("halfo"));
 	cocos2d::Director::getInstance()->setDisplayStats(true);
     cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
 
 	components();
 	change("Act");
-
     return true;
 }
 
@@ -44,8 +41,7 @@ Master::initGLContextAttrs()
 Master &
 Master::instance()
 {
-	static Master & master =
-		*dynamic_cast<Master *>(cocos2d::Application::getInstance());
+	static Master & master = *dynamic_cast<Master *>(cocos2d::Application::getInstance());
 	return master;
 }
 
@@ -58,32 +54,28 @@ Master::sheduler() const
 const Components::Metric &
 Master::metric() const
 {
-	static Components::Metric & metric =
-		*dynamic_cast<Components::Metric *>(_components.at("metric").get());
+	static Components::Metric & metric = *dynamic_cast<Components::Metric *>(_components.at("metric").get());
 	return metric;
 }
 
 Components::Setting &
 Master::setting() const
 {
-	static Components::Setting & setting =
-		*dynamic_cast<Components::Setting *>(_components.at("setting").get());
+	static Components::Setting & setting = *dynamic_cast<Components::Setting *>(_components.at("setting").get());
 	return setting;
 }
 
 Components::Statistic &
 Master::statistic() const
 {
-	static Components::Statistic & statistic =
-		*dynamic_cast<Components::Statistic *>(_components.at("statistic").get());
+	static Components::Statistic & statistic = *dynamic_cast<Components::Statistic *>(_components.at("statistic").get());
 	return statistic;
 }
 
 Components::Resource &
 Master::resource() const
 {
-	static Components::Resource & resource =
-		*dynamic_cast<Components::Resource *>(_components.at("resource").get());
+	static Components::Resource & resource = *dynamic_cast<Components::Resource *>(_components.at("resource").get());
 	return resource;
 }
 
@@ -115,18 +107,10 @@ void
 Master::components()
 {
 	std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>> components;
-
 	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
 			"metric",
-			std::move(
-				std::unique_ptr<Components::Metric>(
-					new Components::Metric(
-						cocos2d::Director::getInstance()->getVisibleSize(),
-						cocos2d::Director::getInstance()->getVisibleOrigin()
-					)
-				)
-			)
+			std::move(std::unique_ptr<Components::Metric>(new Components::Metric(cocos2d::Director::getInstance()->getVisibleSize(), cocos2d::Director::getInstance()->getVisibleOrigin())))
 		)
 	);
 	components.push_back(
@@ -156,11 +140,6 @@ Master::components()
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();
-		_components.insert(
-			std::pair<std::string, std::unique_ptr<::Application::Component>>(
-				it->first,
-				std::move(it->second)
-			)
-		);
+		_components.insert(std::pair<std::string, std::unique_ptr<::Application::Component>>(it->first, std::move(it->second)));
 	}
 }

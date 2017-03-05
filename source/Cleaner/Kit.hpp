@@ -22,16 +22,10 @@ public:
 
 private:
 
-	const unsigned int
-		COMBO_LIMIT = 12,
-		COMBO_PROOF = 3,
-		SCALE_KOEFICIENT = 2;
-	const std::pair<unsigned int, unsigned int>
-		FIGURE_BURN_LIMIT = std::pair<unsigned int, unsigned int>(1, 3);
-	const std::string FONT_NAME = "font.ttf";
-	const float FONT_SIZE = 32.0f;
-	const float DELTA = 0.01f;
-	const float INSPECTION_TIME = 5.0f;
+	const unsigned int COMBO_LIMIT = 12, COMBO_PROOF = 3, SCALE_KOEFICIENT = 2;
+	const std::pair<unsigned int, unsigned int> FIGURE_CLEAN_LIMIT = std::pair<unsigned int, unsigned int>(1, 3);
+	const float REST_SPEAD_DELTA = 0.01f;
+	const float INSPECTION_TIME = 0.5f;
 
 	unsigned int scale() const;
 	void clean();
@@ -42,7 +36,7 @@ private:
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>
-	> _lpool, _rpool;
+	> _pool;
 	std::unique_ptr<Objects::Platform> _platform;
 	std::unique_ptr<Objects::Over> _over;
 	cocos2d::EventListenerPhysicsContact * _sensor;

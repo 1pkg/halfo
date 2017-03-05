@@ -11,16 +11,13 @@ Resource::initialize()
 const cocos2d::Data &
 Resource::get(const std::string & resource)
 {
-	std::string rsc = "D:/proj/shredder/assets/" + resource + ".png";
-	if (_resources.find(rsc) == _resources.end())
-		_resources.insert(
-			std::pair<std::string, cocos2d::Data>(
-				rsc,
-				cocos2d::FileUtils::getInstance()->getDataFromFile("D:/proj/shredder/assets/" + resource + ".png")
-			)
-		);
-
-	return _resources.at(rsc);
+	std::string path = "D:/proj/shredder/assets/" + resource + ".png";
+	if (_resources.find(resource) == _resources.end())
+	{
+		cocos2d::Data data = cocos2d::FileUtils::getInstance()->getDataFromFile(path);
+		_resources.insert(std::pair<std::string, cocos2d::Data>(resource, data));
+	}
+	return _resources.at(resource);
 }
 
 }

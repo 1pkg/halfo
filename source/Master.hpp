@@ -37,11 +37,7 @@ public:
 private:
 
 	void components();
-	
-	std::unordered_map<
-		std::string,
-		std::unique_ptr<::Application::Component>
-	> _components;
+	std::unordered_map<std::string, std::unique_ptr<::Application::Component>> _components;
 };
 
 #endif
