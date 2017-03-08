@@ -16,6 +16,7 @@ public:
 
 private:
 
+	std::string map(const std::string & resource) const;
 	std::unordered_map<std::string, cocos2d::Data> _resources;
 };
 

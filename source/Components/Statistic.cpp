@@ -15,7 +15,7 @@ Statistic::initialize()
 	_totals.insert(std::pair<std::string, unsigned int>(TOTAL_GAME, 0));
 }
 
-std::array<Helpers::Result, Statistic::TABLE_SIZE>
+std::array<std::tuple<unsigned int, unsigned int, unsigned int>, Statistic::TABLE_SIZE>
 Statistic::table() const
 {
 	return _table;
@@ -28,15 +28,16 @@ Statistic::total(std::string key) const
 }
 
 void
-Statistic::update(const Helpers::Result & result)
+Statistic::update(unsigned int slice, unsigned int time)
 {
-	_totals.at(TOTAL_SLICE) += result.slice();
-	_totals.at(TOTAL_TIME) += result.time();
+	_totals.at(TOTAL_SLICE) += slice;
+	_totals.at(TOTAL_TIME) += time;
 	++_totals.at(TOTAL_GAME);
-	for (Helpers::Result & row : _table)
-		if (row < result)
+	unsigned total = slice + time;
+	for (std::tuple<unsigned int, unsigned int, unsigned int> & row : _table)
+		if (std::get<2>(row) < total)
 		{
-			row = result;
+			row = std::tuple<unsigned int, unsigned int, unsigned int>(slice, time, total);
 			break;
 		}
 }

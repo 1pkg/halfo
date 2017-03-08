@@ -1,13 +1,11 @@
 #include "Texture.hpp"
 
-namespace Helpers
+namespace Components
 {
 
-Texture &
-Texture::intance()
+void
+Texture::initialize()
 {
-	static Texture image;
-	return image;
 }
 
 cocos2d::Texture2D *
@@ -26,10 +24,6 @@ Texture::get(const std::string & alias, const cocos2d::Data & data)
 	}
 	texture = cocos2d::Director::getInstance()->getTextureCache()->addImage(image, alias);
 	return texture;
-}
-
-Texture::Texture()
-{
 }
 
 }

@@ -1,21 +1,21 @@
-#ifndef HELPERS_TEXTURE
-#define HELPERS_TEXTURE
+#ifndef COMPONENTS_TEXTURE
+#define COMPONENTS_TEXTURE
 
+#include "Application/Component.hpp"
 #include <cocos2d.h>
 
-namespace Helpers
+namespace Components
 {
 
-class Texture
+class Texture : public Application::Component
 {
 public:
 
-	static Texture & intance();
+	void initialize() override;
 	cocos2d::Texture2D * get(const std::string & alias, const cocos2d::Data & data);
 
 private:
 
-	Texture();
 	std::unordered_map<std::string, std::unique_ptr<cocos2d::Image>> _images;
 };
 

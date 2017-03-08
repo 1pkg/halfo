@@ -3,7 +3,6 @@
 #include "Objects/Figure.hpp"
 #include "Objects/Platform.hpp"
 #include "Objects/Over.hpp"
-#include "Helpers/Result.hpp"
 
 namespace Cleaner
 {
@@ -20,7 +19,7 @@ Kit::Kit(Scenes::Act * act)
 	/*
 		Initialize score label.
 	*/
-	_score->setPosition(Master::instance().metric().score());
+	_score->setPosition(Master::instance().get<Components::Metric>("metric").score());
 	_act->addChild(_score);
 
 
@@ -113,12 +112,11 @@ Kit::inspection(float delta)
 	{
 		if (
 			abs(it->second->view()->body()->getVelocity().y) < REST_SPEAD_DELTA &&
-			it->second->intersect(Master::instance().metric().over())
+			it->second->intersect(Master::instance().get<Components::Metric>("metric").over())
 		)
 		{
-			Helpers::Result result(_result, _time);
-			Master::instance().statistic().update(result);
-			Master::instance().change("Over");
+			Master::instance().get<Components::Statistic>("statistic").update(_result, _time);
+			Master::instance().scene("Over");
 			return;
 		}
 		++it;

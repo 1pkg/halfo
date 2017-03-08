@@ -10,7 +10,7 @@ Act::instantiate()
 	Act * act = Act::create();
 	scene->addChild(act);
 	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
-	scene->getPhysicsWorld()->setGravity(Master::instance().metric().absolute(act->GRAVITY));
+	scene->getPhysicsWorld()->setGravity(Master::instance().get<Components::Metric>("metric").absolute(act->GRAVITY));
     return scene;
 }
 

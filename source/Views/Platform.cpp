@@ -5,7 +5,7 @@ namespace Views
 
 Platform::Platform()
 {
-	const std::array<cocos2d::Vec2, 2> & platform = Master::instance().metric().platform();
+	const std::array<cocos2d::Vec2, 2> & platform = Master::instance().get<Components::Metric>("metric").platform();
 	_draw = cocos2d::DrawNode::create();
 	_draw->drawLine(platform[0], platform[1], cocos2d::Color4F::BLACK);
 	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(platform[0], platform[1]);

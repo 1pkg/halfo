@@ -2,18 +2,16 @@
 #define MASTER
 
 #include "Application/Wrapper.hpp"
-#include "Application/Component.hpp"
+#include "Components/Metric.hpp"
+#include "Components/Setting.hpp"
+#include "Components/Statistic.hpp"
+#include "Components/Storage.hpp"
+#include "Components/Resource.hpp"
+#include "Components/Crypto.hpp"
+#include "Components/Texture.hpp"
 #include <cocos2d.h>
 #include <unordered_map>
 
-namespace Components
-{
-	class Metric;
-	class Setting;
-	class Storage;
-	class Statistic;
-	class Resource;
-}
 class Master : public Application::Wrapper, public cocos2d::Application
 {
 public:
@@ -24,20 +22,23 @@ public:
 	void initGLContextAttrs() override;
 
 	static Master & instance();
-
+	template<typename TComponent>
+	TComponent & get(const std::string name);
 	cocos2d::Scheduler * sheduler() const;
-	const Components::Metric & metric() const;
-	Components::Setting & setting() const;
-	Components::Statistic & statistic() const;
-	Components::Resource & resource() const;
-
-	void change(const std::string & scene);
-	void end();
+	void scene(const std::string & scene);
 
 private:
 
 	void components();
 	std::unordered_map<std::string, std::unique_ptr<::Application::Component>> _components;
 };
+
+template<typename TComponent>
+TComponent &
+Master::get(const std::string name)
+{
+	static TComponent & component = *dynamic_cast<TComponent *>(_components.at(name).get());
+	return component;
+}
 
 #endif

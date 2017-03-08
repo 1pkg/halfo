@@ -10,8 +10,8 @@ const std::string Setting::DISABLE_ADDS = "disable-adds";
 void
 Setting::initialize()
 {
-	_settings.insert(std::pair<std::string, std::string>(FIGURE_SKIN, "figure-skin-deault"));
-	_settings.insert(std::pair<std::string, std::string>(HAMMER_SKIN, "hammer-skin-deault"));
+	_settings.insert(std::pair<std::string, std::string>(FIGURE_SKIN, "figure-skin-deault.png"));
+	_settings.insert(std::pair<std::string, std::string>(HAMMER_SKIN, "hammer-skin-deault.png"));
 	_settings.insert(std::pair<std::string, std::string>(DISABLE_ADDS, "disable"));
 }
 

@@ -10,7 +10,10 @@
 #include "Components/Metric.hpp"
 #include "Components/Setting.hpp"
 #include "Components/Statistic.hpp"
+#include "Components/Storage.hpp"
 #include "Components/Resource.hpp"
+#include "Components/Crypto.hpp"
+#include "Components/Texture.hpp"
 
 #include "Master.hpp"
 #include <cocos2d.h>
@@ -23,7 +26,7 @@
 #include <unordered_set>
 
 #define DEFAULT_PHYSICS_MASK 0xFFFFFFFF
-#define RESOURCE_DEBUG
+//#define RESOURCE_DEBUG
 
 template <typename T>
 std::string to_string(T value)

@@ -30,14 +30,14 @@ Over::Over()
 	_label(cocos2d::Label::create())
 {
 	_restart->setTitleText("Act");
-	_restart->setPosition(Master::instance().metric().size() / 2.0f + cocos2d::Size(0.0f, Master::instance().metric().size().height / 8.0f));
+	_restart->setPosition(Master::instance().get<Components::Metric>("metric").size() / 2.0f + cocos2d::Size(0.0f, Master::instance().get<Components::Metric>("metric").size().height / 8.0f));
 	_restart->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 		{
 			switch (type)
 			{
 				case cocos2d::ui::Widget::TouchEventType::BEGAN:
-					Master::instance().change("Act");
+					Master::instance().scene("Act");
 					break;
 
 				default: break;
@@ -46,15 +46,15 @@ Over::Over()
 	);
 	addChild(_restart);
 
-	_exit->setTitleText("End");
-	_exit->setPosition(Master::instance().metric().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().metric().size().height / 8.0f));
+	_exit->setTitleText("Exit");
+	_exit->setPosition(Master::instance().get<Components::Metric>("metric").size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>("metric").size().height / 8.0f));
 	_exit->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 		{
 			switch (type)
 			{
 				case cocos2d::ui::Widget::TouchEventType::BEGAN:
-					Master::instance().end();
+					Master::instance().scene("Exit");
 					break;
 
 				default: break;
@@ -64,7 +64,7 @@ Over::Over()
 	addChild(_exit);
 
 	_label->setString("Model:" + cocos2d::getDeviceModel() + "|Version:" + cocos2d::getDeviceVersion());
-	_label->setPosition(Master::instance().metric().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().metric().size().height / 4.0f));
+	_label->setPosition(Master::instance().get<Components::Metric>("metric").size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>("metric").size().height / 4.0f));
 	addChild(_label);
 }
 

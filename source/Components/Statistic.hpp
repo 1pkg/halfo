@@ -2,7 +2,6 @@
 #define COMPONENTS_STATISTIC
 
 #include "Application/Component.hpp"
-#include "Helpers/Result.hpp"
 #include <array>
 #include <unordered_map>
 
@@ -19,14 +18,14 @@ public:
 
 	static const std::size_t TABLE_SIZE = 10;
 	void initialize() override;
-	std::array<Helpers::Result, TABLE_SIZE> table() const;
+	std::array<std::tuple<unsigned int, unsigned int, unsigned int>, TABLE_SIZE> table() const;
 	unsigned int total(std::string key) const;
-	void update(const Helpers::Result & result);
+	void update(unsigned int slice, unsigned int time);
 
 private:
 
 	friend class Storage;
-	std::array<Helpers::Result, TABLE_SIZE> _table;
+	std::array<std::tuple<unsigned int, unsigned int, unsigned int>, TABLE_SIZE> _table;
 	std::unordered_map<std::string, unsigned int> _totals;
 };
 
