@@ -7,8 +7,8 @@ Figure::Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, boo
 {
 	cocos2d::Size spawn = Master::instance().get<Components::Metric>("metric").spawn();
 	const std::string & skin = Master::instance().get<Components::Setting>("setting").get(Components::Setting::FIGURE_SKIN);
-	const cocos2d::Data & data = Master::instance().get<Components::Resource>("resource").get(skin);
-	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>("texture").get(skin, data);
+	const cocos2d::Data & data = Master::instance().get<Components::Resource>("resource").get(skin, Components::Resource::Type::TEXTURE);
+	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>("texture").get(data, skin);
 	_sprite = cocos2d::Sprite::createWithTexture(texture);
 	_sprite->setContentSize(spawn);
 	_sprite->setRotation(angle);

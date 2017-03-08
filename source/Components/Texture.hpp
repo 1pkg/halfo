@@ -11,8 +11,7 @@ class Texture : public Application::Component
 {
 public:
 
-	void initialize() override;
-	cocos2d::Texture2D * get(const std::string & alias, const cocos2d::Data & data);
+	cocos2d::Texture2D * get(const cocos2d::Data & data, const std::string & alias);
 
 private:
 

@@ -11,8 +11,7 @@ Master::applicationDidFinishLaunching()
     cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
 	cocos2d::FileUtils::getInstance()->addSearchPath("assets");
 
-	components();
-	get<Components::Storage>("storage").pull();
+	initialize();
 	scene("Act");
     return true;
 }
@@ -67,20 +66,26 @@ Master::scene(const std::string & scene)
 
 	if (scene == "Exit")
 	{
-		get<Components::Storage>("storage").flush();
+		finitialize();
 		cocos2d::Director::getInstance()->end();
 		return;
 	}
 }
 
 void
-Master::components()
+Master::initialize()
 {
 	std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>> components;
 	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
 			"metric",
 			std::move(std::unique_ptr<Components::Metric>(new Components::Metric(cocos2d::Director::getInstance()->getVisibleSize(), cocos2d::Director::getInstance()->getVisibleOrigin())))
+		)
+	);
+	components.push_back(
+		std::pair<std::string, std::unique_ptr<::Application::Component>>(
+			"crypto",
+			std::move(std::unique_ptr<Components::Crypto>(new Components::Crypto()))
 		)
 	);
 	components.push_back(
@@ -109,14 +114,20 @@ Master::components()
 	);
 	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"crypto",
-			std::move(std::unique_ptr<Components::Crypto>(new Components::Crypto()))
+			"texture",
+			std::move(std::unique_ptr<Components::Texture>(new Components::Texture()))
 		)
 	);
 	components.push_back(
 		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"texture",
-			std::move(std::unique_ptr<Components::Texture>(new Components::Texture()))
+			"body",
+			std::move(std::unique_ptr<Components::Body>(new Components::Body()))
+		)
+	);
+	components.push_back(
+		std::pair<std::string, std::unique_ptr<::Application::Component>>(
+			"audio",
+			std::move(std::unique_ptr<Components::Audio>(new Components::Audio()))
 		)
 	);
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
@@ -124,4 +135,11 @@ Master::components()
 		it->second->initialize();
 		_components.insert(std::pair<std::string, std::unique_ptr<::Application::Component>>(it->first, std::move(it->second)));
 	}
+}
+
+void
+Master::finitialize()
+{
+	for (std::unordered_map<std::string, std::unique_ptr<::Application::Component>>::iterator it = _components.begin(); it != _components.end(); ++it)
+		it->second->finitialize();
 }

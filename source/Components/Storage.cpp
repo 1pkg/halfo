@@ -10,33 +10,28 @@ namespace Components
 void
 Storage::initialize()
 {
-	_path = cocos2d::FileUtils::getInstance()->getWritablePath() + "st.hf";
+	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "st.ev";
+	if (!cocos2d::FileUtils::getInstance()->isFileExist(path))
+		return;
+
+	cocos2d::Data data = cocos2d::FileUtils::getInstance()->getDataFromFile(path);
+	data = Master::instance().get<Crypto>("crypto").decrypt(data, 1);
+	unserialize(data);
 }
 
 void
-Storage::flush() const
+Storage::finitialize()
 {
-	if (cocos2d::FileUtils::getInstance()->isFileExist(_path))
-		cocos2d::FileUtils::getInstance()->removeFile(_path);
+	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "st.ev";
+	if (cocos2d::FileUtils::getInstance()->isFileExist(path))
+		cocos2d::FileUtils::getInstance()->removeFile(path);
 
-	cocos2d::Data buffer = serialize();
-	if (!buffer.isNull())
+	cocos2d::Data data = serialize();
+	if (!data.isNull())
 	{
-		buffer = Master::instance().get<Crypto>("crypto").encrypt(buffer);
-		cocos2d::FileUtils::getInstance()->writeDataToFile(buffer, _path);
+		data = Master::instance().get<Crypto>("crypto").encrypt(data, 1);
+		cocos2d::FileUtils::getInstance()->writeDataToFile(data, path);
 	}
-}
-
-void
-Storage::pull()
-{
-	if (!cocos2d::FileUtils::getInstance()->isFileExist(_path))
-		return;
-
-	cocos2d::Data buffer = cocos2d::FileUtils::getInstance()->getDataFromFile(_path);
-	buffer = Master::instance().get<Crypto>("crypto").decrypt(buffer);
-	if (!unserialize(buffer))
-		return;
 }
 
 cocos2d::Data
@@ -86,11 +81,11 @@ Storage::serialize() const
 }
 
 bool
-Storage::unserialize(const cocos2d::Data & buffer)
+Storage::unserialize(const cocos2d::Data & data)
 {
 	using namespace rapidjson;
 	Document document;
-	document.Parse<kParseNoFlags>((char *)buffer.getBytes(), buffer.getSize());
+	document.Parse<kParseNoFlags>((char *)data.getBytes(), data.getSize());
 	if (document.HasParseError())
 		return false;
 	if (cocos2d::getDeviceIdentifier() != document["identifier"].GetString())

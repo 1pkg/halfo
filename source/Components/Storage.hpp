@@ -12,14 +12,12 @@ class Storage : public Application::Component
 public:
 
 	void initialize() override;
-	void flush() const;
-	void pull();
+	void finitialize() override;
 
 private:
 
 	cocos2d::Data serialize() const;
-	bool unserialize(const cocos2d::Data & buffer);
-	std::string _path;
+	bool unserialize(const cocos2d::Data & data);
 };
 
 }

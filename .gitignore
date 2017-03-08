@@ -117,7 +117,8 @@ tests/cpp-tests/proj.tizen/res/
 tests/lua-empty-test/project/proj.tizen/res/
 tests/lua-tests/project/proj.tizen/res/
 
-# Ignore cocos projects templates
+# Ignore cocos projects templates and utils
+utils/
 proj.android-studio/
 proj.android/
 proj.ios_mac/

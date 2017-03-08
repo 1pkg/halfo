@@ -7,12 +7,13 @@ Hammer::Hammer()
 {
 	cocos2d::Rect hammer = Master::instance().get<Components::Metric>("metric").hammer();
 	const std::string & skin = Master::instance().get<Components::Setting>("setting").get(Components::Setting::HAMMER_SKIN);
-	const cocos2d::Data & data = Master::instance().get<Components::Resource>("resource").get(skin);
-	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>("texture").get(skin, data);
+	const cocos2d::Data & textureData = Master::instance().get<Components::Resource>("resource").get(skin, Components::Resource::Type::TEXTURE);
+	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>("texture").get(textureData, skin);
 	_sprite = cocos2d::Sprite::createWithTexture(texture);
 	_sprite->setContentSize(hammer.size);
 	_sprite->setPosition(hammer.origin);
-	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createBox(hammer.size);
+	const cocos2d::Data & bodyData = Master::instance().get<Components::Resource>("resource").get(skin, Components::Resource::Type::BODY);
+	cocos2d::PhysicsBody * body = Master::instance().get<Components::Body>("body").get(bodyData, _sprite);
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
 	_sprite->setPhysicsBody(body);

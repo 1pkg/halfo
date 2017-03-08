@@ -1,7 +1,6 @@
 #ifndef MASTER
 #define MASTER
 
-#include "Application/Wrapper.hpp"
 #include "Components/Metric.hpp"
 #include "Components/Setting.hpp"
 #include "Components/Statistic.hpp"
@@ -9,8 +8,9 @@
 #include "Components/Resource.hpp"
 #include "Components/Crypto.hpp"
 #include "Components/Texture.hpp"
+#include "Components/Body.hpp"
+#include "Components/Audio.hpp"
 #include <cocos2d.h>
-#include <unordered_map>
 
 class Master : public Application::Wrapper, public cocos2d::Application
 {
@@ -29,7 +29,8 @@ public:
 
 private:
 
-	void components();
+	void initialize();
+	void finitialize();
 	std::unordered_map<std::string, std::unique_ptr<::Application::Component>> _components;
 };
 

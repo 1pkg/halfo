@@ -11,9 +11,8 @@ class Crypto : public Application::Component
 {
 public:
 
-	void initialize() override;
-	cocos2d::Data encrypt(const cocos2d::Data & data);
-	cocos2d::Data decrypt(const cocos2d::Data & data);
+	cocos2d::Data encrypt(const cocos2d::Data & data, unsigned int blockSize);
+	cocos2d::Data decrypt(const cocos2d::Data & data, unsigned int blockSize);
 
 private:
 

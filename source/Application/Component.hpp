@@ -10,7 +10,8 @@ class Component : public Wrapper
 {
 public:
 
-	virtual void initialize() = 0;
+	virtual void initialize() {};
+	virtual void finitialize() {};
 };
 
 }

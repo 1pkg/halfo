@@ -3,13 +3,8 @@
 namespace Components
 {
 
-void
-Texture::initialize()
-{
-}
-
 cocos2d::Texture2D *
-Texture::get(const std::string & alias, const cocos2d::Data & data)
+Texture::get(const cocos2d::Data & data, const std::string & alias)
 {
 	cocos2d::Texture2D * texture = cocos2d::Director::getInstance()->getTextureCache()->getTextureForKey(alias);
 	if (texture)
