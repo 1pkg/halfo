@@ -1,5 +1,5 @@
 #include "Over.hpp"
-#include "Master.hpp"
+#include "include.hpp"
 
 namespace Scenes
 {
@@ -26,11 +26,11 @@ Over::create()
 
 Over::Over()
 	: _restart(cocos2d::ui::Button::create()),
-	_exit(cocos2d::ui::Button::create())
+	_exit(cocos2d::ui::Button::create()),
+	_label(cocos2d::Label::create())
 {
 	_restart->setTitleText("Act");
-	_restart->setPosition(cocos2d::Vec2(400.0f, 600.0f));
-	addChild(_restart);
+	_restart->setPosition(Master::instance().metric().size() / 2.0f + cocos2d::Size(0.0f, Master::instance().metric().size().height / 8.0f));
 	_restart->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 		{
@@ -44,9 +44,10 @@ Over::Over()
 			}
 		}
 	);
+	addChild(_restart);
 
 	_exit->setTitleText("End");
-	_exit->setPosition(cocos2d::Vec2(400.0f, 400.0f));
+	_exit->setPosition(Master::instance().metric().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().metric().size().height / 8.0f));
 	_exit->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 		{
@@ -61,6 +62,10 @@ Over::Over()
 		}
 	);
 	addChild(_exit);
+
+	_label->setString("Model:" + cocos2d::getDeviceModel() + "|Version:" + cocos2d::getDeviceVersion());
+	_label->setPosition(Master::instance().metric().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().metric().size().height / 4.0f));
+	addChild(_label);
 }
 
 Over::~Over()

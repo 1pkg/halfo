@@ -48,7 +48,7 @@ Storage::serialize() const
 	using namespace rapidjson;
     Document document(kObjectType);
 	Document::AllocatorType & allocator = document.GetAllocator();
-	document.AddMember("identifier", Value(/*cocos2d::identifier()*/ 0), allocator);
+	document.AddMember("identifier", Value(cocos2d::getDeviceIdentifier().data(), allocator), allocator);
 
 	/*
 		Serialize settings.
@@ -95,7 +95,7 @@ Storage::unserialize(const cocos2d::Data & buffer)
 	document.Parse<kParseNoFlags>((char *)buffer.getBytes(), buffer.getSize());
 	if (document.HasParseError())
 		return false;
-	if (/*cocos2d::identifier()*/ 0 != document["identifier"].GetInt())
+	if (cocos2d::getDeviceIdentifier() != document["identifier"].GetString())
 		return false;
 
 	/*

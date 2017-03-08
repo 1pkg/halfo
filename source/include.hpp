@@ -25,4 +25,12 @@
 #define DEFAULT_PHYSICS_MASK 0xFFFFFFFF
 #define RESOURCE_DEBUG
 
+template <typename T>
+std::string to_string(T value)
+{
+	std::ostringstream stream;
+	stream << value ;
+	return stream.str() ;
+}
+
 #endif

@@ -1,3 +1,4 @@
+#include "include.hpp"
 #include "Result.hpp"
 
 namespace Helpers
@@ -49,7 +50,7 @@ Result::toString() const
 	if (empty())
 		return "";
 
-	return "" + std::to_string(_total) + "" + std::to_string(_slice) + "" + std::to_string(_time);
+	return "" + to_string(_total) + "" + to_string(_slice) + "" + to_string(_time);
 }
 
 bool

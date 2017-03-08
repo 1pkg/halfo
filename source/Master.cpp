@@ -14,6 +14,7 @@ Master::applicationDidFinishLaunching()
 		cocos2d::Director::getInstance()->setOpenGLView(cocos2d::GLViewImpl::create("halfo"));
 	cocos2d::Director::getInstance()->setDisplayStats(true);
     cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
+	cocos2d::FileUtils::getInstance()->addSearchPath("assets");
 
 	components();
 	change("Act");
@@ -35,7 +36,8 @@ Master::applicationWillEnterForeground()
 void
 Master::initGLContextAttrs()
 {
-    cocos2d::GLView::setGLContextAttrs(GLContextAttrs{8, 8, 8, 8, 24, 8});
+	GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
+    cocos2d::GLView::setGLContextAttrs(glContextAttrs);
 }
 
 Master &

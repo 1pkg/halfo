@@ -10,7 +10,7 @@ namespace Cleaner
 
 Kit::Kit(Scenes::Act * act)
 	: _combo(0), _result(0), _time(0),
-	_score(cocos2d::Label::createWithTTF(std::to_string(_result), "font.ttf", 32.0f)),
+	_score(cocos2d::Label::createWithTTF(to_string(_result), "font.ttf", 32.0f)),
 	_platform(new Objects::Platform()),
 	_over(new Objects::Over()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
@@ -52,7 +52,7 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 {
 	_pool.insert(std::pair<cocos2d::PhysicsBody *,std::unique_ptr<Objects::Figure>>(figure->view()->body(), std::move(figure)));
 	_result += scale();
-	_score->setString(std::to_string(_result));
+	_score->setString(to_string(_result));
 }
 
 Objects::Figure *

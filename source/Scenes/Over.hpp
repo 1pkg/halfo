@@ -21,6 +21,7 @@ public:
 private:
 
 	cocos2d::ui::Button * _restart, * _exit;
+	cocos2d::Label * _label;
 };
 
 }
