@@ -9,7 +9,6 @@ Master::applicationDidFinishLaunching()
 		cocos2d::Director::getInstance()->setOpenGLView(cocos2d::GLViewImpl::create("halfo"));
 	cocos2d::Director::getInstance()->setDisplayStats(true);
     cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
-	cocos2d::FileUtils::getInstance()->addSearchPath("assets");
 
 	initialize();
 	scene("Act");
@@ -75,61 +74,20 @@ Master::scene(const std::string & scene)
 void
 Master::initialize()
 {
+	using namespace Components;
 	std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>> components;
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"metric",
-			std::move(std::unique_ptr<Components::Metric>(new Components::Metric(cocos2d::Director::getInstance()->getVisibleSize(), cocos2d::Director::getInstance()->getVisibleOrigin())))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"crypto",
-			std::move(std::unique_ptr<Components::Crypto>(new Components::Crypto()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"setting",
-			std::move(std::unique_ptr<Components::Setting>(new Components::Setting()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"statistic",
-			std::move(std::unique_ptr<Components::Statistic>(new Components::Statistic()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"resource",
-			std::move(std::unique_ptr<Components::Resource>(new Components::Resource()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"storage",
-			std::move(std::unique_ptr<Components::Storage>(new Components::Storage()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"texture",
-			std::move(std::unique_ptr<Components::Texture>(new Components::Texture()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"body",
-			std::move(std::unique_ptr<Components::Body>(new Components::Body()))
-		)
-	);
-	components.push_back(
-		std::pair<std::string, std::unique_ptr<::Application::Component>>(
-			"audio",
-			std::move(std::unique_ptr<Components::Audio>(new Components::Audio()))
-		)
-	);
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Metric).name(), std::move(std::unique_ptr<Metric>(new Components::Metric(cocos2d::Director::getInstance()->getVisibleSize(), cocos2d::Director::getInstance()->getVisibleOrigin())))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(File).name(), std::move(std::unique_ptr<File>(new File()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Crypto).name(), std::move(std::unique_ptr<Crypto>(new Crypto()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Setting).name(), std::move(std::unique_ptr<Setting>(new Setting()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Statistic).name(), std::move(std::unique_ptr<Statistic>(new Statistic()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Storage).name(), std::move(std::unique_ptr<Storage>(new Storage()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Deploy).name(), std::move(std::unique_ptr<Deploy>(new Deploy()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Resource).name(),std::move(std::unique_ptr<Resource>(new Resource()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Texture).name(), std::move(std::unique_ptr<Texture>(new Texture()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Body).name(), std::move(std::unique_ptr<Body>(new Body()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Audio).name(), std::move(std::unique_ptr<Audio>(new Audio()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Font).name(), std::move(std::unique_ptr<Font>(new Font()))));
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();

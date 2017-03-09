@@ -26,11 +26,11 @@ Over::create()
 
 Over::Over()
 	: _restart(cocos2d::ui::Button::create()),
-	_exit(cocos2d::ui::Button::create()),
-	_label(cocos2d::Label::create())
+	_exit(cocos2d::ui::Button::create())
 {
 	_restart->setTitleText("Act");
-	_restart->setPosition(Master::instance().get<Components::Metric>("metric").size() / 2.0f + cocos2d::Size(0.0f, Master::instance().get<Components::Metric>("metric").size().height / 8.0f));
+	_restart->setContentSize(Master::instance().get<Components::Metric>().size() / 32.0f);
+	_restart->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f + cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 4.0f));
 	_restart->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 		{
@@ -47,7 +47,8 @@ Over::Over()
 	addChild(_restart);
 
 	_exit->setTitleText("Exit");
-	_exit->setPosition(Master::instance().get<Components::Metric>("metric").size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>("metric").size().height / 8.0f));
+	_exit->setContentSize(Master::instance().get<Components::Metric>().size() / 32.0f);
+	_exit->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f);
 	_exit->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 		{
@@ -63,15 +64,24 @@ Over::Over()
 	);
 	addChild(_exit);
 
+	_label = cocos2d::Label::createWithTTF("", Master::instance().get<Components::Font>().get(), 32.0f);
 	_label->setString("Model:" + cocos2d::getDeviceModel() + "|Version:" + cocos2d::getDeviceVersion());
-	_label->setPosition(Master::instance().get<Components::Metric>("metric").size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>("metric").size().height / 4.0f));
+	_label->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 6.0f));
 	addChild(_label);
+
+	_score = cocos2d::Label::createWithTTF("", Master::instance().get<Components::Font>().get(), 32.0f);
+	std::tuple<unsigned int, unsigned int, unsigned int> row = Master::instance().get<Components::Statistic>().table()[0];
+	_score->setString("Slice:" + std::to_string(std::get<0>(row)) + "|Time:" + std::to_string(std::get<1>(row)) + "|Totoal:" + std::to_string(std::get<2>(row)));
+	_score->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 4.0f));
+	addChild(_score);
 }
 
 Over::~Over()
 {
 	_restart->removeFromParentAndCleanup(true);
 	_exit->removeFromParentAndCleanup(true);
+	_label->removeFromParentAndCleanup(true);
+	_score->removeFromParentAndCleanup(true);
 }
 
 }

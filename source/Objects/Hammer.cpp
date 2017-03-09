@@ -17,15 +17,15 @@ Hammer::view() const
 void
 Hammer::upward()
 {
-	_view->run(cocos2d::MoveBy::create(STROKE_TIME, cocos2d::Vec2(0.0f, Master::instance().get<Components::Metric>("metric").hammer().size.height)));
+	_view->run(cocos2d::MoveBy::create(STROKE_TIME, cocos2d::Vec2(0.0f, Master::instance().get<Components::Metric>().hammer().size.height)));
 }
 
 void
 Hammer::downward()
 {
-	const std::string & skin = Master::instance().get<Components::Setting>("setting").get(Components::Setting::HAMMER_SKIN);
-	Master::instance().get<Components::Audio>("audio").play(skin);
-	_view->run(cocos2d::MoveBy::create(STROKE_TIME, cocos2d::Vec2(0.0f, -Master::instance().get<Components::Metric>("metric").hammer().size.height)));
+	const std::string & skin = Master::instance().get<Components::Setting>().get(Components::Setting::HAMMER_SKIN);
+	Master::instance().get<Components::Audio>().play(skin);
+	_view->run(cocos2d::MoveBy::create(STROKE_TIME, cocos2d::Vec2(0.0f, -Master::instance().get<Components::Metric>().hammer().size.height)));
 }
 
 }

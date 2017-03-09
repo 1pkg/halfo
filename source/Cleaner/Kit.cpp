@@ -9,7 +9,6 @@ namespace Cleaner
 
 Kit::Kit(Scenes::Act * act)
 	: _combo(0), _result(0), _time(0),
-	_score(cocos2d::Label::createWithTTF(to_string(_result), "font.ttf", 32.0f)),
 	_platform(new Objects::Platform()),
 	_over(new Objects::Over()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
@@ -19,9 +18,9 @@ Kit::Kit(Scenes::Act * act)
 	/*
 		Initialize score label.
 	*/
-	_score->setPosition(Master::instance().get<Components::Metric>("metric").score());
+	_score = cocos2d::Label::createWithTTF(to_string(_result), Master::instance().get<Components::Font>().get(), 32.0f);
+	_score->setPosition(Master::instance().get<Components::Metric>().score());
 	_act->addChild(_score);
-
 
 	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
@@ -112,10 +111,10 @@ Kit::inspection(float delta)
 	{
 		if (
 			abs(it->second->view()->body()->getVelocity().y) < REST_SPEAD_DELTA &&
-			it->second->intersect(Master::instance().get<Components::Metric>("metric").over())
+			it->second->intersect(Master::instance().get<Components::Metric>().over())
 		)
 		{
-			Master::instance().get<Components::Statistic>("statistic").update(_result, _time);
+			Master::instance().get<Components::Statistic>().update(_result, _time);
 			Master::instance().scene("Over");
 			return;
 		}

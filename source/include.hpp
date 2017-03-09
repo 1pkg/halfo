@@ -8,13 +8,16 @@
 #include "Application/Component.hpp"
 
 #include "Components/Metric.hpp"
+#include "Components/File.hpp"
 #include "Components/Setting.hpp"
 #include "Components/Statistic.hpp"
 #include "Components/Storage.hpp"
+#include "Components/Deploy.hpp"
 #include "Components/Resource.hpp"
 #include "Components/Crypto.hpp"
 #include "Components/Texture.hpp"
 #include "Components/Body.hpp"
+#include "Components/Font.hpp"
 
 #include "Master.hpp"
 #include <cocos2d.h>

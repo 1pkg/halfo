@@ -17,13 +17,13 @@ Platform::view() const
 void
 Platform::upward()
 {
-	_view->run(cocos2d::MoveBy::create(EDGE_STEP_TIME, cocos2d::Vec2(0.0f, Master::instance().get<Components::Metric>("metric").absolute(EDGE_STEP))));
+	_view->run(cocos2d::MoveBy::create(EDGE_STEP_TIME, cocos2d::Vec2(0.0f, Master::instance().get<Components::Metric>().absolute(EDGE_STEP))));
 }
 
 void
 Platform::downward()
 {
-	_view->run(cocos2d::MoveBy::create(EDGE_STEP_TIME, cocos2d::Vec2(0.0f, -Master::instance().get<Components::Metric>("metric").absolute(EDGE_STEP))));
+	_view->run(cocos2d::MoveBy::create(EDGE_STEP_TIME, cocos2d::Vec2(0.0f, -Master::instance().get<Components::Metric>().absolute(EDGE_STEP))));
 }
 
 }

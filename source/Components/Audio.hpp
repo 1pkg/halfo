@@ -12,7 +12,6 @@ class Audio : public Application::Component
 public:
 
     void initialize() override;
-	void finitialize() override;
 	unsigned int play(const std::string & alias) const;
 	void stop(unsigned int identifier) const;
 	void pause(unsigned int identifier) const;
@@ -20,7 +19,6 @@ public:
 
 private:
 
-	std::string create(const cocos2d::Data & data) const;
 	std::unordered_map<std::string, std::string> _files;
 };
 

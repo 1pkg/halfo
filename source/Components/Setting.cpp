@@ -6,6 +6,7 @@ namespace Components
 const std::string Setting::FIGURE_SKIN = "figure-skin";
 const std::string Setting::HAMMER_SKIN = "hammer-skin";
 const std::string Setting::DISABLE_ADDS = "disable-adds";
+const std::string Setting::DEPLOY_DONE = "deploy-done";
 
 void
 Setting::initialize()
@@ -13,6 +14,7 @@ Setting::initialize()
 	_settings.insert(std::pair<std::string, std::string>(FIGURE_SKIN, "figure-skin-deault"));
 	_settings.insert(std::pair<std::string, std::string>(HAMMER_SKIN, "hammer-skin-deault"));
 	_settings.insert(std::pair<std::string, std::string>(DISABLE_ADDS, "disable"));
+	_settings.insert(std::pair<std::string, std::string>(DEPLOY_DONE, "false"));
 }
 
 const std::string &

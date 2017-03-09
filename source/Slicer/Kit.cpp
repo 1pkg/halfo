@@ -50,14 +50,14 @@ Kit::update(float dt)
 void
 Kit::slice() const
 {
-	std::vector<Objects::Figure *> figures = _act->transpoter()->find(Master::instance().get<Components::Metric>("metric").slice());
+	std::vector<Objects::Figure *> figures = _act->transpoter()->find(Master::instance().get<Components::Metric>().slice());
 	for (Objects::Figure * figure : figures)
 	{
-		std::pair<std::unique_ptr<Objects::Figure>, std::unique_ptr<Objects::Figure>> slice = figure->slice(Master::instance().get<Components::Metric>("metric").slice());
+		std::pair<std::unique_ptr<Objects::Figure>, std::unique_ptr<Objects::Figure>> slice = figure->slice(Master::instance().get<Components::Metric>().slice());
 		float
 			  firstArea = slice.first->area(), secondArea = slice.second->area(),
-			  deltaArea = Master::instance().get<Components::Metric>("metric").absolute(Master::instance().get<Components::Metric>("metric").absolute(DELTA_AREA)),
-			  limitArea = Master::instance().get<Components::Metric>("metric").absolute(Master::instance().get<Components::Metric>("metric").absolute(LIMIT_AREA));
+			  deltaArea = Master::instance().get<Components::Metric>().absolute(Master::instance().get<Components::Metric>().absolute(DELTA_AREA)),
+			  limitArea = Master::instance().get<Components::Metric>().absolute(Master::instance().get<Components::Metric>().absolute(LIMIT_AREA));
 		if (firstArea < limitArea || secondArea < limitArea)
 			continue;
 
@@ -66,14 +66,14 @@ Kit::slice() const
 		else
 			_act->cleaner()->reset();
 
-		cocos2d::Vec2 firstImpuls = cocos2d::Vec2(Master::instance().get<Components::Metric>("metric").reliative(-X_IMPULS), Master::instance().get<Components::Metric>("metric").reliative(-Y_IMPULS));
+		cocos2d::Vec2 firstImpuls = cocos2d::Vec2(Master::instance().get<Components::Metric>().reliative(-X_IMPULS), Master::instance().get<Components::Metric>().reliative(-Y_IMPULS));
 		slice.first->view()->attach(_act);
 		slice.first->view()->setPosition(figure->view()->getPosition());
 		slice.first->view()->body()->applyImpulse(firstImpuls);
 		_act->cleaner()->attach(std::move(slice.first));
 		slice.first.release();
 
-		cocos2d::Vec2 secondImpuls = cocos2d::Vec2(Master::instance().get<Components::Metric>("metric").reliative(X_IMPULS), Master::instance().get<Components::Metric>("metric").reliative(-Y_IMPULS));
+		cocos2d::Vec2 secondImpuls = cocos2d::Vec2(Master::instance().get<Components::Metric>().reliative(X_IMPULS), Master::instance().get<Components::Metric>().reliative(-Y_IMPULS));
 		slice.second->view()->attach(_act);
 		slice.second->view()->setPosition(figure->view()->getPosition());
 		slice.second->view()->body()->applyImpulse(secondImpuls);

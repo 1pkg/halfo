@@ -9,19 +9,15 @@ void
 Resource::initialize()
 {
 #ifdef RESOURCE_DEBUG
-	std::string path = cocos2d::FileUtils::getInstance()->getWritablePath() + "rc.ev";
-	if (!cocos2d::FileUtils::getInstance()->isFileExist(path))
-		return;
-
-	cocos2d::Data data = cocos2d::FileUtils::getInstance()->getDataFromFile(path);
-	data = Master::instance().get<Crypto>("crypto").decrypt(data, 1);
+	cocos2d::Data data = Master::instance().get<File>().read("rc.ev");
+	data = Master::instance().get<Crypto>().decrypt(data, 1);
 	std::vector<std::tuple<std::string, Resource::Type, std::string, std::string>> resources = unserialize(data);
 	for (const std::tuple<std::string, Resource::Type, std::string, std::string> & resource : resources)
 	{
 		std::pair<std::string, Type> alias(std::get<0>(resource), std::get<1>(resource));
 		cocos2d::Data & data = fetch(std::get<2>(resource), std::get<1>(resource));
-		if (hash(data) == std::get<3>(resource))
-			_resources.insert(std::pair<std::pair<std::string, Type>, cocos2d::Data>(alias, data));
+		//if (hash(data) == std::get<3>(resource))
+		_resources.insert(std::pair<std::pair<std::string, Type>, cocos2d::Data>(alias, data));
 	}
 #else
 	std::vector<std::pair<std::string, Type>> resources{
@@ -45,8 +41,8 @@ cocos2d::Data
 Resource::fetch(const std::string & resource, Type type)
 {
 #ifdef RESOURCE_DEBUG
-	cocos2d::Data data = cocos2d::FileUtils::getInstance()->getDataFromFile(resource);
-	return Master::instance().get<Components::Crypto>("crypto").decrypt(data, 0x10);
+	cocos2d::Data data = Master::instance().get<File>().read(resource);
+	return Master::instance().get<Components::Crypto>().decrypt(data, 0x10);
 #else
 	std::string alias = resource;
 	switch (type)
@@ -63,10 +59,14 @@ Resource::fetch(const std::string & resource, Type type)
 			alias += ".wav";
 			break;
 
+		case Components::Resource::Type::FONT:
+			alias += ".ttf";
+			break;
+
 		default:
 			break;
 	}
-	return cocos2d::FileUtils::getInstance()->getDataFromFile(alias);
+	return Master::instance().get<File>().read(alias);
 #endif
 }
 
@@ -82,7 +82,7 @@ Resource::unserialize(const cocos2d::Data & data)
 
 	for (Value::ConstValueIterator it = document["resources"].Begin(); it != document["resources"].End(); ++it)
 	{
-		std::tuple<std::string, Type, std::string, std::string> resource((*it)["resource"].GetString(), (Type)(*it)["type"].GetUint(), (*it)["mapped"].GetString(), (*it)["hash"].GetString());
+		std::tuple<std::string, Type, std::string, std::string> resource((*it)["origin"].GetString(), (Type)(*it)["type"].GetUint(), (*it)["resource"].GetString(), (*it)["hash"].GetString());
 		resources.push_back(resource);
 	}
 	return resources;

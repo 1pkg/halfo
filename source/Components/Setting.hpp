@@ -14,6 +14,7 @@ public:
 	static const std::string FIGURE_SKIN;
 	static const std::string HAMMER_SKIN;
 	static const std::string DISABLE_ADDS;
+	static const std::string DEPLOY_DONE;
 
 	void initialize() override;
 	const std::string & get(const std::string & setting) const;
