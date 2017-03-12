@@ -4,60 +4,87 @@ namespace Components
 {
 
 void
-File::initialize()
-{
-	cocos2d::FileUtils::getInstance()->setSearchPaths(std::vector<std::string>{
-		cocos2d::FileUtils::getInstance()->getWritablePath(),
-		"assets"
-	});
-}
-
-void
 File::finitialize()
 {
 	for (const std::string & file : _files)
 		remove(file);
 }
 
-cocos2d::Data
-File::read(const std::string & from) const
+std::string
+File::root() const
 {
-	return cocos2d::FileUtils::getInstance()->getDataFromFile(from);
+	return cocos2d::FileUtils::getInstance()->getSearchPaths()[0];
 }
 
 std::string
-File::write(const cocos2d::Data & data, const std::string & to)
+File::assets() const
 {
-	std::string directory = cocos2d::FileUtils::getInstance()->getWritablePath();
-	if (to.length() == 0)
-	{
-		std::string path = directory + "/" + unique(0x10) + ".ev";
-		cocos2d::FileUtils::getInstance()->writeDataToFile(data, path);
-		_files.push_back(path);
-		return path;
-	}
-	std::string path = directory + "/" + to;
+	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/assets";
+}
+
+std::string
+File::storage() const
+{
+	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/storage";
+}
+
+std::string
+File::cache() const
+{
+	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/cache";
+}
+
+cocos2d::Data
+File::read(const std::string & path) const
+{
+	return cocos2d::FileUtils::getInstance()->getDataFromFile(path);
+}
+
+void
+File::write(const cocos2d::Data & data, const std::string & path) const
+{
 	cocos2d::FileUtils::getInstance()->writeDataToFile(data, path);
+}
+
+std::string
+File::cache(const cocos2d::Data & data)
+{
+	std::string path = cache() + "/" + unique(0x10) + ".ev";
+	cocos2d::FileUtils::getInstance()->writeDataToFile(data, path);
+	_files.push_back(path);
 	return path;
 }
 
+void
+File::directory(const std::string & path) const
+{
+	cocos2d::FileUtils::getInstance()->createDirectory(path);
+}
+
 bool
-File::exist(const std::string & from) const
+File::exist(const std::string & path) const
 {
-	return cocos2d::FileUtils::getInstance()->isFileExist(from);
+	return cocos2d::FileUtils::getInstance()->isFileExist(path);
 }
 
 void
-File::remove(const std::string & from)
+File::remove(const std::string & path) const
 {
-	cocos2d::FileUtils::getInstance()->removeFile(from);
+	cocos2d::FileUtils::getInstance()->removeFile(path);
 }
 
 void
-File::move(const std::string & from, const std::string & to)
+File::copy(const std::string & from, const std::string & to) const
 {
 	cocos2d::Data data = read(from);
 	write(data, to);
+}
+
+void
+File::move(const std::string & from, const std::string & to) const
+{
+	copy(from, to);
+	remove(from);
 }
 
 std::string

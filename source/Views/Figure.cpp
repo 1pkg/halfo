@@ -6,9 +6,8 @@ namespace Views
 Figure::Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, bool hollow)
 {
 	cocos2d::Size spawn = Master::instance().get<Components::Metric>().spawn();
-	const std::string & skin = Master::instance().get<Components::Setting>().get(Components::Setting::FIGURE_SKIN);
-	const cocos2d::Data & data = Master::instance().get<Components::Resource>().get(skin, Components::Resource::Type::TEXTURE);
-	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>().get(data, skin);
+	const std::string & resource = Master::instance().get<Components::Setting>().get(Components::Setting::PARAMETER_FIGURE_RESOURCE);
+	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>().get(Master::instance().get<Components::Resource>().get(resource, Components::Resource::Type::TEXTURE), resource);
 	_sprite = cocos2d::Sprite::createWithTexture(texture);
 	_sprite->setContentSize(spawn);
 	_sprite->setRotation(angle);

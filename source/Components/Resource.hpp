@@ -25,7 +25,7 @@ private:
 	{
 		std::size_t operator() (const std::pair<std::string, Type> & pair) const
 		{
-			return std::hash<std::string>{}(pair.first) ^ std::hash<Type>{}(pair.second);
+			return std::hash<std::string>{}(pair.first) ^ std::hash<unsigned int>{}((unsigned int)pair.second);
 		}
 	};
 	cocos2d::Data fetch(const std::string & resource, Type type);

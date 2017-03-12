@@ -11,16 +11,16 @@ Audio::initialize()
 	for (std::pair<std::pair<std::string, Resource::Type>, cocos2d::Data> resource : Master::instance().get<Components::Resource>()._resources)
 		if (resource.first.second == Resource::Type::AUDIO)
 		{
-			std::string audio = Master::instance().get<File>().write(resource.second);
-			CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(audio.data());
-			_files.insert(std::pair<std::string, std::string>(resource.first.first, audio));
+			std::string cache = Master::instance().get<File>().cache(resource.second);
+			CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(cache.data());
+			_cache.insert(std::pair<std::string, std::string>(resource.first.first, cache));
 		}
 }
 
 unsigned int
 Audio::play(const std::string & alias) const
 {
-	return CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(_files.at(alias).data());
+	return CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(_cache.at(alias).data());
 }
 
 void

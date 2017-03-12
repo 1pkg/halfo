@@ -23,8 +23,8 @@ Hammer::upward()
 void
 Hammer::downward()
 {
-	const std::string & skin = Master::instance().get<Components::Setting>().get(Components::Setting::HAMMER_SKIN);
-	Master::instance().get<Components::Audio>().play(skin);
+	const std::string & resource = Master::instance().get<Components::Setting>().get(Components::Setting::PARAMETER_HAMMER_RESOURCE);
+	Master::instance().get<Components::Audio>().play(resource);
 	_view->run(cocos2d::MoveBy::create(STROKE_TIME, cocos2d::Vec2(0.0f, -Master::instance().get<Components::Metric>().hammer().size.height)));
 }
 

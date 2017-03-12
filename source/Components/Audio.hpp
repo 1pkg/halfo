@@ -19,7 +19,7 @@ public:
 
 private:
 
-	std::unordered_map<std::string, std::string> _files;
+	std::unordered_map<std::string, std::string> _cache;
 };
 
 }

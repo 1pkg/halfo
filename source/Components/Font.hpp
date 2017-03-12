@@ -16,7 +16,7 @@ public:
 
 private:
 
-	std::string _path;
+	std::string _cache;
 };
 
 }

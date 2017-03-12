@@ -11,10 +11,10 @@ class Setting : public Application::Component
 {
 public:
 
-	static const std::string FIGURE_SKIN;
-	static const std::string HAMMER_SKIN;
-	static const std::string DISABLE_ADDS;
-	static const std::string DEPLOY_DONE;
+	static const std::string PARAMETER_FIGURE_RESOURCE;
+	static const std::string PARAMETER_HAMMER_RESOURCE;
+	static const std::string DONE_DISABLE_ADDS;
+	static const std::string DONE_DEPLOY;
 
 	void initialize() override;
 	const std::string & get(const std::string & setting) const;

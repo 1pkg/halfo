@@ -8,13 +8,13 @@ void
 Font::initialize()
 {
 	cocos2d::Data data = Master::instance().get<Resource>()._resources.at(std::pair<std::string, Resource::Type>("font", Resource::Type::FONT));
-	_path = Master::instance().get<File>().write(data);
+	_cache = Master::instance().get<File>().cache(data);
 }
 
 std::string
 Font::get() const
 {
-	return _path;
+	return _cache;
 }
 
 }

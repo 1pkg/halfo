@@ -29,7 +29,7 @@ Over::Over()
 	_exit(cocos2d::ui::Button::create())
 {
 	_restart->setTitleText("Act");
-	_restart->setContentSize(Master::instance().get<Components::Metric>().size() / 32.0f);
+	_restart->setTitleFontSize(32.0f);
 	_restart->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f + cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 4.0f));
 	_restart->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
@@ -47,7 +47,7 @@ Over::Over()
 	addChild(_restart);
 
 	_exit->setTitleText("Exit");
-	_exit->setContentSize(Master::instance().get<Components::Metric>().size() / 32.0f);
+	_exit->setTitleFontSize(32.0f);
 	_exit->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f);
 	_exit->addTouchEventListener(
 		[](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
@@ -71,7 +71,7 @@ Over::Over()
 
 	_score = cocos2d::Label::createWithTTF("", Master::instance().get<Components::Font>().get(), 32.0f);
 	std::tuple<unsigned int, unsigned int, unsigned int> row = Master::instance().get<Components::Statistic>().table()[0];
-	_score->setString("Slice:" + std::to_string(std::get<0>(row)) + "|Time:" + std::to_string(std::get<1>(row)) + "|Totoal:" + std::to_string(std::get<2>(row)));
+	_score->setString("Slice:" + to_string(std::get<0>(row)) + "|Time:" + to_string(std::get<1>(row)) + "|Total:" + to_string(std::get<2>(row)));
 	_score->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 4.0f));
 	addChild(_score);
 }

@@ -10,10 +10,10 @@ namespace Components
 void
 Storage::initialize()
 {
-	if (!Master::instance().get<File>().exist("st.ev"))
+	if (!Master::instance().get<File>().exist(Master::instance().get<File>().storage() + "/st.ev"))
 		return;
 
-	cocos2d::Data data = Master::instance().get<File>().read("st.ev");
+	cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().storage() + "/st.ev");
 	data = Master::instance().get<Crypto>().decrypt(data, 1);
 	unserialize(data);
 }
@@ -25,7 +25,7 @@ Storage::finitialize()
 	if (!data.isNull())
 	{
 		data = Master::instance().get<Crypto>().encrypt(data, 1);
-		Master::instance().get<File>().write(data, "st.ev");
+		Master::instance().get<File>().write(data, Master::instance().get<File>().storage() + "/st.ev");
 	}
 }
 
