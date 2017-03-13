@@ -11,27 +11,33 @@ File::finitialize()
 }
 
 std::string
-File::root() const
+File::application() const
 {
 	return cocos2d::FileUtils::getInstance()->getSearchPaths()[0];
 }
 
 std::string
+File::root() const
+{
+	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/";
+}
+
+std::string
 File::assets() const
 {
-	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/assets";
+	return root() + "sts/";
 }
 
 std::string
 File::storage() const
 {
-	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/storage";
+	return root() + "str/";
 }
 
 std::string
 File::cache() const
 {
-	return cocos2d::FileUtils::getInstance()->getWritablePath() + "halfo/cache";
+	return root() + "cch/";
 }
 
 cocos2d::Data
@@ -49,7 +55,7 @@ File::write(const cocos2d::Data & data, const std::string & path) const
 std::string
 File::cache(const cocos2d::Data & data)
 {
-	std::string path = cache() + "/" + unique(0x10) + ".ev";
+	std::string path = cache() + unique(0x10) + ".ev";
 	cocos2d::FileUtils::getInstance()->writeDataToFile(data, path);
 	_files.push_back(path);
 	return path;

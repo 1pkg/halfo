@@ -12,6 +12,7 @@ class File : public Application::Component
 public:
 
 	void finitialize() override;
+	std::string application() const;
 	std::string root() const;
 	std::string assets() const;
 	std::string storage() const;

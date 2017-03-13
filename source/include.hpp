@@ -26,11 +26,11 @@
 #include <array>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
 
 #define DEFAULT_PHYSICS_MASK 0xFFFFFFFF
-#define RESOURCE_DEBUG
 
 template <typename T>
 std::string to_string(T value)

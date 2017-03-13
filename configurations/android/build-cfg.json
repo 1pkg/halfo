@@ -6,8 +6,8 @@
     ],
     "copy_resources": [
         {
-            "from": "../assets",
-            "to": "assets"
+            "from": "../sts",
+            "to": ""
         }
     ]
 }

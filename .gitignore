@@ -117,8 +117,7 @@ tests/cpp-tests/proj.tizen/res/
 tests/lua-empty-test/project/proj.tizen/res/
 tests/lua-tests/project/proj.tizen/res/
 
-# Ignore cocos projects templates and utils
-utils/
+# Ignore cocos projects templates
 proj.android-studio/
 proj.android/
 proj.ios_mac/
@@ -129,3 +128,7 @@ proj.win32/
 proj.win8.1-universal/
 .cocos-project.json
 CMakeLists.txt
+
+# Ignore binary folders
+utils/
+sts/

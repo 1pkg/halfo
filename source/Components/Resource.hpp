@@ -28,7 +28,6 @@ private:
 			return std::hash<std::string>{}(pair.first) ^ std::hash<unsigned int>{}((unsigned int)pair.second);
 		}
 	};
-	cocos2d::Data fetch(const std::string & resource, Type type);
 	std::vector<std::tuple<std::string, Type, std::string, std::string>> unserialize(const cocos2d::Data & data);
 	std::string hash(const cocos2d::Data & resource);
 	std::string hashpad(const std::string & hash);

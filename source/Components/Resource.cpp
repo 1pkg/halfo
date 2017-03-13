@@ -8,68 +8,23 @@ namespace Components
 void
 Resource::initialize()
 {
-#ifdef RESOURCE_DEBUG
-	cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().storage() + "/rc.ev");
-	data = Master::instance().get<Crypto>().decrypt(data, 1);
+	cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().storage() + "rc.ev");
+	data = Master::instance().get<Crypto>().decrypt(data, 0x1);
 	std::vector<std::tuple<std::string, Resource::Type, std::string, std::string>> resources = unserialize(data);
 	for (const std::tuple<std::string, Resource::Type, std::string, std::string> & resource : resources)
 	{
-		std::pair<std::string, Type> alias(std::get<0>(resource), std::get<1>(resource));
-		cocos2d::Data data = fetch(Master::instance().get<File>().assets() + "/" + std::get<2>(resource), std::get<1>(resource));
+		std::pair<std::string, Type> key(std::get<0>(resource), std::get<1>(resource));
+		cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().assets() + std::get<2>(resource));
+		data = Master::instance().get<Components::Crypto>().decrypt(data, 0x10);
 		if (hash(data) == std::get<3>(resource))
-			_resources.insert(std::pair<std::pair<std::string, Type>, cocos2d::Data>(alias, data));
+			_resources.insert(std::pair<std::pair<std::string, Type>, cocos2d::Data>(key, data));
 	}
-#else
-	std::vector<std::pair<std::string, Type>> resources{
-		std::pair<std::string, Type>("figure-deault", Type::TEXTURE),
-		std::pair<std::string, Type>("hammer-deault", Type::TEXTURE),
-		std::pair<std::string, Type>("hammer-deault", Type::BODY),
-		std::pair<std::string, Type>("hammer-deault", Type::AUDIO),
-		std::pair<std::string, Type>("hammer-deault1", Type::AUDIO),
-		std::pair<std::string, Type>("font", Type::FONT)
-	};
-	for (const std::pair<std::string, Type> & alias : resources)
-		_resources.insert(std::pair<std::pair<std::string, Type>, cocos2d::Data>(alias, fetch(Master::instance().get<File>().assets() + "/" + alias.first, alias.second)));
-#endif
 }
 
 const cocos2d::Data &
 Resource::get(const std::string & resource, Type type)
 {
 	return _resources.at(std::pair<std::string, Type>(resource, type));
-}
-
-cocos2d::Data
-Resource::fetch(const std::string & resource, Type type)
-{
-#ifdef RESOURCE_DEBUG
-	cocos2d::Data data = Master::instance().get<File>().read(resource);
-	return Master::instance().get<Components::Crypto>().decrypt(data, 0x10);
-#else
-	std::string file = resource;
-	switch (type)
-	{
-		case Components::Resource::Type::TEXTURE:
-			file += ".png";
-			break;
-
-		case Components::Resource::Type::BODY:
-			file += ".json";
-			break;
-
-		case Components::Resource::Type::AUDIO:
-			file += ".wav";
-			break;
-
-		case Components::Resource::Type::FONT:
-			file += ".ttf";
-			break;
-
-		default:
-			break;
-	}
-	return Master::instance().get<File>().read(file);
-#endif
 }
 
 std::vector<std::tuple<std::string, Resource::Type, std::string, std::string>>

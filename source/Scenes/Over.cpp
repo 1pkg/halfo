@@ -65,7 +65,7 @@ Over::Over()
 	addChild(_exit);
 
 	_label = cocos2d::Label::createWithTTF("", Master::instance().get<Components::Font>().get(), 32.0f);
-	_label->setString("Model:" + cocos2d::getDeviceModel() + "|Version:" + cocos2d::getDeviceVersion());
+	_label->setString("Path:" + Master::instance().get<Components::File>().application() + "Model:" + cocos2d::getDeviceModel() + "|Version:" + cocos2d::getDeviceVersion());
 	_label->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 6.0f));
 	addChild(_label);
 
