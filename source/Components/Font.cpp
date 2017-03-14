@@ -7,14 +7,19 @@ namespace Components
 void
 Font::initialize()
 {
-	cocos2d::Data data = Master::instance().get<Resource>()._resources.at(std::pair<std::string, Resource::Type>("font", Resource::Type::FONT));
-	_cache = Master::instance().get<File>().cache(data);
+	std::function<bool(const std::string &, const cocos2d::Data &)> callback =
+	[this](const std::string & origin, const cocos2d::Data & data)
+	{
+		_font = Master::instance().get<File>().cache(data);
+		return false;
+	};
+	Master::instance().get<Components::Resource>().walk(Resource::Type::FONT, callback);
 }
 
 std::string
 Font::get() const
 {
-	return _cache;
+	return _font;
 }
 
 }

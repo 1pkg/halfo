@@ -1,10 +1,13 @@
-#ifndef TRANSPORTER_ARCHITECTOR
-#define TRANSPORTER_ARCHITECTOR
+#ifndef ACT_TRANSPORTER_ARCHITECTOR
+#define ACT_TRANSPORTER_ARCHITECTOR
 
 #include "include.hpp"
 #include "Pattern.hpp"
 
 namespace Objects{class Figure;}
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -33,6 +36,8 @@ private:
 		std::pair<std::unique_ptr<Pattern>, unsigned int>
 	> _patterns;
 };
+
+}
 
 }
 

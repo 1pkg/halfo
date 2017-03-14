@@ -1,5 +1,8 @@
 #include "Pattern.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -18,6 +21,8 @@ Pattern::size() const
 Pattern::Pattern(const std::vector<cocos2d::Vec2> & pattern)
 	: _pattern(pattern)
 {
+}
+
 }
 
 }

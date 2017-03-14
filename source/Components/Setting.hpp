@@ -2,7 +2,8 @@
 #define COMPONENTS_SETTING
 
 #include "Application/Component.hpp"
-#include <unordered_map>
+#include <cocos2d.h>
+#include <array>
 
 namespace Components
 {
@@ -13,8 +14,8 @@ public:
 
 	static const std::string PARAMETER_FIGURE_RESOURCE;
 	static const std::string PARAMETER_HAMMER_RESOURCE;
-	static const std::string DONE_DISABLE_ADDS;
-	static const std::string DONE_DEPLOY;
+	static const std::string FLAG_ADDS_DISABLED;
+	static const std::string FLAG_DEPLOY_FINISHED;
 
 	void initialize() override;
 	const std::string & get(const std::string & setting) const;

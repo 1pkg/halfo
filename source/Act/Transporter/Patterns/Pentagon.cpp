@@ -1,5 +1,8 @@
 #include "Pentagon.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -32,6 +35,8 @@ Pentagon::Pentagon()
 		}
 	)
 {
+}
+
 }
 
 }

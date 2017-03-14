@@ -8,19 +8,25 @@ namespace Components
 void
 Audio::initialize()
 {
-	for (std::pair<std::pair<std::string, Resource::Type>, cocos2d::Data> resource : Master::instance().get<Components::Resource>()._resources)
-		if (resource.first.second == Resource::Type::AUDIO)
-		{
-			std::string cache = Master::instance().get<File>().cache(resource.second);
-			CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(cache.data());
-			_cache.insert(std::pair<std::string, std::string>(resource.first.first, cache));
-		}
+	std::function<bool(const std::string &, const cocos2d::Data &)> callback =
+	[this](const std::string & origin, const cocos2d::Data & data)
+	{
+		std::string audio = Master::instance().get<File>().cache(data);
+		CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(audio.data());
+		_audios.insert(std::pair<std::string, std::string>(origin, audio));
+		return true;
+	};
+	Master::instance().get<Components::Resource>().walk(Resource::Type::AUDIO, callback);
 }
 
 unsigned int
-Audio::play(const std::string & alias) const
+Audio::play(const std::string & audio) const
 {
-	return CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(_cache.at(alias).data());
+	std::unordered_map<std::string, std::string>::const_iterator it = _audios.find(audio);
+	if (it == _audios.end())
+		return 0;
+
+	return CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(it->second.data());
 }
 
 void

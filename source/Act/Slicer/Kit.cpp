@@ -4,6 +4,9 @@
 #include "Objects/Hammer.hpp"
 #include "Objects/Anvil.hpp"
 
+namespace Act
+{
+
 namespace Slicer
 {
 
@@ -128,6 +131,8 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		return true;
 
 	return contact.getResult();
+}
+
 }
 
 }

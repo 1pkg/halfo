@@ -3,6 +3,7 @@
 
 #include "Application/Component.hpp"
 #include <cocos2d.h>
+#include <array>
 
 namespace Components
 {

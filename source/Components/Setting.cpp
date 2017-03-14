@@ -1,3 +1,4 @@
+#include "include.hpp"
 #include "Setting.hpp"
 
 namespace Components
@@ -5,16 +6,16 @@ namespace Components
 
 const std::string Setting::PARAMETER_FIGURE_RESOURCE = "figure";
 const std::string Setting::PARAMETER_HAMMER_RESOURCE = "hammer";
-const std::string Setting::DONE_DISABLE_ADDS = "disable-adds";
-const std::string Setting::DONE_DEPLOY = "deploy";
+const std::string Setting::FLAG_ADDS_DISABLED = "adds-disables";
+const std::string Setting::FLAG_DEPLOY_FINISHED = "deploy-finished";
 
 void
 Setting::initialize()
 {
 	_settings.insert(std::pair<std::string, std::string>(PARAMETER_FIGURE_RESOURCE, "figure-deault"));
 	_settings.insert(std::pair<std::string, std::string>(PARAMETER_HAMMER_RESOURCE, "hammer-deault"));
-	_settings.insert(std::pair<std::string, std::string>(DONE_DISABLE_ADDS, "non"));
-	_settings.insert(std::pair<std::string, std::string>(DONE_DEPLOY, "non"));
+	_settings.insert(std::pair<std::string, std::string>(FLAG_ADDS_DISABLED, FLAG_NON));
+	_settings.insert(std::pair<std::string, std::string>(FLAG_DEPLOY_FINISHED, FLAG_NON));
 }
 
 const std::string &

@@ -1,5 +1,8 @@
 #include "Quadrangle.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -28,6 +31,8 @@ Quadrangle::Quadrangle()
 		}
 	)
 {
+}
+
 }
 
 }

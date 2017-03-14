@@ -4,6 +4,9 @@
 #include "Objects/Platform.hpp"
 #include "Objects/Over.hpp"
 
+namespace Act
+{
+
 namespace Cleaner
 {
 
@@ -19,7 +22,7 @@ Kit::Kit(Scenes::Act * act)
 		Initialize score label.
 	*/
 	_score = cocos2d::Label::createWithTTF(to_string(_result), Master::instance().get<Components::Font>().get(), 32.0f);
-	_score->setPosition(Master::instance().get<Components::Metric>().score());
+	_score->setPosition(Master::instance().get<Components::Metric>().center());
 	_act->addChild(_score);
 
 	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
@@ -114,7 +117,7 @@ Kit::inspection(float delta)
 			it->second->intersect(Master::instance().get<Components::Metric>().over())
 		)
 		{
-			Master::instance().get<Components::Statistic>().update(_result, _time);
+			Master::instance().get<Components::Statistic>().update(Components::Statistic::Result(_result, _time, 0));
 			Master::instance().scene("Over");
 			return;
 		}
@@ -137,6 +140,8 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		_pool.find(first) != _pool.end() && _pool.find(second) != _pool.end() ||
 		_pool.find(first) != _pool.end() && _platform->view()->body() == second ||
 		_pool.find(second) != _pool.end() && _platform->view()->body() == first;
+}
+
 }
 
 }

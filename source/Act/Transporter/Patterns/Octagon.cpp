@@ -1,5 +1,8 @@
 #include "Octagon.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -40,6 +43,8 @@ Octagon::Octagon()
 		}
 	)
 {
+}
+
 }
 
 }

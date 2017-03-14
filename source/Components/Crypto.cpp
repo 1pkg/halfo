@@ -1,3 +1,4 @@
+#include "include.hpp"
 #include "Crypto.hpp"
 #include <crypto/aes.h>
 
@@ -8,10 +9,10 @@ cocos2d::Data
 Crypto::encrypt(const cocos2d::Data & data, unsigned int blockSize)
 {
 	aes_encrypt_ctx cx[1];
-	aes_encrypt_key128(CRYPTO_KEY, cx);
+	aes_encrypt_key128((unsigned char*)CRYPTO_KEY, cx);
 	cocos2d::Data iv;
-	iv.copy(CRYPTO_IV, CRYPTO_SIZE);
-	std::size_t dataSize = data.getSize(), block = CRYPTO_SIZE * blockSize, bufferSize = (std::size_t)(ceil((float)dataSize / (float)block) * block), currentSize = 0;
+	iv.copy((unsigned char*)CRYPTO_IV, 0x10);
+	std::size_t dataSize = data.getSize(), block = 0x10 * blockSize, bufferSize = (std::size_t)(ceil((float)dataSize / (float)block) * block), currentSize = 0;
 	unsigned char eof = std::char_traits<unsigned char>::eof();
 	cocos2d::Data buffer;
 	buffer.fastSet(new unsigned char[bufferSize], bufferSize);
@@ -39,10 +40,10 @@ cocos2d::Data
 Crypto::decrypt(const cocos2d::Data & data, unsigned int blockSize)
 {
 	aes_decrypt_ctx cx[1];
-	aes_decrypt_key128(CRYPTO_KEY, cx);
+	aes_decrypt_key128((unsigned char*)CRYPTO_KEY, cx);
 	cocos2d::Data iv;
-	iv.copy(CRYPTO_IV, CRYPTO_SIZE);
-	std::size_t dataSize = data.getSize(), block = CRYPTO_SIZE * blockSize, currentSize = 0;
+	iv.copy((unsigned char*)CRYPTO_IV, 0x10);
+	std::size_t dataSize = data.getSize(), block = 0x10 * blockSize, currentSize = 0;
 	cocos2d::Data buffer;
 	buffer.fastSet(new unsigned char[dataSize], dataSize);
 	do
@@ -62,9 +63,5 @@ Crypto::decrypt(const cocos2d::Data & data, unsigned int blockSize)
 	tbuffer.copy(buffer.getBytes(), currentSize);
 	return std::move(tbuffer);
 }
-
-const unsigned char Crypto::CRYPTO_KEY[CRYPTO_SIZE + 1] = "1564949426338204";
-
-const unsigned char Crypto::CRYPTO_IV[CRYPTO_SIZE + 1] = "2832340405100085";
 
 }

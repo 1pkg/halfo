@@ -1,46 +1,36 @@
+#include "include.hpp"
 #include "Metric.hpp"
 
 namespace Components
 {
 
-Metric::Metric(cocos2d::Size size, cocos2d::Vec2 origin)
-	: _size(size),
-	_origin(origin)
-{
-}
-
 void
 Metric::initialize()
 {
-	_scale = (_size.width / COMMON_SIZE.width + _size.height / COMMON_SIZE.height) / 2.0f;
+	_size = cocos2d::Director::getInstance()->getVisibleSize();
+	_origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+	_scale = (_size.width / COMMON_SCENE_SIZE.width + _size.height / COMMON_SCENE_SIZE.height) / 2.0f;
+
 	_lspawn = cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_rspawn = cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_spawn = cocos2d::Size(_size.width / 6.0f, _size.height / 6.0f);
-	_hammer = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin, cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f));
-
-	_score = cocos2d::Vec2(_size.width / 10.0f * 8.0f, _size.height / 10.0f * 8.0f) + _origin;
+	_hammer = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin, cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f)),
+	_anvil = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, 0.0f) + _origin, cocos2d::Size(0.0f, _size.height / 3.0f * 2.0f)),
+	_platform = cocos2d::Rect(_origin, cocos2d::Size(_size.width, 0.0f));
 
 	_slice = {{
 		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin,
 		cocos2d::Vec2(_size.width / 2.0f, _size.height) + _origin
 	}},
-	_anvil = {{
-		cocos2d::Vec2(_size.width / 2.0f, -_size.height * 3.0f) + _origin,
-		cocos2d::Vec2(_size.width / 2.0f, _size.height / 3.0f * 2.0f) + _origin
+	_over = {{
+		cocos2d::Vec2(0.0f, _size.height / 3.0f * 2.0f) + _origin,
+		cocos2d::Vec2(_size.width, _size.height / 3.0f * 2.0f) + _origin
 	}},
 	_edge = {{
 		_origin - cocos2d::Vec2(0.0f, _size.height * 3.0f),
 		cocos2d::Vec2(0.0f, _size.height) + _origin,
 		cocos2d::Vec2(_size.width,_size.height) + _origin,
 		cocos2d::Vec2(_size.width, 0.0f) - cocos2d::Vec2(0.0f, _size.height * 3.0f) + _origin
-	}},
-	_platform = {{
-		_origin,
-		cocos2d::Vec2(_size.width, 0.0f) + _origin
-	}},
-	_over = {{
-		cocos2d::Vec2(0.0f, _size.height / 3.0f * 2.0f) + _origin,
-		cocos2d::Vec2(_size.width, _size.height / 3.0f * 2.0f) + _origin
 	}};
 }
 
@@ -134,22 +124,22 @@ Metric::spawn() const
 	return _spawn;
 }
 
-cocos2d::Vec2
-Metric::score() const
-{
-	return _score;
-}
-
 cocos2d::Rect
 Metric::hammer() const
 {
 	return _hammer;
 }
 
-float
-Metric::anvilLength() const
+cocos2d::Rect
+Metric::anvil() const
 {
-	return _size.height / 3.0f * 2.0f;
+	return _anvil;
+}
+
+cocos2d::Rect
+Metric::platform() const
+{
+	return _platform;
 }
 
 const std::array<cocos2d::Vec2, 2> &
@@ -159,27 +149,15 @@ Metric::slice() const
 }
 
 const std::array<cocos2d::Vec2, 2> &
-Metric::anvil() const
+Metric::over() const
 {
-	return _anvil;
+	return _over;
 }
 
 const std::array<cocos2d::Vec2, 4> &
 Metric::edge() const
 {
 	return _edge;
-}
-
-const std::array<cocos2d::Vec2, 2> &
-Metric::platform() const
-{
-	return _platform;
-}
-
-const std::array<cocos2d::Vec2, 2> &
-Metric::over() const
-{
-	return _over;
 }
 
 }

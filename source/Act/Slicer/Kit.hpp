@@ -1,5 +1,5 @@
-#ifndef SLICER_KIT
-#define SLICER_KIT
+#ifndef ACT_SLICER_KIT
+#define ACT_SLICER_KIT
 
 #include "include.hpp"
 
@@ -10,6 +10,9 @@ namespace Objects
 	class Hammer;
 	class Anvil;
 }
+namespace Act
+{
+
 namespace Slicer
 {
 
@@ -34,6 +37,8 @@ private:
 	cocos2d::EventListenerPhysicsContact * _physicSensor;
 	Scenes::Act * _act;
 };
+
+}
 
 }
 

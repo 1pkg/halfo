@@ -5,10 +5,10 @@ namespace Views
 
 Platform::Platform()
 {
-	const std::array<cocos2d::Vec2, 2> & platform = Master::instance().get<Components::Metric>().platform();
+	cocos2d::Rect platform = Master::instance().get<Components::Metric>().platform();
 	_draw = cocos2d::DrawNode::create();
-	_draw->drawLine(platform[0], platform[1], cocos2d::Color4F::BLACK);
-	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(platform[0], platform[1]);
+	_draw->drawLine(platform.origin, platform.origin + platform.size, cocos2d::Color4F::BLACK);
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(platform.origin, platform.origin + platform.size);
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
 	_draw->setPhysicsBody(body);

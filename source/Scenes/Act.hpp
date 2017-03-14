@@ -2,14 +2,15 @@
 #define SCENES_ACT
 
 #include "Application/Wrapper.hpp"
-#include "Transporter/Kit.hpp"
-#include "Slicer/Kit.hpp"
-#include "Cleaner/Kit.hpp"
+#include "Act/Transporter/Kit.hpp"
+#include "Act/Slicer/Kit.hpp"
+#include "Act/Cleaner/Kit.hpp"
 #include <cocos2d.h>
 
 namespace Scenes
 {
 
+using namespace Act;
 class Act : public Application::Wrapper, public cocos2d::LayerColor
 {
 public:

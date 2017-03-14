@@ -3,6 +3,7 @@
 
 #include "Application/Component.hpp"
 #include <cocos2d.h>
+#include <array>
 
 namespace Components
 {
@@ -16,7 +17,7 @@ public:
 
 private:
 
-	std::string _cache;
+	std::string _font;
 };
 
 }

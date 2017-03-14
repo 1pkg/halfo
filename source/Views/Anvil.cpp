@@ -5,10 +5,10 @@ namespace Views
 
 Anvil::Anvil()
 {
-	const std::array<cocos2d::Vec2, 2> & anvil = Master::instance().get<Components::Metric>().anvil();
+	const cocos2d::Rect & anvil = Master::instance().get<Components::Metric>().anvil();
 	_draw = cocos2d::DrawNode::create();
-	_draw->drawLine(anvil[0], anvil[1], cocos2d::Color4F::BLACK);
-	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(anvil[0], anvil[1]);
+	_draw->drawLine(anvil.origin, anvil.origin + anvil.size, cocos2d::Color4F::BLACK);
+	cocos2d::PhysicsBody * body = cocos2d::PhysicsBody::createEdgeSegment(anvil.origin, anvil.origin + anvil.size);
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
 	_draw->setPhysicsBody(body);

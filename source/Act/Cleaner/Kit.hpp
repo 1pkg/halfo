@@ -1,10 +1,13 @@
-#ifndef CLEANER_KIT
-#define CLEANER_KIT
+#ifndef ACT_CLEANER_KIT
+#define ACT_CLEANER_KIT
 
 #include "include.hpp"
 
 namespace Scenes{class Act;}
 namespace Objects{class Figure; class Platform; class Over;}
+namespace Act
+{
+
 namespace Cleaner
 {
 
@@ -42,6 +45,8 @@ private:
 	cocos2d::EventListenerPhysicsContact * _sensor;
 	Scenes::Act * _act;
 };
+
+}
 
 }
 

@@ -3,6 +3,9 @@
 #include "Objects/Figure.hpp"
 #include "Objects/Edge.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -179,6 +182,8 @@ Kit::contact(cocos2d::PhysicsContact & contact)
 		return true;
 
 	return contact.getResult();
+}
+
 }
 
 }

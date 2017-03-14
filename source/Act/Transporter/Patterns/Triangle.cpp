@@ -1,5 +1,8 @@
 #include "Triangle.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -24,6 +27,8 @@ Triangle::Triangle()
 		}
 	)
 {
+}
+
 }
 
 }

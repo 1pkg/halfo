@@ -10,11 +10,11 @@ namespace Components
 void
 Storage::initialize()
 {
-	if (!Master::instance().get<File>().exist(Master::instance().get<File>().storage() + "/st.ev"))
+	if (!Master::instance().get<File>().exist(Master::instance().get<File>().storage() + "/st" + TRUE_FILE_EXTENSION))
 		return;
 
-	cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().storage() + "/st.ev");
-	data = Master::instance().get<Crypto>().decrypt(data, 1);
+	cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().storage() + "/st" + TRUE_FILE_EXTENSION);
+	data = Master::instance().get<Crypto>().decrypt(data, CRYPTO_STORAGE_BLOCK);
 	unserialize(data);
 }
 
@@ -24,8 +24,8 @@ Storage::finitialize()
 	cocos2d::Data data = serialize();
 	if (!data.isNull())
 	{
-		data = Master::instance().get<Crypto>().encrypt(data, 1);
-		Master::instance().get<File>().write(data, Master::instance().get<File>().storage() + "/st.ev");
+		data = Master::instance().get<Crypto>().encrypt(data, CRYPTO_STORAGE_BLOCK);
+		Master::instance().get<File>().write(data, Master::instance().get<File>().storage() + "/st" + TRUE_FILE_EXTENSION);
 	}
 }
 
@@ -50,15 +50,12 @@ Storage::serialize() const
 	*/
 	Value statistic(kObjectType);
 	Value table(kArrayType), totals(kObjectType);
-	for (const std::tuple<unsigned int, unsigned int, unsigned int> & result : Master::instance().get<Statistic>()._table)
+	for (const Statistic::Result & result : Master::instance().get<Statistic>()._table)
 	{
-		if (!std::get<2>(result))
-			continue;
-
 		Value temp(kObjectType);
-		temp.AddMember("slice", std::get<0>(result), allocator);
-		temp.AddMember("time", std::get<1>(result), allocator);
-		temp.AddMember("total", std::get<2>(result), allocator);
+		temp.AddMember("slices", result.slices, allocator);
+		temp.AddMember("time", result.time, allocator);
+		temp.AddMember("mass", result.mass, allocator);
 		table.PushBack(temp, allocator);
 	}
 	for (const std::pair<std::string, unsigned int> & total :  Master::instance().get<Statistic>()._totals)
@@ -97,7 +94,7 @@ Storage::unserialize(const cocos2d::Data & data)
 	*/
 	std::size_t position = 0;
 	for (Value::ConstValueIterator it = document["statistic"]["table"].Begin(); it != document["statistic"]["table"].End(); ++it)
-		Master::instance().get<Statistic>()._table[position++] = std::tuple<unsigned int, unsigned int, unsigned int>((*it)["slice"].GetUint(), (*it)["time"].GetUint(), (*it)["total"].GetUint());
+		Master::instance().get<Statistic>()._table[position++] = Statistic::Result((*it)["slices"].GetUint(), (*it)["time"].GetUint(), (*it)["mass"].GetUint());
 	for (Value::ConstMemberIterator it = document["statistic"]["totals"].MemberBegin(); it != document["statistic"]["totals"].MemberEnd(); ++it)
 		Master::instance().get<Statistic>()._totals.at(it->name.GetString()) = it->value.GetUint();
 

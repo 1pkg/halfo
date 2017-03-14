@@ -1,11 +1,14 @@
-#ifndef TRANSPORTER_KIT
-#define TRANSPORTER_KIT
+#ifndef ACT_TRANSPORTER_KIT
+#define ACT_TRANSPORTER_KIT
 
 #include "include.hpp"
 #include "Architector.hpp"
 
 namespace Scenes{class Act;}
 namespace Objects{class Figure; class Edge;}
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -31,6 +34,8 @@ private:
 	cocos2d::EventListenerPhysicsContact * _sensor;
 	Scenes::Act * _act;
 };
+
+}
 
 }
 

@@ -70,8 +70,8 @@ Over::Over()
 	addChild(_label);
 
 	_score = cocos2d::Label::createWithTTF("", Master::instance().get<Components::Font>().get(), 32.0f);
-	std::tuple<unsigned int, unsigned int, unsigned int> row = Master::instance().get<Components::Statistic>().table()[0];
-	_score->setString("Slice:" + to_string(std::get<0>(row)) + "|Time:" + to_string(std::get<1>(row)) + "|Total:" + to_string(std::get<2>(row)));
+	const Components::Statistic::Result result = Master::instance().get<Components::Statistic>().table()[0];
+	_score->setString("Slice:" + to_string(result.slices) + "|Time:" + to_string(result.slices) + "|Mass:" + to_string(result.mass));
 	_score->setPosition(Master::instance().get<Components::Metric>().size() / 2.0f - cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height / 4.0f));
 	addChild(_score);
 }

@@ -76,7 +76,7 @@ Master::initialize()
 {
 	using namespace Components;
 	std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>> components;
-	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Metric).name(), std::move(std::unique_ptr<Metric>(new Components::Metric(cocos2d::Director::getInstance()->getVisibleSize(), cocos2d::Director::getInstance()->getVisibleOrigin())))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Metric).name(), std::move(std::unique_ptr<Metric>(new Metric()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(File).name(), std::move(std::unique_ptr<File>(new File()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Crypto).name(), std::move(std::unique_ptr<Crypto>(new Crypto()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Setting).name(), std::move(std::unique_ptr<Setting>(new Setting()))));

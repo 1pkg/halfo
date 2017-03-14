@@ -7,7 +7,6 @@
 namespace Objects
 {
 
-class Hammer;
 class Figure : public Application::Object
 {
 public:

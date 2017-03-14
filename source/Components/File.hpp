@@ -3,6 +3,7 @@
 
 #include "Application/Component.hpp"
 #include <cocos2d.h>
+#include <array>
 
 namespace Components
 {
@@ -11,6 +12,7 @@ class File : public Application::Component
 {
 public:
 
+	void initialize() override;
 	void finitialize() override;
 	std::string application() const;
 	std::string root() const;
@@ -25,11 +27,9 @@ public:
 	void remove(const std::string & path) const;
 	void copy(const std::string & from, const std::string & to) const;
 	void move(const std::string & from, const std::string & to) const;
-	std::vector<std::string> list(const std::string & path) const;
 
 private:
 
-	std::string unique(std::size_t size) const;
 	std::vector<std::string> _files;
 };
 

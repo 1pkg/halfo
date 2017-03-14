@@ -1,8 +1,11 @@
-#ifndef TRANSPORTER_PATTERN
-#define TRANSPORTER_PATTERN
+#ifndef ACT_TRANSPORTER_PATTERN
+#define ACT_TRANSPORTER_PATTERN
 
 #include "Application/Wrapper.hpp"
 #include <cocos2d.h>
+
+namespace Act
+{
 
 namespace Transporter
 {
@@ -22,6 +25,8 @@ private:
 
 	std::vector<cocos2d::Vec2> _pattern;
 };
+
+}
 
 }
 

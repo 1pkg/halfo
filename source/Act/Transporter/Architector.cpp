@@ -5,6 +5,9 @@
 #include "Patterns/Pentagon.hpp"
 #include "Patterns/Octagon.hpp"
 
+namespace Act
+{
+
 namespace Transporter
 {
 
@@ -101,6 +104,8 @@ Architector::roll() const
 		default:
 			return nullptr;
 	}
+}
+
 }
 
 }

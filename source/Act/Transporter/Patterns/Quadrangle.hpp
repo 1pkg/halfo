@@ -1,8 +1,11 @@
-#ifndef TRANSPORTER_PATTERNS_QUADRANGLE
-#define TRANSPORTER_PATTERNS_QUADRANGLE
+#ifndef ACT_TRANSPORTER_PATTERNS_QUADRANGLE
+#define ACT_TRANSPORTER_PATTERNS_QUADRANGLE
 
 #include "include.hpp"
-#include "Transporter/Pattern.hpp"
+#include "Act/Transporter/Pattern.hpp"
+
+namespace Act
+{
 
 namespace Transporter
 {
@@ -16,6 +19,8 @@ public:
 
 	Quadrangle();
 };
+
+}
 
 }
 

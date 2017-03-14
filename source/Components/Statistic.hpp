@@ -2,8 +2,8 @@
 #define COMPONENTS_STATISTIC
 
 #include "Application/Component.hpp"
+#include <cocos2d.h>
 #include <array>
-#include <unordered_map>
 
 namespace Components
 {
@@ -12,20 +12,28 @@ class Statistic : public Application::Component
 {
 public:
 
-	static const std::string TOTAL_SLICE;
-	static const std::string TOTAL_TIME;
-	static const std::string TOTAL_GAME;
+	static const std::string TOTAL_SLICES_STATISTIC;
+	static const std::string TOTAL_TIME_STATISTIC;
+	static const std::string TOTAL_MASS_STATISTIC;
+	static const std::string TOTAL_GAMES_STATISTIC;
 
-	static const std::size_t TABLE_SIZE = 10;
+	struct Result
+	{
+		Result();
+		Result(unsigned int slices, unsigned int time, unsigned int mass);
+		bool operator<(const Result & result) const;
+		unsigned int slices, time, mass;
+	};
+
 	void initialize() override;
-	std::array<std::tuple<unsigned int, unsigned int, unsigned int>, TABLE_SIZE> table() const;
+	const std::array<Result, 0xA> & table() const;
 	unsigned int total(std::string key) const;
-	void update(unsigned int slice, unsigned int time);
+	void update(const Result & result);
 
 private:
 
 	friend class Storage;
-	std::array<std::tuple<unsigned int, unsigned int, unsigned int>, TABLE_SIZE> _table;
+	std::array<Result, 0xA> _table;
 	std::unordered_map<std::string, unsigned int> _totals;
 };
 
