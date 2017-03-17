@@ -18,7 +18,6 @@ public:
 
 private:
 
-	const float STROKE_TIME = 0.3f;
 	std::unique_ptr<Views::Hammer> _view;
 };
 

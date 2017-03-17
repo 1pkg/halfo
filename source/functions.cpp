@@ -1,4 +1,5 @@
-#include "include.hpp"
+#include "constants.hpp"
+#include "functions.hpp"
 
 std::string hash(const cocos2d::Data & data)
 {

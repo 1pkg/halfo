@@ -1,23 +1,19 @@
 #ifndef MASTER
 #define MASTER
 
-#include "Components/Metric.hpp"
-#include "Components/File.hpp"
-#include "Components/Setting.hpp"
-#include "Components/Statistic.hpp"
-#include "Components/Storage.hpp"
-#include "Components/Deploy.hpp"
-#include "Components/Resource.hpp"
-#include "Components/Crypto.hpp"
-#include "Components/Texture.hpp"
-#include "Components/Body.hpp"
-#include "Components/Audio.hpp"
-#include "Components/Font.hpp"
+#include "Application/Wrapper.hpp"
+#include "Application/Component.hpp"
 #include <cocos2d.h>
 
 class Master : public Application::Wrapper, public cocos2d::Application
 {
 public:
+
+	static const std::string SCENE_MENU;
+	static const std::string SCENE_ACT;
+	static const std::string SCENE_SETTINGS;
+	static const std::string SCENE_OVER;
+	static const std::string SCENE_EXIT;
 
     bool applicationDidFinishLaunching() override;
     void applicationDidEnterBackground() override;

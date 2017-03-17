@@ -10,7 +10,7 @@ class Kit : public Wrapper
 {
 public:
 
-	virtual void update(float delta) {};
+	virtual void update(float delta) {}
 };
 
 }

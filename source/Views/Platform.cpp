@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Platform.hpp"
 
 namespace Views

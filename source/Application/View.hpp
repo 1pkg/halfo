@@ -11,7 +11,7 @@ class View : public Wrapper
 {
 public:
 
-	virtual void attach(cocos2d::Layer *) {};
+	virtual void attach(cocos2d::Layer *) {}
 };
 
 }

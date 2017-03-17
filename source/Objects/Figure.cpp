@@ -1,5 +1,7 @@
 #include "Figure.hpp"
 
+#define SLICE_DELTA 0.001f
+
 namespace Objects
 {
 

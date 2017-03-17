@@ -1,4 +1,6 @@
-#include "include.hpp"
+#include "constants.hpp"
+#include "File.hpp"
+#include "Crypto.hpp"
 #include "Resource.hpp"
 #include <json/document.h>
 
@@ -17,13 +19,9 @@ const cocos2d::Data &
 Resource::get(const std::string & resource, Type type)
 {
 	static cocos2d::Data data;
-	std::unordered_map<std::string, std::vector<std::pair<Type, cocos2d::Data>>>::const_iterator it = _resources.find(resource);
-	if (it == _resources.end())
-		return data;
-
-	for (const std::pair<Type, cocos2d::Data> & data : it->second)
-		if (data.first == type)
-			return data.second;
+	std::unordered_map<std::pair<std::string, Type>, cocos2d::Data, unorderedhash>::const_iterator it = _resources.find(std::pair<std::string, Type>(resource, type));
+	if (it != _resources.end())
+		return it->second;
 
 	return data;
 }
@@ -31,11 +29,10 @@ Resource::get(const std::string & resource, Type type)
 void
 Resource::walk(Type type, std::function<bool(const std::string &, const cocos2d::Data &)> callback)
 {
-	for(std::unordered_map<std::string, std::vector<std::pair<Type, cocos2d::Data>>>::const_iterator it = _resources.begin(); it != _resources.end(); ++it)
-		for (const std::pair<Type, cocos2d::Data> & data : it->second)
-			if (data.first == type)
-				if(!callback(it->first, data.second))
-					return;
+	for(std::unordered_map<std::pair<std::string, Type>, cocos2d::Data, unorderedhash>::const_iterator it = _resources.begin(); it != _resources.end(); ++it)
+		if (it->first.second == type)
+			if(!callback(it->first.first, it->second))
+				return;
 }
 
 void
@@ -54,13 +51,9 @@ Resource::unserialize(const cocos2d::Data & data)
 		std::string resource = (*it)["resource"].GetString();
 		std::string hsh = (*it)["hash"].GetString();
 		cocos2d::Data data = Master::instance().get<File>().read(Master::instance().get<File>().assets() + resource + TRUE_FILE_EXTENSION);
-		data = Master::instance().get<Components::Crypto>().decrypt(data, CRYPTO_RESOURCE_BLOCK);
+		data = Master::instance().get<Crypto>().decrypt(data, CRYPTO_RESOURCE_BLOCK);
 		if (hash(data) == hsh)
-		{
-			if (_resources.find(origin) == _resources.end())
-				_resources.insert(std::pair<std::string, std::vector<std::pair<Type, cocos2d::Data>>>(origin, {}));
-			_resources.at(origin).push_back(std::pair<Type, cocos2d::Data>(type, data));
-		}
+			_resources.insert(std::pair<std::pair<std::string, Type>, cocos2d::Data>(std::pair<std::string, Type>(origin,type), data));
 	}
 }
 

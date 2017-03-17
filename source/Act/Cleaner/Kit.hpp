@@ -2,6 +2,7 @@
 #define ACT_CLEANER_KIT
 
 #include "include.hpp"
+#include "Ui/Label.hpp"
 
 namespace Scenes{class Act;}
 namespace Objects{class Figure; class Platform; class Over;}
@@ -35,7 +36,7 @@ private:
 	void inspection(float delta);
 	bool contact(cocos2d::PhysicsContact & contact) const;
 	unsigned int _combo, _result, _time;
-	cocos2d::Label * _score;
+	std::unique_ptr<Ui::Label> _score;
 	std::unordered_map<
 		cocos2d::PhysicsBody *,
 		std::unique_ptr<Objects::Figure>

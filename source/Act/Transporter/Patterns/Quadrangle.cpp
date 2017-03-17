@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Quadrangle.hpp"
 
 namespace Act

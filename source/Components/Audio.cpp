@@ -1,4 +1,5 @@
-#include "include.hpp"
+#include "File.hpp"
+#include "Resource.hpp"
 #include "Audio.hpp"
 #include <SimpleAudioEngine.h>
 

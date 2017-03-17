@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Edge.hpp"
 
 namespace Views

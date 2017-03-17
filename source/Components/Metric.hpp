@@ -1,9 +1,7 @@
 #ifndef COMPONENTS_METRIC
 #define COMPONENTS_METRIC
 
-#include "Application/Component.hpp"
-#include <cocos2d.h>
-#include <array>
+#include "include.hpp"
 
 namespace Components
 {
@@ -28,12 +26,15 @@ public:
 	cocos2d::Vec2 center() const;
 	cocos2d::Vec2 spawn(bool side) const;
 	cocos2d::Size spawn() const;
+	cocos2d::Vec2 step() const;
 	cocos2d::Rect hammer() const;
 	cocos2d::Rect anvil() const;
 	cocos2d::Rect platform() const;
 	const std::array<cocos2d::Vec2, 2> & slice() const;
 	const std::array<cocos2d::Vec2, 2> & over() const;
 	const std::array<cocos2d::Vec2, 4> & edge() const;
+	cocos2d::Size button(bool primary) const;
+	cocos2d::Size checkbox() const;
 
 private:
 
@@ -42,9 +43,11 @@ private:
 	cocos2d::Vec2 _origin;
 	cocos2d::Vec2 _lspawn, _rspawn;
 	cocos2d::Size _spawn;
+	cocos2d::Vec2 _step;
 	cocos2d::Rect _hammer, _anvil, _platform;
 	std::array<cocos2d::Vec2, 2> _over, _slice;
 	std::array<cocos2d::Vec2, 4> _edge;
+	cocos2d::Size _primaryButton, _secondaryButton, _checkbox;
 };
 
 }

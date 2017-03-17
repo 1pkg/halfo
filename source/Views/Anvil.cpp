@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Anvil.hpp"
 
 namespace Views

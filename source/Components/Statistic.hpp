@@ -1,9 +1,8 @@
 #ifndef COMPONENTS_STATISTIC
 #define COMPONENTS_STATISTIC
 
-#include "Application/Component.hpp"
-#include <cocos2d.h>
-#include <array>
+#include "include.hpp"
+#include "constants.hpp"
 
 namespace Components
 {
@@ -26,14 +25,14 @@ public:
 	};
 
 	void initialize() override;
-	const std::array<Result, 0xA> & table() const;
+	const std::array<Result, STATISTIC_TABLE_SIZE> & table() const;
 	unsigned int total(std::string key) const;
 	void update(const Result & result);
 
 private:
 
 	friend class Storage;
-	std::array<Result, 0xA> _table;
+	std::array<Result, STATISTIC_TABLE_SIZE> _table;
 	std::unordered_map<std::string, unsigned int> _totals;
 };
 

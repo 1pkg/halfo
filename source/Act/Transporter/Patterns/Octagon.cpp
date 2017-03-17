@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Octagon.hpp"
 
 namespace Act

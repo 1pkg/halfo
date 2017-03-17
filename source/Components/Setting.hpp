@@ -1,9 +1,7 @@
 #ifndef COMPONENTS_SETTING
 #define COMPONENTS_SETTING
 
-#include "Application/Component.hpp"
-#include <cocos2d.h>
-#include <array>
+#include "include.hpp"
 
 namespace Components
 {

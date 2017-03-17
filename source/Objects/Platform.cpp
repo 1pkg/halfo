@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Platform.hpp"
 
 namespace Objects
@@ -17,13 +18,13 @@ Platform::view() const
 void
 Platform::upward()
 {
-	_view->run(cocos2d::MoveBy::create(EDGE_STEP_TIME, cocos2d::Vec2(0.0f, Master::instance().get<Components::Metric>().absolute(EDGE_STEP))));
+	_view->run(cocos2d::MoveBy::create(PLATFORM_STEP_TIME, Master::instance().get<Components::Metric>().step()));
 }
 
 void
 Platform::downward()
 {
-	_view->run(cocos2d::MoveBy::create(EDGE_STEP_TIME, cocos2d::Vec2(0.0f, -Master::instance().get<Components::Metric>().absolute(EDGE_STEP))));
+	_view->run(cocos2d::MoveBy::create(PLATFORM_STEP_TIME, -Master::instance().get<Components::Metric>().step()));
 }
 
 }

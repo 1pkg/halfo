@@ -1,4 +1,3 @@
-#include "include.hpp"
 #include "Texture.hpp"
 
 namespace Components

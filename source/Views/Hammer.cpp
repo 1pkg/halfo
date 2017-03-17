@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Hammer.hpp"
 
 namespace Views

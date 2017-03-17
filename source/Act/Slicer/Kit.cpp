@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Kit.hpp"
 #include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"

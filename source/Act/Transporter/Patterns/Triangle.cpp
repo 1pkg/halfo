@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Triangle.hpp"
 
 namespace Act

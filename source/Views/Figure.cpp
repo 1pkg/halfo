@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Figure.hpp"
 
 namespace Views
@@ -25,8 +26,6 @@ Figure::Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, boo
 
 Figure::~Figure()
 {
-	_sprite->removeFromParentAndCleanup(true);
-	_stencil->removeFromParentAndCleanup(true);
 	_clipper->removeFromParentAndCleanup(true);
 }
 

@@ -1,4 +1,5 @@
-#include "include.hpp"
+#include "File.hpp"
+#include "Resource.hpp"
 #include "Font.hpp"
 
 namespace Components
@@ -13,7 +14,7 @@ Font::initialize()
 		_font = Master::instance().get<File>().cache(data);
 		return false;
 	};
-	Master::instance().get<Components::Resource>().walk(Resource::Type::FONT, callback);
+	Master::instance().get<Resource>().walk(Resource::Type::FONT, callback);
 }
 
 std::string

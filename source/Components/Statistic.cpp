@@ -1,4 +1,3 @@
-#include "include.hpp"
 #include "Statistic.hpp"
 
 namespace Components

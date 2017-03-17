@@ -20,7 +20,6 @@ public:
 
 private:
 
-	const float SLICE_DELTA = 0.001f;
 	std::vector<cocos2d::Vec2> rotate(const std::vector<cocos2d::Vec2> & vector) const;
 	std::vector<cocos2d::Vec2> _pattern;
 	bool _hollow;

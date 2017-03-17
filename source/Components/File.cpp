@@ -1,4 +1,4 @@
-#include "include.hpp"
+#include "constants.hpp"
 #include "File.hpp"
 
 namespace Components
@@ -66,6 +66,8 @@ File::cache(const cocos2d::Data & data)
 	std::string path = "";
     for (unsigned i = 0; i < CACHE_FILENAME_SIZE; ++i)
        path += CACHE_FILENAME_CHARSET[cocos2d::RandomHelper::random_int<unsigned int>(0, (sizeof(CACHE_FILENAME_CHARSET) - 1))];
+	if (path.length() < CACHE_FILENAME_SIZE)
+	 throw std::exception();
 	path = cache() + path + TRUE_FILE_EXTENSION;
 	cocos2d::FileUtils::getInstance()->writeDataToFile(data, path);
 	_files.push_back(path);

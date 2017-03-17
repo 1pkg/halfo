@@ -18,7 +18,6 @@ public:
 
 private:
 
-	const float EDGE_STEP = 30.0f, EDGE_STEP_TIME = 1.0f;
 	std::unique_ptr<Views::Platform> _view;
 };
 

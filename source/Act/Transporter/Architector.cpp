@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Architector.hpp"
 #include "Objects/Figure.hpp"
 #include "Patterns/Triangle.hpp"

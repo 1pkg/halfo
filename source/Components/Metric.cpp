@@ -1,4 +1,4 @@
-#include "include.hpp"
+#include "constants.hpp"
 #include "Metric.hpp"
 
 namespace Components
@@ -14,6 +14,7 @@ Metric::initialize()
 	_lspawn = cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_rspawn = cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_spawn = cocos2d::Size(_size.width / 6.0f, _size.height / 6.0f);
+	_step = cocos2d::Vec2(0.0f, _size.height / 16.0f);
 	_hammer = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin, cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f)),
 	_anvil = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, 0.0f) + _origin, cocos2d::Size(0.0f, _size.height / 3.0f * 2.0f)),
 	_platform = cocos2d::Rect(_origin, cocos2d::Size(_size.width, 0.0f));
@@ -32,6 +33,10 @@ Metric::initialize()
 		cocos2d::Vec2(_size.width,_size.height) + _origin,
 		cocos2d::Vec2(_size.width, 0.0f) - cocos2d::Vec2(0.0f, _size.height * 3.0f) + _origin
 	}};
+
+	_primaryButton = cocos2d::Size(_size.width / 4.0f, _size.height / 6.0f),
+	_secondaryButton = cocos2d::Size(_size.width / 5.0f, _size.height / 9.0f),
+	_checkbox = cocos2d::Size(_size.width / 5.0f, _size.height / 9.0f);
 }
 
 float
@@ -124,6 +129,12 @@ Metric::spawn() const
 	return _spawn;
 }
 
+cocos2d::Vec2
+Metric::step() const
+{
+	return _step;
+}
+
 cocos2d::Rect
 Metric::hammer() const
 {
@@ -158,6 +169,18 @@ const std::array<cocos2d::Vec2, 4> &
 Metric::edge() const
 {
 	return _edge;
+}
+
+cocos2d::Size
+Metric::button(bool primary) const
+{
+	return primary ? _primaryButton : _secondaryButton;
+}
+
+cocos2d::Size
+Metric::checkbox() const
+{
+	return _checkbox;
 }
 
 }

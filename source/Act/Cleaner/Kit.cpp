@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Kit.hpp"
 #include "Scenes/Act.hpp"
 #include "Objects/Figure.hpp"
@@ -12,18 +13,15 @@ namespace Cleaner
 
 Kit::Kit(Scenes::Act * act)
 	: _combo(0), _result(0), _time(0),
+	_score(new Ui::Label(MEDIUM_FONT_SIZE)),
 	_platform(new Objects::Platform()),
 	_over(new Objects::Over()),
 	_sensor(cocos2d::EventListenerPhysicsContact::create()),
 	_act(act)
 {
-
-	/*
-		Initialize score label.
-	*/
-	_score = cocos2d::Label::createWithTTF(to_string(_result), Master::instance().get<Components::Font>().get(), 32.0f);
-	_score->setPosition(Master::instance().get<Components::Metric>().center());
-	_act->addChild(_score);
+	_score->setPosition(Master::instance().get<Components::Metric>().center() * 3.0f / 4.0f);
+	_score->setText("0");
+	_score->attach(_act);
 
 	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
 	_act->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_sensor, _act);
@@ -36,7 +34,6 @@ Kit::Kit(Scenes::Act * act)
 
 Kit::~Kit()
 {
-	_score->removeFromParentAndCleanup(true);
 	_act->getEventDispatcher()->removeEventListener(_sensor);
 
 	Master::instance().sheduler()->unschedule("Cleaner::Kit::inspection", this);
@@ -53,7 +50,7 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 {
 	_pool.insert(std::pair<cocos2d::PhysicsBody *,std::unique_ptr<Objects::Figure>>(figure->view()->body(), std::move(figure)));
 	_result += scale();
-	_score->setString(to_string(_result));
+	_score->setText(to_string(_result));
 }
 
 Objects::Figure *

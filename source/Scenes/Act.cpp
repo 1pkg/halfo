@@ -1,18 +1,8 @@
+#include "components.hpp"
 #include "Act.hpp"
 
 namespace Scenes
 {
-
-cocos2d::Scene *
-Act::instantiate()
-{
-    cocos2d::Scene * scene = cocos2d::Scene::createWithPhysics();
-	Act * act = Act::create();
-	scene->addChild(act);
-	scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
-	scene->getPhysicsWorld()->setGravity(Master::instance().get<Components::Metric>().absolute(act->GRAVITY));
-    return scene;
-}
 
 Act *
 Act::create()
@@ -31,7 +21,6 @@ Act::Act()
 	_cleaner(new Cleaner::Kit(this))
 {
 	setScale(0.7f);
-
 	schedule(schedule_selector(Act::update), UPDATE_TIME);
 }
 

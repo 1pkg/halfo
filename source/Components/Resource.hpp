@@ -1,9 +1,8 @@
 #ifndef COMPONENTS_RESOURCE
 #define COMPONENTS_RESOURCE
 
-#include "Application/Component.hpp"
-#include <cocos2d.h>
-#include <array>
+#include "include.hpp"
+#include "functions.hpp"
 
 namespace Components
 {
@@ -21,7 +20,7 @@ public:
 private:
 
 	void unserialize(const cocos2d::Data & data);
-	std::unordered_map<std::string, std::vector<std::pair<Type, cocos2d::Data>>> _resources;
+	std::unordered_map<std::pair<std::string, Type>, cocos2d::Data, unorderedhash> _resources;
 };
 
 }

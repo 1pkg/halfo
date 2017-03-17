@@ -1,3 +1,4 @@
+#include "components.hpp"
 #include "Pentagon.hpp"
 
 namespace Act
