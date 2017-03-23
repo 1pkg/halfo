@@ -4,11 +4,11 @@ namespace Objects
 {
 
 Over::Over()
-	: _view(new Views::Over())
+	: _view(new Views::Object::Over())
 {
 }
 
-Views::Over *
+Views::Object::Over *
 Over::view() const
 {
 	return _view.get();

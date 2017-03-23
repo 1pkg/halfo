@@ -8,11 +8,11 @@ namespace Objects
 Figure::Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, bool hollow)
 	: _pattern(pattern, pattern + size),
 	_hollow(hollow),
-	_view(new Views::Figure(_pattern.data(), _pattern.size(), angle, _hollow))
+	_view(new Views::Object::Figure(_pattern.data(), _pattern.size(), angle, _hollow))
 {
 }
 
-Views::Figure *
+Views::Object::Figure *
 Figure::view() const
 {
 	return _view.get();

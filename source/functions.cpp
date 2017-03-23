@@ -61,3 +61,25 @@ std::string hash(const cocos2d::Data & data)
 		return hashpad(hash);
 	return hash;
 }
+
+Result::Result()
+{
+	this->slices = this->time = this->mass = 0;
+}
+
+Result::Result(unsigned int slices, unsigned int time, unsigned int mass)
+{
+	this->slices = slices, this->time = time, this->mass = mass;
+}
+
+bool
+Result::operator<(const Result & result) const
+{
+	return slices < result.slices;
+}
+
+bool
+Result::empty() const
+{
+	return slices == 0 && time == 0 && mass == 0;
+}

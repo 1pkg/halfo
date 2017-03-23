@@ -10,7 +10,7 @@ class Master : public Application::Wrapper, public cocos2d::Application
 public:
 
 	static const std::string SCENE_MENU;
-	static const std::string SCENE_ACT;
+	static const std::string SCENE_PLAY;
 	static const std::string SCENE_SETTINGS;
 	static const std::string SCENE_OVER;
 	static const std::string SCENE_EXIT;

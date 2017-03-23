@@ -5,26 +5,26 @@ namespace Objects
 {
 
 Platform::Platform()
-	: _view(new Views::Platform())
+	: _view(new Views::Object::Platform())
 {
 }
 
-Views::Platform *
+Views::Object::Platform *
 Platform::view() const
 {
 	return _view.get();
 }
 
 void
-Platform::upward()
+Platform::run(const std::string & action)
 {
-	_view->run(cocos2d::MoveBy::create(PLATFORM_STEP_TIME, Master::instance().get<Components::Metric>().step()));
-}
+	if (action == "up")
+		return _view->run(cocos2d::MoveBy::create(PLATFORM_STEP_TIME, Master::instance().get<Components::Metric>().step()));
 
-void
-Platform::downward()
-{
-	_view->run(cocos2d::MoveBy::create(PLATFORM_STEP_TIME, -Master::instance().get<Components::Metric>().step()));
+	if (action == "down")
+		return _view->run(cocos2d::MoveBy::create(PLATFORM_STEP_TIME, -Master::instance().get<Components::Metric>().step()));
+
+	Application::Object::run(action);
 }
 
 }

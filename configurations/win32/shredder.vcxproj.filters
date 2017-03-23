@@ -4,20 +4,11 @@
     <Filter Include="Application">
       <UniqueIdentifier>{0ea02c0f-a7a2-4211-b445-c98afb96943f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Transporter">
-      <UniqueIdentifier>{52fb28a4-9237-44a3-b3e8-36cdc8a5ac93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Cleaner">
-      <UniqueIdentifier>{4b3d0c9b-7b21-4ff8-a760-b22ba061095a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{ffe7e126-64f1-4170-9fcb-aaaaf0b93e76}</UniqueIdentifier>
     </Filter>
     <Filter Include="Views">
       <UniqueIdentifier>{2613066a-7acc-4851-9fe5-000518fd2305}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Slicer">
-      <UniqueIdentifier>{ac5c580c-d020-4e75-92d9-1e29feb9c732}</UniqueIdentifier>
     </Filter>
     <Filter Include="main">
       <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
@@ -31,37 +22,37 @@
     <Filter Include="main\crypto">
       <UniqueIdentifier>{ccefaa8f-b4b1-46cc-a68a-374d37624395}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Transporter\Patterns">
-      <UniqueIdentifier>{eb2c8ee4-17a7-498b-a5be-2995ed942fd0}</UniqueIdentifier>
+    <Filter Include="Play">
+      <UniqueIdentifier>{e7a03f26-f1fa-4787-9937-2953fe8b2aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Cleaner">
+      <UniqueIdentifier>{ac77eae4-010e-427f-9b45-1c007d66f936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Slicer">
+      <UniqueIdentifier>{e5a2bd59-9428-458f-a468-71c23e78544b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Transporter">
+      <UniqueIdentifier>{20638cd2-4f03-4599-b7ab-33b9acf72529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Transporter\Patterns">
+      <UniqueIdentifier>{baa635eb-42ec-4431-9964-74e196a988a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Views\Ui">
+      <UniqueIdentifier>{f9d8121c-cb40-4cda-aa06-fce38ece8430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Views\Object">
+      <UniqueIdentifier>{4a12eeda-ab90-4c58-9b83-b1719342b01e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Cleaner\Kit.cpp">
-      <Filter>Cleaner</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Objects\Figure.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Slicer\Kit.cpp">
-      <Filter>Slicer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Architector.cpp">
-      <Filter>Transporter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Kit.cpp">
-      <Filter>Transporter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Views\Figure.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Components\Metric.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Scenes\Act.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Scenes\Over.cpp">
       <Filter>Scenes</Filter>
@@ -87,44 +78,14 @@
     <ClCompile Include="..\source\Objects\Hammer.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Views\Edge.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Views\Hammer.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Views\Anvil.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Objects\Anvil.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Objects\Over.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Views\Over.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Views\Platform.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Objects\Platform.cpp">
       <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Pattern.cpp">
-      <Filter>Transporter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Patterns\Triangle.cpp">
-      <Filter>Transporter\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Patterns\Pentagon.cpp">
-      <Filter>Transporter\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Patterns\Octagon.cpp">
-      <Filter>Transporter\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Transporter\Patterns\Quadrangle.cpp">
-      <Filter>Transporter\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Master.cpp">
       <Filter>main</Filter>
@@ -153,6 +114,81 @@
     <ClCompile Include="..\source\Components\Audio.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Components\Font.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\File.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Deploy.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\functions.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Scenes\Menu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Scenes\Settings.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Scenes\Play.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Cleaner\Kit.cpp">
+      <Filter>Play\Cleaner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Slicer\Kit.cpp">
+      <Filter>Play\Slicer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Architector.cpp">
+      <Filter>Play\Transporter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Kit.cpp">
+      <Filter>Play\Transporter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Pattern.cpp">
+      <Filter>Play\Transporter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Octagon.cpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Pentagon.cpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Quadrangle.cpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Triangle.cpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Ui\Button.cpp">
+      <Filter>Views\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Ui\Checkbox.cpp">
+      <Filter>Views\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Ui\Label.cpp">
+      <Filter>Views\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Anvil.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Edge.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Figure.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Hammer.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Over.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Platform.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -170,32 +206,14 @@
     <ClInclude Include="..\source\Application\Kit.hpp">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Cleaner\Kit.hpp">
-      <Filter>Cleaner</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Objects\Figure.hpp">
       <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Slicer\Kit.hpp">
-      <Filter>Slicer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Architector.hpp">
-      <Filter>Transporter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Kit.hpp">
-      <Filter>Transporter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Views\Figure.hpp">
-      <Filter>Views</Filter>
     </ClInclude>
     <ClInclude Include="..\source\include.hpp">
       <Filter>main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Metric.hpp">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Scenes\Act.hpp">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Scenes\Over.hpp">
       <Filter>Scenes</Filter>
@@ -206,44 +224,14 @@
     <ClInclude Include="..\source\Objects\Hammer.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Views\Edge.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Views\Hammer.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Views\Anvil.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Objects\Anvil.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Objects\Over.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Views\Over.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Views\Platform.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Objects\Platform.hpp">
       <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Pattern.hpp">
-      <Filter>Transporter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Patterns\Triangle.hpp">
-      <Filter>Transporter\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Patterns\Octagon.hpp">
-      <Filter>Transporter\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Patterns\Pentagon.hpp">
-      <Filter>Transporter\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Transporter\Patterns\Quadrangle.hpp">
-      <Filter>Transporter\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Master.hpp">
       <Filter>main</Filter>
@@ -274,6 +262,90 @@
     </ClInclude>
     <ClInclude Include="..\source\Components\Audio.hpp">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Font.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\File.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Deploy.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\components.hpp">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\constants.hpp">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\functions.hpp">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Scenes\Menu.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Scenes\Settings.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Scenes\Play.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Cleaner\Kit.hpp">
+      <Filter>Play\Cleaner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Slicer\Kit.hpp">
+      <Filter>Play\Slicer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Architector.hpp">
+      <Filter>Play\Transporter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Kit.hpp">
+      <Filter>Play\Transporter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Pattern.hpp">
+      <Filter>Play\Transporter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Octagon.hpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Pentagon.hpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Quadrangle.hpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Triangle.hpp">
+      <Filter>Play\Transporter\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Application\Scene.hpp">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Ui\Button.hpp">
+      <Filter>Views\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Ui\Checkbox.hpp">
+      <Filter>Views\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Ui\Label.hpp">
+      <Filter>Views\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Anvil.hpp">
+      <Filter>Views\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Edge.hpp">
+      <Filter>Views\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Figure.hpp">
+      <Filter>Views\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Hammer.hpp">
+      <Filter>Views\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Over.hpp">
+      <Filter>Views\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Platform.hpp">
+      <Filter>Views\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

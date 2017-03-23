@@ -10,6 +10,7 @@ std::string to_string(T value)
 	stream << value ;
 	return stream.str() ;
 }
+
 struct unorderedhash
 {
     template <class T1, class T2>
@@ -20,6 +21,16 @@ struct unorderedhash
         return hash1 ^ hash2;  
     }
 };
+
 std::string hash(const cocos2d::Data & data);
+
+struct Result
+{
+	Result();
+	Result(unsigned int slices, unsigned int time, unsigned int mass);
+	bool operator<(const Result & result) const;
+	bool empty() const;
+	unsigned int slices, time, mass;
+};
 
 #endif

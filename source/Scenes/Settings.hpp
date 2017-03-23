@@ -2,21 +2,19 @@
 #define SCENES_SETTINGS
 
 #include "include.hpp"
-#include "Ui/Label.hpp"
 
 namespace Scenes
 {
 
-class Settings : public Application::Wrapper, public cocos2d::LayerColor
+class Settings : public Application::Scene
 {
 public:
 
-	static Settings * create();
 	Settings();
 
 private:
 
-	std::unique_ptr<Ui::Label> _info;
+	std::unique_ptr<Views::Ui::Label> _info, _path;
 };
 
 }

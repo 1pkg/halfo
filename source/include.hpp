@@ -5,8 +5,13 @@
 #include "Application/Kit.hpp"
 #include "Application/Object.hpp"
 #include "Application/View.hpp"
+#include "Application/Scene.hpp"
 #include "Application/Component.hpp"
 #include "Master.hpp"
+
+#include "Views/Ui/Label.hpp"
+#include "Views/Ui/Button.hpp"
+#include "Views/Ui/Checkbox.hpp"
 
 #include <cocos2d.h>
 #include <memory>

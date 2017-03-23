@@ -11,13 +11,13 @@
 #include "Components/Audio.hpp"
 #include "Components/Font.hpp"
 #include "Scenes/Menu.hpp"
-#include "Scenes/Act.hpp"
+#include "Scenes/Play.hpp"
 #include "Scenes/Settings.hpp"
 #include "Scenes/Over.hpp"
 #include "Master.hpp"
 
 const std::string Master::SCENE_MENU = "menu";
-const std::string Master::SCENE_ACT = "act";
+const std::string Master::SCENE_PLAY = "play";
 const std::string Master::SCENE_SETTINGS = "settings";
 const std::string Master::SCENE_OVER = "over";
 const std::string Master::SCENE_EXIT = "exit";
@@ -31,7 +31,7 @@ Master::applicationDidFinishLaunching()
     cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
 
 	initialize();
-	scene(SCENE_MENU);
+	scene(SCENE_PLAY);
     return true;
 }
 
@@ -70,41 +70,26 @@ Master::sheduler() const
 void
 Master::scene(const std::string & scene)
 {
+	static std::unique_ptr<::Application::Scene> ptr;
 	if (scene == SCENE_MENU)
-	{
-		cocos2d::Scene * scene = cocos2d::Scene::create();
-		scene->addChild(Scenes::Menu::create());
-		return cocos2d::Director::getInstance()->replaceScene(scene);
-	}
+		ptr.reset(new Scenes::Menu());
 	
-	if (scene == SCENE_ACT)
-	{
-		cocos2d::Scene * scene = cocos2d::Scene::createWithPhysics();
-		scene->getPhysicsWorld()->setDebugDrawMask(scene->getPhysicsWorld()->DEBUGDRAW_ALL);
-		scene->getPhysicsWorld()->setGravity(Master::instance().get<Components::Metric>().absolute(GRAVITY_FORCE));
-		scene->addChild(Scenes::Act::create());
-		return cocos2d::Director::getInstance()->replaceScene(scene);
-	}
+	if (scene == SCENE_PLAY)
+		ptr.reset(new Scenes::Play());
 
 	if (scene == SCENE_SETTINGS)
-	{
-		cocos2d::Scene * scene = cocos2d::Scene::create();
-		scene->addChild(Scenes::Settings::create());
-		return cocos2d::Director::getInstance()->replaceScene(scene);
-	}
+		ptr.reset(new Scenes::Settings());
 
 	if (scene == SCENE_OVER)
-	{
-		cocos2d::Scene * scene = cocos2d::Scene::create();
-		scene->addChild(Scenes::Over::create());
-		return cocos2d::Director::getInstance()->replaceScene(scene);
-	}
+		ptr.reset(new Scenes::Over());
 
 	if (scene == SCENE_EXIT)
 	{
 		finitialize();
 		return cocos2d::Director::getInstance()->end();
 	}
+	else
+		return cocos2d::Director::getInstance()->replaceScene(*ptr);
 }
 
 void

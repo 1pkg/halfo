@@ -14,7 +14,7 @@ Metric::initialize()
 	_lspawn = cocos2d::Vec2(-_size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_rspawn = cocos2d::Vec2(_size.width + _size.width / 6.0f, _size.height / 6.0f * 5.0f) + _origin,
 	_spawn = cocos2d::Size(_size.width / 6.0f, _size.height / 6.0f);
-	_step = cocos2d::Vec2(0.0f, _size.height / 16.0f);
+	_step = cocos2d::Vec2(0.0f, _size.height / 32.0f);
 	_hammer = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, _size.height / 6.0f * 7.0f) + _origin, cocos2d::Size(_size.width / 12.0f, _size.height / 3.0f)),
 	_anvil = cocos2d::Rect(cocos2d::Vec2(_size.width / 2.0f, 0.0f) + _origin, cocos2d::Size(0.0f, _size.height / 3.0f * 2.0f)),
 	_platform = cocos2d::Rect(_origin, cocos2d::Size(_size.width, 0.0f));

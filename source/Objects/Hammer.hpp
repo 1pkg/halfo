@@ -2,7 +2,7 @@
 #define OBJECTS_HAMMER
 
 #include "include.hpp"
-#include "Views/Hammer.hpp"
+#include "Views/Object/Hammer.hpp"
 
 namespace Objects
 {
@@ -12,13 +12,12 @@ class Hammer : public Application::Object
 public:
 
 	Hammer();
-	Views::Hammer * view() const override;
-	void upward();
-	void downward();
+	Views::Object::Hammer * view() const override;
+	void run(const std::string & action) override;
 
 private:
 
-	std::unique_ptr<Views::Hammer> _view;
+	std::unique_ptr<Views::Object::Hammer> _view;
 };
 
 }

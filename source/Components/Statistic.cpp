@@ -17,7 +17,7 @@ Statistic::initialize()
 	_totals.insert(std::pair<std::string, unsigned int>(TOTAL_GAMES_STATISTIC, 0));
 }
 
-const std::array<Statistic::Result, STATISTIC_TABLE_SIZE> &
+const std::array<Result, STATISTIC_TABLE_SIZE> &
 Statistic::table() const
 {
 	return _table;
@@ -32,6 +32,9 @@ Statistic::total(std::string key) const
 void
 Statistic::update(const Result & result)
 {
+	if (result.empty())
+		return;
+
 	_totals.at(TOTAL_SLICES_STATISTIC) += result.slices;
 	_totals.at(TOTAL_TIME_STATISTIC) += result.time;
 	_totals.at(TOTAL_MASS_STATISTIC) += result.mass;
@@ -42,24 +45,6 @@ Statistic::update(const Result & result)
 		_table[STATISTIC_TABLE_SIZE - 1] = result;
 		std::sort(_table.begin(), _table.end());
 	}
-}
-
-Statistic::Result::Result()
-{
-	this->slices = this->time = this->mass = 0;
-}
-
-Statistic::Result::Result(unsigned int slices, unsigned int time, unsigned int mass)
-{
-	this->slices = slices;
-	this->time = time;
-	this->mass = mass;
-}
-
-bool
-Statistic::Result::operator<(const Result & result) const
-{
-	return slices < result.slices;
 }
 
 }

@@ -4,11 +4,11 @@ namespace Objects
 {
 
 Anvil::Anvil()
-	: _view(new Views::Anvil())
+	: _view(new Views::Object::Anvil())
 {
 }
 
-Views::Anvil *
+Views::Object::Anvil *
 Anvil::view() const
 {
 	return _view.get();

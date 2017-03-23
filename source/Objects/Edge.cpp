@@ -4,11 +4,11 @@ namespace Objects
 {
 
 Edge::Edge()
-	: _view(new Views::Edge())
+	: _view(new Views::Object::Edge())
 {
 }
 
-Views::Edge *
+Views::Object::Edge *
 Edge::view() const
 {
 	return _view.get();

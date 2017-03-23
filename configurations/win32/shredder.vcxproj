@@ -71,7 +71,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\source;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\;..\source;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -103,7 +103,7 @@
   <ItemDefinitionGroup>
     <CustomBuildStep>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy "$(ProjectDir)..\assets" "$(OutDir)" /D /E /I /F /Y
+xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
       </Command>
       <Outputs>$(TargetName).cab</Outputs>
       <Inputs>$(TargetFileName)</Inputs>
@@ -152,16 +152,19 @@ xcopy "$(ProjectDir)..\assets" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\crypto\aestab.c" />
     <ClCompile Include="..\crypto\aes_modes.c" />
     <ClCompile Include="..\crypto\aes_ni.c" />
-    <ClCompile Include="..\source\Cleaner\Kit.cpp" />
     <ClCompile Include="..\source\Components\Audio.cpp" />
     <ClCompile Include="..\source\Components\Body.cpp" />
     <ClCompile Include="..\source\Components\Crypto.cpp" />
+    <ClCompile Include="..\source\Components\Deploy.cpp" />
+    <ClCompile Include="..\source\Components\File.cpp" />
+    <ClCompile Include="..\source\Components\Font.cpp" />
     <ClCompile Include="..\source\Components\Metric.cpp" />
     <ClCompile Include="..\source\Components\Resource.cpp" />
     <ClCompile Include="..\source\Components\Setting.cpp" />
     <ClCompile Include="..\source\Components\Statistic.cpp" />
     <ClCompile Include="..\source\Components\Storage.cpp" />
     <ClCompile Include="..\source\Components\Texture.cpp" />
+    <ClCompile Include="..\source\functions.cpp" />
     <ClCompile Include="..\source\Master.cpp" />
     <ClCompile Include="..\source\Objects\Anvil.cpp" />
     <ClCompile Include="..\source\Objects\Edge.cpp" />
@@ -169,40 +172,52 @@ xcopy "$(ProjectDir)..\assets" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\Objects\Hammer.cpp" />
     <ClCompile Include="..\source\Objects\Over.cpp" />
     <ClCompile Include="..\source\Objects\Platform.cpp" />
-    <ClCompile Include="..\source\Scenes\Act.cpp" />
+    <ClCompile Include="..\source\Play\Cleaner\Kit.cpp" />
+    <ClCompile Include="..\source\Play\Slicer\Kit.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Architector.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Kit.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Pattern.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Octagon.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Pentagon.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Quadrangle.cpp" />
+    <ClCompile Include="..\source\Play\Transporter\Patterns\Triangle.cpp" />
+    <ClCompile Include="..\source\Scenes\Menu.cpp" />
     <ClCompile Include="..\source\Scenes\Over.cpp" />
-    <ClCompile Include="..\source\Slicer\Kit.cpp" />
-    <ClCompile Include="..\source\Transporter\Architector.cpp" />
-    <ClCompile Include="..\source\Transporter\Kit.cpp" />
-    <ClCompile Include="..\source\Transporter\Pattern.cpp" />
-    <ClCompile Include="..\source\Transporter\Patterns\Octagon.cpp" />
-    <ClCompile Include="..\source\Transporter\Patterns\Pentagon.cpp" />
-    <ClCompile Include="..\source\Transporter\Patterns\Quadrangle.cpp" />
-    <ClCompile Include="..\source\Transporter\Patterns\Triangle.cpp" />
-    <ClCompile Include="..\source\Views\Anvil.cpp" />
-    <ClCompile Include="..\source\Views\Edge.cpp" />
-    <ClCompile Include="..\source\Views\Figure.cpp" />
-    <ClCompile Include="..\source\Views\Hammer.cpp" />
-    <ClCompile Include="..\source\Views\Over.cpp" />
-    <ClCompile Include="..\source\Views\Platform.cpp" />
+    <ClCompile Include="..\source\Scenes\Play.cpp" />
+    <ClCompile Include="..\source\Scenes\Settings.cpp" />
+    <ClCompile Include="..\source\Views\Object\Anvil.cpp" />
+    <ClCompile Include="..\source\Views\Object\Edge.cpp" />
+    <ClCompile Include="..\source\Views\Object\Figure.cpp" />
+    <ClCompile Include="..\source\Views\Object\Hammer.cpp" />
+    <ClCompile Include="..\source\Views\Object\Over.cpp" />
+    <ClCompile Include="..\source\Views\Object\Platform.cpp" />
+    <ClCompile Include="..\source\Views\Ui\Button.cpp" />
+    <ClCompile Include="..\source\Views\Ui\Checkbox.cpp" />
+    <ClCompile Include="..\source\Views\Ui\Label.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Application\Component.hpp" />
     <ClInclude Include="..\source\Application\Kit.hpp" />
     <ClInclude Include="..\source\Application\Object.hpp" />
+    <ClInclude Include="..\source\Application\Scene.hpp" />
     <ClInclude Include="..\source\Application\View.hpp" />
     <ClInclude Include="..\source\Application\Wrapper.hpp" />
-    <ClInclude Include="..\source\Cleaner\Kit.hpp" />
+    <ClInclude Include="..\source\components.hpp" />
     <ClInclude Include="..\source\Components\Audio.hpp" />
     <ClInclude Include="..\source\Components\Body.hpp" />
     <ClInclude Include="..\source\Components\Crypto.hpp" />
+    <ClInclude Include="..\source\Components\Deploy.hpp" />
+    <ClInclude Include="..\source\Components\File.hpp" />
+    <ClInclude Include="..\source\Components\Font.hpp" />
     <ClInclude Include="..\source\Components\Metric.hpp" />
     <ClInclude Include="..\source\Components\Resource.hpp" />
     <ClInclude Include="..\source\Components\Setting.hpp" />
     <ClInclude Include="..\source\Components\Statistic.hpp" />
     <ClInclude Include="..\source\Components\Storage.hpp" />
     <ClInclude Include="..\source\Components\Texture.hpp" />
+    <ClInclude Include="..\source\constants.hpp" />
+    <ClInclude Include="..\source\functions.hpp" />
     <ClInclude Include="..\source\include.hpp" />
     <ClInclude Include="..\source\Master.hpp" />
     <ClInclude Include="..\source\Objects\Anvil.hpp" />
@@ -211,34 +226,34 @@ xcopy "$(ProjectDir)..\assets" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Objects\Hammer.hpp" />
     <ClInclude Include="..\source\Objects\Over.hpp" />
     <ClInclude Include="..\source\Objects\Platform.hpp" />
-    <ClInclude Include="..\source\Scenes\Act.hpp" />
+    <ClInclude Include="..\source\Play\Cleaner\Kit.hpp" />
+    <ClInclude Include="..\source\Play\Slicer\Kit.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Architector.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Kit.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Pattern.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Octagon.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Pentagon.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Quadrangle.hpp" />
+    <ClInclude Include="..\source\Play\Transporter\Patterns\Triangle.hpp" />
+    <ClInclude Include="..\source\Scenes\Menu.hpp" />
     <ClInclude Include="..\source\Scenes\Over.hpp" />
-    <ClInclude Include="..\source\Slicer\Kit.hpp" />
-    <ClInclude Include="..\source\Transporter\Architector.hpp" />
-    <ClInclude Include="..\source\Transporter\Kit.hpp" />
-    <ClInclude Include="..\source\Transporter\Pattern.hpp" />
-    <ClInclude Include="..\source\Transporter\Patterns\Octagon.hpp" />
-    <ClInclude Include="..\source\Transporter\Patterns\Pentagon.hpp" />
-    <ClInclude Include="..\source\Transporter\Patterns\Quadrangle.hpp" />
-    <ClInclude Include="..\source\Transporter\Patterns\Triangle.hpp" />
-    <ClInclude Include="..\source\Views\Anvil.hpp" />
-    <ClInclude Include="..\source\Views\Edge.hpp" />
-    <ClInclude Include="..\source\Views\Figure.hpp" />
-    <ClInclude Include="..\source\Views\Hammer.hpp" />
-    <ClInclude Include="..\source\Views\Over.hpp" />
-    <ClInclude Include="..\source\Views\Platform.hpp" />
+    <ClInclude Include="..\source\Scenes\Play.hpp" />
+    <ClInclude Include="..\source\Scenes\Settings.hpp" />
+    <ClInclude Include="..\source\Views\Object\Anvil.hpp" />
+    <ClInclude Include="..\source\Views\Object\Edge.hpp" />
+    <ClInclude Include="..\source\Views\Object\Figure.hpp" />
+    <ClInclude Include="..\source\Views\Object\Hammer.hpp" />
+    <ClInclude Include="..\source\Views\Object\Over.hpp" />
+    <ClInclude Include="..\source\Views\Object\Platform.hpp" />
+    <ClInclude Include="..\source\Views\Ui\Button.hpp" />
+    <ClInclude Include="..\source\Views\Ui\Checkbox.hpp" />
+    <ClInclude Include="..\source\Views\Ui\Label.hpp" />
     <ClInclude Include="main.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
       <Project>{98a51ba8-fc3a-415b-ac8f-8c7bd464e93e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\cocos2d\cocos\editor-support\spine\proj.win32\libSpine.vcxproj">
-      <Project>{b7c2a162-dec9-4418-972e-240ab3cbfcae}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\cocos2d\external\Box2D\proj.win32\libbox2d.vcxproj">
-      <Project>{929480e7-23c0-4df6-8456-096d71547116}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

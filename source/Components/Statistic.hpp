@@ -3,6 +3,7 @@
 
 #include "include.hpp"
 #include "constants.hpp"
+#include "functions.hpp"
 
 namespace Components
 {
@@ -15,14 +16,6 @@ public:
 	static const std::string TOTAL_TIME_STATISTIC;
 	static const std::string TOTAL_MASS_STATISTIC;
 	static const std::string TOTAL_GAMES_STATISTIC;
-
-	struct Result
-	{
-		Result();
-		Result(unsigned int slices, unsigned int time, unsigned int mass);
-		bool operator<(const Result & result) const;
-		unsigned int slices, time, mass;
-	};
 
 	void initialize() override;
 	const std::array<Result, STATISTIC_TABLE_SIZE> & table() const;

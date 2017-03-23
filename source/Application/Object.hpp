@@ -2,16 +2,17 @@
 #define APPLICATION_OBJECT
 
 #include "Wrapper.hpp"
+#include "View.hpp"
 
 namespace Application
 {
 
-class View;
 class Object : public Wrapper
 {
 public:
 
-	virtual View * view() const {return nullptr;}
+	virtual void run(const std::string & action) {}
+	virtual Views::Object * view() const {return nullptr;}
 };
 
 }
