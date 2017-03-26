@@ -10,5 +10,6 @@
 #include "Components/Body.hpp"
 #include "Components/Audio.hpp"
 #include "Components/Font.hpp"
+#include "Components/Share.hpp"
 
 #endif

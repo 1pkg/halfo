@@ -159,8 +159,10 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\Components\File.cpp" />
     <ClCompile Include="..\source\Components\Font.cpp" />
     <ClCompile Include="..\source\Components\Metric.cpp" />
+    <ClCompile Include="..\source\Components\Notification.cpp" />
     <ClCompile Include="..\source\Components\Resource.cpp" />
     <ClCompile Include="..\source\Components\Setting.cpp" />
+    <ClCompile Include="..\source\Components\Share.cpp" />
     <ClCompile Include="..\source\Components\Statistic.cpp" />
     <ClCompile Include="..\source\Components\Storage.cpp" />
     <ClCompile Include="..\source\Components\Texture.cpp" />
@@ -211,8 +213,10 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Components\File.hpp" />
     <ClInclude Include="..\source\Components\Font.hpp" />
     <ClInclude Include="..\source\Components\Metric.hpp" />
+    <ClInclude Include="..\source\Components\Notification.hpp" />
     <ClInclude Include="..\source\Components\Resource.hpp" />
     <ClInclude Include="..\source\Components\Setting.hpp" />
+    <ClInclude Include="..\source\Components\Share.hpp" />
     <ClInclude Include="..\source\Components\Statistic.hpp" />
     <ClInclude Include="..\source\Components\Storage.hpp" />
     <ClInclude Include="..\source\Components\Texture.hpp" />

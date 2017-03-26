@@ -18,6 +18,10 @@
 #define FLAG_NON "non"
 #define FLAG_DONE "done"
 
+#define SHARE_TWITTER "twitter"
+#define SHARE_FACEBOOK "facebook"
+#define SHARE_REVIEW "review"
+
 #define HAMMER_STROKE_TIME 0.15f
 #define PLATFORM_STEP_TIME 0.5f
 

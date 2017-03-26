@@ -10,6 +10,8 @@
 #include "Components/Body.hpp"
 #include "Components/Audio.hpp"
 #include "Components/Font.hpp"
+#include "Components/Share.hpp"
+#include "Components/Notification.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Play.hpp"
 #include "Scenes/Settings.hpp"
@@ -31,7 +33,7 @@ Master::applicationDidFinishLaunching()
     cocos2d::Director::getInstance()->setAnimationInterval(1.0f / 30.0f);
 
 	initialize();
-	scene(SCENE_PLAY);
+	scene(SCENE_MENU);
     return true;
 }
 
@@ -109,6 +111,8 @@ Master::initialize()
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Body).name(), std::move(std::unique_ptr<Body>(new Body()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Audio).name(), std::move(std::unique_ptr<Audio>(new Audio()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Font).name(), std::move(std::unique_ptr<Font>(new Font()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Share).name(), std::move(std::unique_ptr<Share>(new Share()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Notification).name(), std::move(std::unique_ptr<Notification>(new Notification()))));
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();

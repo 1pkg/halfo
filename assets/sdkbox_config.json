@@ -1,0 +1,72 @@
+{
+    "android": {
+        "Facebook": {
+            "debug": true, 
+            "url_scheme_suffix": "", 
+            "app_id": "213047839179197"
+        }, 
+        "Review": {
+            "LaunchLimit": 3, 
+            "DayForReminding": 1, 
+            "tryPromptWhenInit": true, 
+            "DayLimit": 0, 
+            "LaunchForReminding": 2, 
+            "UserEventLimit": 0
+        }, 
+        "Share": {
+            "platforms": {
+                "Twitter": {
+                    "params": {
+                        "secret": "4i2Y0HlSmkxEcKJjWw2gLxefl2gAFg6N6iU4x0jK8GEumw6Enj", 
+                        "key": "4hRgPiaFf21KRxIqSApmISrKa"
+                    }
+                }, 
+                "Facebook": {
+                    "app_id": "213047839179197"
+                }
+            }
+        }, 
+        "OneSignal": {
+            "sound": false, 
+            "vibrate": false, 
+            "project_number": "570107898529", 
+            "debug": true, 
+            "notifications_when_active": false, 
+            "id": "3bee99e9-8e1c-4bfc-9399-0d1533891d5e"
+        }
+    }, 
+    "ios": {
+        "Facebook": {
+            "debug": true, 
+            "url_scheme_suffix": "", 
+            "app_id": "213047839179197"
+        }, 
+        "Review": {
+            "LaunchLimit": 3, 
+            "DayForReminding": 1, 
+            "tryPromptWhenInit": true, 
+            "AppID": "587767923", 
+            "DayLimit": 0, 
+            "LaunchForReminding": 2, 
+            "UserEventLimit": 0
+        }, 
+        "Share": {
+            "platforms": {
+                "Twitter": {
+                    "params": {
+                        "secret": "4i2Y0HlSmkxEcKJjWw2gLxefl2gAFg6N6iU4x0jK8GEumw6Enj", 
+                        "key": "4hRgPiaFf21KRxIqSApmISrKa"
+                    }
+                }, 
+                "Facebook": {
+                    "app_id": "213047839179197"
+                }
+            }
+        }, 
+        "OneSignal": {
+            "debug": false, 
+            "id": "3bee99e9-8e1c-4bfc-9399-0d1533891d5e", 
+            "auto_register": true
+        }
+    }
+}
