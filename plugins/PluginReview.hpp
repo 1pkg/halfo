@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "sdkbox/Sdkbox.h"
+#include "Sdkbox.hpp"
 
 namespace sdkbox
 {

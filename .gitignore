@@ -23,15 +23,18 @@
 !/proj.win32/shredder.vcxproj.user
 
 # Ignore android project
+/proj.android-studio/*
 /proj.android/*
-!/proj.android/jni/
-!/proj.android/src/
-!/proj.android/build-cfg.json
-!/proj.android/build.xml
-!/proj.android/AndroidManifest.xml
-!/proj.android/.project
-!/proj.android/.cproject
-!/proj.android/.classpath
+!/proj.android-studio/app/
+/proj.android-studio/app/build
+/proj.android-studio/app/libs
+/proj.android-studio/app/obj
+/proj.android-studio/app/assets
+!/proj.android-studio/build.gradle
+!/proj.android-studio/build-cfg.json
+!/proj.android-studio/gradle.properties
+!/proj.android-studio/local.properties
+!/proj.android-studiod/settings.gradle
 
 # Ignore ios_mac project
 /proj.ios_mac/*

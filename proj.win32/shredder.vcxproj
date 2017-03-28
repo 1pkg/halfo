@@ -152,6 +152,14 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\crypto\aestab.c" />
     <ClCompile Include="..\crypto\aes_modes.c" />
     <ClCompile Include="..\crypto\aes_ni.c" />
+    <ClCompile Include="..\plugins\PluginFacebook.cpp" />
+    <ClCompile Include="..\plugins\PluginGoogleAnalytics.cpp" />
+    <ClCompile Include="..\plugins\PluginOneSignal.cpp" />
+    <ClCompile Include="..\plugins\PluginReview.cpp" />
+    <ClCompile Include="..\plugins\PluginSdkboxAds.cpp" />
+    <ClCompile Include="..\plugins\PluginShare.cpp" />
+    <ClCompile Include="..\source\Components\Ad.cpp" />
+    <ClCompile Include="..\source\Components\Analytic.cpp" />
     <ClCompile Include="..\source\Components\Audio.cpp" />
     <ClCompile Include="..\source\Components\Body.cpp" />
     <ClCompile Include="..\source\Components\Crypto.cpp" />
@@ -199,6 +207,17 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\crypto\aes.h" />
+    <ClInclude Include="..\crypto\aestab.h" />
+    <ClInclude Include="..\crypto\aes_ni.h" />
+    <ClInclude Include="..\plugins\PluginAdMob.hpp" />
+    <ClInclude Include="..\plugins\PluginFacebook.hpp" />
+    <ClInclude Include="..\plugins\PluginGoogleAnalytics.hpp" />
+    <ClInclude Include="..\plugins\PluginOneSignal.hpp" />
+    <ClInclude Include="..\plugins\PluginReview.hpp" />
+    <ClInclude Include="..\plugins\PluginSdkboxAds.hpp" />
+    <ClInclude Include="..\plugins\PluginShare.hpp" />
+    <ClInclude Include="..\plugins\Sdkbox.hpp" />
     <ClInclude Include="..\source\Application\Component.hpp" />
     <ClInclude Include="..\source\Application\Kit.hpp" />
     <ClInclude Include="..\source\Application\Object.hpp" />
@@ -206,6 +225,8 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Application\View.hpp" />
     <ClInclude Include="..\source\Application\Wrapper.hpp" />
     <ClInclude Include="..\source\components.hpp" />
+    <ClInclude Include="..\source\Components\Ad.hpp" />
+    <ClInclude Include="..\source\Components\Analytic.hpp" />
     <ClInclude Include="..\source\Components\Audio.hpp" />
     <ClInclude Include="..\source\Components\Body.hpp" />
     <ClInclude Include="..\source\Components\Crypto.hpp" />

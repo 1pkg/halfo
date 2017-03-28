@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.studio.halfo" android:installLocation="auto" android:versionCode="1" android:versionName="1.0">
     <uses-sdk android:minSdkVersion="9" />
     <uses-feature android:glEsVersion="0x00020000" />
-    <application hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name">
+    <application hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:name="android.support.multidex.MultiDexApplication">
         <meta-data android:name="android.app.lib_name" android:value="halfo" />
-        <activity android:configChanges="orientation|keyboardHidden|screenSize" android:label="@string/app_name" android:name="org.cocos2dx.cpp.Application" android:screenOrientation="sensorPortrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        <activity android:configChanges="orientation|keyboardHidden|screenSize" android:label="@string/app_name" android:name="org.cocos2dx.cpp.MainActivity" android:screenOrientation="sensorPortrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -15,7 +15,7 @@
         <meta-data android:name="io.fabric.ApiKey" android:value="b25a274665c5a8e9e085fb8d69bbff7273f3385a" />
         <activity android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" android:name="com.facebook.FacebookActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
-        <provider android:authorities="com.facebook.app.FacebookContentProvider213047839179197" android:exported="true" android:name="com.facebook.FacebookContentProvider" />
+		<provider android:authorities="com.facebook.app.FacebookContentProvider213047839179197" android:exported="true" android:name="com.facebook.FacebookContentProvider" />
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <receiver android:name="com.onesignal.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
@@ -27,6 +27,21 @@
         <service android:name="com.onesignal.GcmIntentService" />
         <service android:name="com.onesignal.SyncService" android:stopWithTask="false" />
         <activity android:hardwareAccelerated="true" android:name="com.onesignal.PermissionsActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <meta-data android:name="com.google.android.gms.analytics.globalConfigResource" android:resource="@xml/global_tracker" />
+        <receiver android:enabled="true" android:name="com.google.android.gms.analytics.AnalyticsReceiver">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+        <service android:enabled="true" android:exported="false" android:name="com.google.android.gms.analytics.AnalyticsService" />
+        <receiver android:exported="true" android:name="com.google.android.gms.analytics.CampaignTrackingReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.android.gms.ads.AdActivity" android:theme="@android:style/Theme.Translucent" />
+        <activity android:configChanges="keyboardHidden|orientation|screenSize" android:excludeFromRecents="true" android:hardwareAccelerated="true" android:name="com.chartboost.sdk.CBImpressionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     </application>
     <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true" android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -45,4 +60,6 @@
     <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT" />
     <uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE" />
     <permission android:name="halfo.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

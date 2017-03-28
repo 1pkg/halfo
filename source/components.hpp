@@ -11,5 +11,8 @@
 #include "Components/Audio.hpp"
 #include "Components/Font.hpp"
 #include "Components/Share.hpp"
+#include "Components/Notification.hpp"
+#include "Components/Analytic.hpp"
+#include "Components/Ad.hpp"
 
 #endif

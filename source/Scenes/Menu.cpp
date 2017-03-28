@@ -44,6 +44,8 @@ Menu::Menu()
 	_review->click = std::bind(&Components::Share::share, &Master::instance().get<Components::Share>(), SHARE_REVIEW);
 	_review->setPosition(Master::instance().get<Components::Metric>().center() + cocos2d::Size(Master::instance().get<Components::Metric>().size().width * 0.3f, -Master::instance().get<Components::Metric>().size().height * 0.2f));
 	_review->attach(this);
+
+	Master::instance().get<Components::Ad>().ad("AdMob", "home");
 }
 
 }

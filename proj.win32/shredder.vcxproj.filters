@@ -43,6 +43,9 @@
     <Filter Include="Views\Object">
       <UniqueIdentifier>{4a12eeda-ab90-4c58-9b83-b1719342b01e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="main\plugins">
+      <UniqueIdentifier>{7893858c-309d-436b-8a3d-eaf551114fba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -194,6 +197,30 @@
     </ClCompile>
     <ClCompile Include="..\source\Components\Notification.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginReview.cpp">
+      <Filter>main\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginShare.cpp">
+      <Filter>main\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginFacebook.cpp">
+      <Filter>main\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginOneSignal.cpp">
+      <Filter>main\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginGoogleAnalytics.cpp">
+      <Filter>main\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Analytic.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Ad.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginSdkboxAds.cpp">
+      <Filter>main\plugins</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +384,45 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Notification.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginFacebook.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginOneSignal.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginReview.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginShare.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\Sdkbox.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\crypto\aes.h">
+      <Filter>main\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\crypto\aes_ni.h">
+      <Filter>main\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\crypto\aestab.h">
+      <Filter>main\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginGoogleAnalytics.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Analytic.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginSdkboxAds.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginAdMob.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Ad.hpp">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,6 +12,8 @@
 #include "Components/Font.hpp"
 #include "Components/Share.hpp"
 #include "Components/Notification.hpp"
+#include "Components/Analytic.hpp"
+#include "Components/Ad.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Play.hpp"
 #include "Scenes/Settings.hpp"
@@ -74,24 +76,34 @@ Master::scene(const std::string & scene)
 {
 	static std::unique_ptr<::Application::Scene> ptr;
 	if (scene == SCENE_MENU)
+	{
 		ptr.reset(new Scenes::Menu());
+		return cocos2d::Director::getInstance()->replaceScene(*ptr);
+	}
 	
 	if (scene == SCENE_PLAY)
+	{
 		ptr.reset(new Scenes::Play());
+		return cocos2d::Director::getInstance()->replaceScene(*ptr);
+	}
 
 	if (scene == SCENE_SETTINGS)
+	{
 		ptr.reset(new Scenes::Settings());
+		return cocos2d::Director::getInstance()->replaceScene(*ptr);
+	}
 
 	if (scene == SCENE_OVER)
+	{
 		ptr.reset(new Scenes::Over());
+		return cocos2d::Director::getInstance()->replaceScene(*ptr);
+	}
 
 	if (scene == SCENE_EXIT)
 	{
 		finitialize();
 		return cocos2d::Director::getInstance()->end();
 	}
-	else
-		return cocos2d::Director::getInstance()->replaceScene(*ptr);
 }
 
 void
@@ -113,6 +125,8 @@ Master::initialize()
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Font).name(), std::move(std::unique_ptr<Font>(new Font()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Share).name(), std::move(std::unique_ptr<Share>(new Share()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Notification).name(), std::move(std::unique_ptr<Notification>(new Notification()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Analytic).name(), std::move(std::unique_ptr<Analytic>(new Analytic()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Ad).name(), std::move(std::unique_ptr<Ad>(new Ad()))));
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();

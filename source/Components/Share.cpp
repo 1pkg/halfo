@@ -110,7 +110,7 @@ Share::share(const std::string & platform) const
 		static std::unique_ptr<FacebookListener> listener(new FacebookListener());
 		sdkbox::PluginFacebook::setListener(listener.get());
 		sdkbox::FBShareInfo share;
-		share.type  = sdkbox::FB_LINK;
+		share.type = sdkbox::FB_LINK;
 		share.title = "halfo";
 		share.text = "Test";
 		share.link = "http://www.sdkbox.com";
