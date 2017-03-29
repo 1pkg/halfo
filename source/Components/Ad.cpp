@@ -5,6 +5,8 @@
 #include <plugins/PluginSdkboxAds.hpp>
 #include <plugins/PluginAdMob.hpp>
 #include <plugins/PluginChartboost.hpp>
+#include <plugins/PluginInMobi.hpp>
+#include <plugins/PluginLeadBolt.hpp>
 
 namespace Components
 {
@@ -15,12 +17,13 @@ public:
 
 	void onAdAction(const std::string & unit, const std::string & place, sdkbox::AdActionType type) override
 	{
-		cocos2d::MessageBox(("Add::onAdAction unit:" + unit + " place:" + place + " type:" + to_string((int)type)).data(), "debug");
+		std::stringstream stream;
+		stream << "Component::Ad::onAdAction" << "\nunit: " << unit << "\nplace: " << place;
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
-
-	void onRewardAction(const std::string & unit, const std::string & place, float reward, bool succeed)
+	void onRewardAction(const std::string & unit, const std::string & place, float reward, bool succeed) override
 	{
-
+		return;
 	}
 
 };

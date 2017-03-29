@@ -12,50 +12,34 @@ class TwitterListener : public sdkbox::ShareListener
 {
 public:
 
-	void onShareState(const sdkbox::SocialShareResponse& response) override
+	void onShareState(const sdkbox::SocialShareResponse & response) override
 	{
+		std::stringstream stream;
 		switch (response.state)
 		{
 			case sdkbox::SocialShareState::SocialShareStateSuccess:
-				cocos2d::MessageBox("Tw::SocialShareStateSuccess", "debug");
+				stream << "Component::Share::onShareState" << "\nstate: SocialShareStateSuccess";
 				break;
 
 			case sdkbox::SocialShareState::SocialShareStateFail:
-				cocos2d::MessageBox(("Tw::SocialShareStateFail, msg:" + response.error).data(), "debug");
+				stream << "Component::Share::onShareState" << "state: SocialShareStateFail" << "\nmessage: " << response.error;
 				break;
 
 			case sdkbox::SocialShareState::SocialShareStateCancelled:
-				cocos2d::MessageBox("Tw::onShareStateSocialShareStateCancelled", "debug");
+				stream << "Component::Share::onShareState" << "\nstate: onShareStateSocialShareStateCancelled";
 				break;
+
+			case sdkbox::SocialShareState::SocialShareStateNone:
+			case sdkbox::SocialShareState::SocialShareStateUnkonw:
+			case sdkbox::SocialShareState::SocialShareStateBegin:
+			case sdkbox::SocialShareState::SocialShareStateSelectShow:
+			case sdkbox::SocialShareState::SocialShareStateSelected:
+			case sdkbox::SocialShareState::SocialShareStateSelectCancelled:
+			default:
+				return;
 		}
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
-};
-
-class FacebookListener : public sdkbox::FacebookListener
-{
-public:
-
-	void onSharedSuccess(const std::string & message) override
-	{
-		cocos2d::MessageBox(("FB::onSharedSuccess, msg:" + message).data(), "debug");
-	}
-	void onSharedFailed(const std::string & message) override
-	{
-		cocos2d::MessageBox(("FB::onSharedFailed, msg:" + message).data(), "debug");
-	}
-	void onSharedCancel() override
-	{
-		cocos2d::MessageBox("FB::onSharedCancel", "debug");
-	}
-	void onLogin(bool isLogin, const std::string & msg) override {}
-    void onAPI(const std::string& key, const std::string & jsonData) override {}
-    void onPermission(bool isLogin, const std::string & msg) override {}
-    void onFetchFriends(bool ok, const std::string & msg) override {}
-    void onRequestInvitableFriends(const sdkbox::FBInvitableFriendsInfo & friends) override {}
-    void onInviteFriendsWithInviteIdsResult(bool result, const std::string & msg) override {}
-    void onInviteFriendsResult(bool result, const std::string & msg) override {}
-    void onGetUserInfo(const sdkbox::FBGraphUser & userInfo) override {}
-    void onAskGiftResult(bool result, const std::string & msg) override {}
 };
 
 class ReviewListener : public sdkbox::ReviewListener
@@ -64,19 +48,27 @@ public:
 
 	void onDisplayAlert() override
 	{
-		cocos2d::MessageBox("Rw::onDisplayAlert", "debug");
+		std::stringstream stream;
+		stream << "Component::Share::Review::onDisplayAlert";
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
 	void onDeclineToRate() override
 	{
-		cocos2d::MessageBox("Rw::onDeclineToRate", "debug");
+		std::stringstream stream;
+		stream << "Component::Share::Review::onDeclineToRate";
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
 	void onRate() override
 	{
-		cocos2d::MessageBox("Rw::onRate", "debug");
+		std::stringstream stream;
+		stream << "Component::Share::Review::onRate";
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
 	void onRemindLater() override
 	{
-		cocos2d::MessageBox("Rw::onRemindLater", "debug");
+		std::stringstream stream;
+		stream << "Component::Share::Review::onRemindLater";
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
 };
 
@@ -107,14 +99,15 @@ Share::share(const std::string & platform) const
 
 	if (platform == SHARE_FACEBOOK)
 	{
-		static std::unique_ptr<FacebookListener> listener(new FacebookListener());
-		sdkbox::PluginFacebook::setListener(listener.get());
-		sdkbox::FBShareInfo share;
-		share.type = sdkbox::FB_LINK;
+		static std::unique_ptr<TwitterListener> listener(new TwitterListener());
+		sdkbox::PluginShare::setListener(listener.get());
+		sdkbox::SocialShareInfo share;
+		share.platform = sdkbox::SocialPlatform::Platform_Facebook;
 		share.title = "halfo";
 		share.text = "Test";
 		share.link = "http://www.sdkbox.com";
-		sdkbox::PluginFacebook::dialog(share);
+		share.showDialog = true;
+		sdkbox::PluginShare::share(share);
 		return;
 	}
 
@@ -122,11 +115,6 @@ Share::share(const std::string & platform) const
 	{
 		static std::unique_ptr<ReviewListener> listener(new ReviewListener());
 		sdkbox::PluginReview::setListener(listener.get());
-		sdkbox::PluginReview::setTitle("custom title");
-		sdkbox::PluginReview::setMessage("custom message");
-		sdkbox::PluginReview::setCancelButtonTitle("custom cancel");
-		sdkbox::PluginReview::setRateButtonTitle("custom rate");
-		sdkbox::PluginReview::setRateLaterButtonTitle("custom rate later");
 		sdkbox::PluginReview::show(true);
 		return;
 	}

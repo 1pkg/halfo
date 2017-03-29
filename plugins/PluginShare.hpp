@@ -4,8 +4,8 @@
 
  ****************************************************************************/
 
-#ifndef _PLUGIN_SHARE_H_
-#define _PLUGIN_SHARE_H_
+#ifndef _PLUGIN_SHARE_HPP_
+#define _PLUGIN_SHARE_HPP_
 
 #include <string>
 #include <map>

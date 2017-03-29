@@ -16,7 +16,7 @@ Play::Play()
 	_scene->schedule(std::bind(&Play::update, this, std::placeholders::_1), UPDATE_TIME, "Scenes::Play::update");
 
 	Master::instance().get<Components::Analytic>().track("Scenes::Play", "Play::Start", "ctor", 0);
-	Master::instance().get<Components::Ad>().ad("AdMob", "home");
+	Master::instance().get<Components::Ad>().ad("LeadBolt", "home");
 }
 
 Play::~Play()

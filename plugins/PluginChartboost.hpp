@@ -4,8 +4,8 @@
 
  ****************************************************************************/
 
-#ifndef _PLUGIN_CHARTBOOST_H_
-#define _PLUGIN_CHARTBOOST_H_
+#ifndef _PLUGIN_CHARTBOOST_HPP_
+#define _PLUGIN_CHARTBOOST_HPP_
 
 #include <string>
 #include <vector>

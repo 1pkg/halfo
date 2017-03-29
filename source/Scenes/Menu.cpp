@@ -14,7 +14,8 @@ Menu::Menu()
 	_credits(new Views::Ui::Button("Credits", false)),
 	_twitter(new Views::Ui::Button("Twitter", false)),
 	_facebook(new Views::Ui::Button("Facebook", false)),
-	_review(new Views::Ui::Button("Review", false))
+	_review(new Views::Ui::Button("Review", false)),
+	_removeAdd(new Views::Ui::Button("RemoveAdd", false))
 {
 	_play->click = std::bind(&Master::scene, &Master::instance(), Master::SCENE_PLAY);
 	_play->setPosition(Master::instance().get<Components::Metric>().center() + cocos2d::Size(0.0f, Master::instance().get<Components::Metric>().size().height * 0.4f));
@@ -45,7 +46,10 @@ Menu::Menu()
 	_review->setPosition(Master::instance().get<Components::Metric>().center() + cocos2d::Size(Master::instance().get<Components::Metric>().size().width * 0.3f, -Master::instance().get<Components::Metric>().size().height * 0.2f));
 	_review->attach(this);
 
-	Master::instance().get<Components::Ad>().ad("AdMob", "home");
+	_removeAdd->click = std::bind(&Components::Purchase::purchase, &Master::instance().get<Components::Purchase>(), "remove_ads");
+	_removeAdd->setPosition(Master::instance().get<Components::Metric>().center() + cocos2d::Size(Master::instance().get<Components::Metric>().size().width * 0.3f, -Master::instance().get<Components::Metric>().size().height * 0.4f));
+	_removeAdd->attach(this);
+	Master::instance().get<Components::Ad>().ad("LeadBolt", "home");
 }
 
 }

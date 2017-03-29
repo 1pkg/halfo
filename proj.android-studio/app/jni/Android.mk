@@ -24,7 +24,11 @@ PluginOneSignal \
 PluginGoogleAnalytics \
 PluginSdkboxAds \
 PluginAdMob \
-PluginChartboost
+PluginChartboost \
+PluginInMobi \
+PluginLeadBolt \
+PluginIAP \
+android_native_app_glue
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../source
@@ -56,3 +60,6 @@ $(call import-module, ./plugingoogleanalytics)
 $(call import-module, ./pluginsdkboxads)
 $(call import-module, ./pluginadmob)
 $(call import-module, ./pluginchartboost)
+$(call import-module, ./plugininmobi)
+$(call import-module, ./pluginleadbolt)
+$(call import-module, ./pluginiap)

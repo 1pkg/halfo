@@ -10,14 +10,31 @@ class NotificationListener : public sdkbox::OneSignalListener
 {
 public:
 
+	void onSendTag(bool success, const std::string& key, const std::string& message) override
+	{
+		return;
+	}
+    void onGetTags(const std::string& jsonString) override
+	{
+		return;
+	}
+    void onIdsAvailable(const std::string& userId, const std::string& pushToken) override
+	{
+		return;
+	}
+    void onPostNotification(bool success, const std::string& message) override
+	{
+		return;
+	}
     void onNotification(bool isActive, const std::string & message, const std::string & additionalData) override
 	{
-		cocos2d::MessageBox(("OneSignal::onNotification msg:" + message).data(), "debug");
+		std::stringstream stream;
+		stream << "Component::Notification::onNotification" << "\nmessage: " << message;
+		cocos2d::MessageBox(stream.str().data(), "debug");
 	}
-
     void onNotificationOpened(const std::string & message) override
 	{
-		cocos2d::MessageBox(("OneSignal::onNotificationOpened msg:" + message).data(), "debug");
+		return;
 	}
 };
 
@@ -26,9 +43,6 @@ Notification::initialize()
 {
 	static std::unique_ptr<NotificationListener> listener(new NotificationListener());
 	sdkbox::PluginOneSignal::init();
-	sdkbox::PluginOneSignal::setListener(listener.get());
-	sdkbox::PluginOneSignal::sendTag("tag", "val");
-	sdkbox::PluginOneSignal::idsAvailable();
 	sdkbox::PluginOneSignal::setSubscription(true);
 }
 

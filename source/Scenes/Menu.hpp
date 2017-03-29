@@ -14,7 +14,7 @@ public:
 
 private:
 
-	std::unique_ptr<Views::Ui::Button> _play, _score, _purchape, _settings, _credits, _twitter, _facebook, _review;
+	std::unique_ptr<Views::Ui::Button> _play, _score, _purchape, _settings, _credits, _twitter, _facebook, _review, _removeAdd;
 };
 
 }

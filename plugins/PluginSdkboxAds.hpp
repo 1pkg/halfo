@@ -4,8 +4,8 @@
 
  ****************************************************************************/
 
-#ifndef _PLUGIN_SDKBOXADS_H_
-#define _PLUGIN_SDKBOXADS_H_
+#ifndef _PLUGIN_SDKBOXADS_HPP_
+#define _PLUGIN_SDKBOXADS_HPP_
 
 
 #include <vector>

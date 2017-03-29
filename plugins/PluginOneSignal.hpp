@@ -4,8 +4,8 @@
 
  ****************************************************************************/
 
-#ifndef _PLUGIN_ONESIGNAL_H_
-#define _PLUGIN_ONESIGNAL_H_
+#ifndef _PLUGIN_ONESIGNAL_HPP_
+#define _PLUGIN_ONESIGNAL_HPP_
 
 #include <string>
 #include <map>

@@ -14,5 +14,6 @@
 #include "Components/Notification.hpp"
 #include "Components/Analytic.hpp"
 #include "Components/Ad.hpp"
+#include "Components/Purchase.hpp"
 
 #endif

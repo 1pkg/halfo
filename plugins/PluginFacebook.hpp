@@ -3,8 +3,8 @@
  Copyright (c) 2014-2016 SDKBOX Inc
 
  ****************************************************************************/
-#ifndef _PLUGIN_FACKBOOK_H_
-#define _PLUGIN_FACKBOOK_H_
+#ifndef _PLUGIN_FACKBOOK_HPP_
+#define _PLUGIN_FACKBOOK_HPP_
 
 #include <vector>
 #include <map>

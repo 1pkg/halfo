@@ -1,3 +1,4 @@
+#include <plugins/Sdkbox.hpp>
 #include "Components/Metric.hpp"
 #include "Components/File.hpp"
 #include "Components/Setting.hpp"
@@ -14,6 +15,7 @@
 #include "Components/Notification.hpp"
 #include "Components/Analytic.hpp"
 #include "Components/Ad.hpp"
+#include "Components/Purchase.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Play.hpp"
 #include "Scenes/Settings.hpp"
@@ -127,6 +129,7 @@ Master::initialize()
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Notification).name(), std::move(std::unique_ptr<Notification>(new Notification()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Analytic).name(), std::move(std::unique_ptr<Analytic>(new Analytic()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Ad).name(), std::move(std::unique_ptr<Ad>(new Ad()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Purchase).name(), std::move(std::unique_ptr<Purchase>(new Purchase()))));
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();

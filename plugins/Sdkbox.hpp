@@ -4,8 +4,8 @@
 
  ****************************************************************************/
 
-#ifndef _CC_SDKBOX_H_
-#define _CC_SDKBOX_H_
+#ifndef _CC_SDKBOX_HPP_
+#define _CC_SDKBOX_HPP_
 
 #define SDKBOX_VERSION_STR  "sdkbox V2.3.11.3"
 
@@ -116,4 +116,4 @@ namespace sdkbox {
     };
 }
 
-#endif//_CC_SDKBOX_H_
+#endif//_CC_SDKBOX_HPP_

@@ -211,8 +211,11 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\crypto\aestab.h" />
     <ClInclude Include="..\crypto\aes_ni.h" />
     <ClInclude Include="..\plugins\PluginAdMob.hpp" />
+    <ClInclude Include="..\plugins\PluginChartboost.hpp" />
     <ClInclude Include="..\plugins\PluginFacebook.hpp" />
     <ClInclude Include="..\plugins\PluginGoogleAnalytics.hpp" />
+    <ClInclude Include="..\plugins\PluginInMobi.hpp" />
+    <ClInclude Include="..\plugins\PluginLeadBolt.hpp" />
     <ClInclude Include="..\plugins\PluginOneSignal.hpp" />
     <ClInclude Include="..\plugins\PluginReview.hpp" />
     <ClInclude Include="..\plugins\PluginSdkboxAds.hpp" />

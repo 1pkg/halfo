@@ -1,90 +1,112 @@
 {
-    "android": {
-		"GoogleAnalytics": {
-            "trackingCode": "UA-96356848-1"
-        },
-		"Facebook": {
-            "url_scheme_suffix": "", 
-            "app_id": "213047839179197"
-        },
-        "Share": {
-            "platforms": {
-                "Twitter": {
-                    "params": {
-                        "secret": "4i2Y0HlSmkxEcKJjWw2gLxefl2gAFg6N6iU4x0jK8GEumw6Enj", 
-                        "key": "4hRgPiaFf21KRxIqSApmISrKa"
-                    }
-                }, 
-                "Facebook": {
-                    "app_id": "213047839179197"
-                }
+    "android":
+	{
+		"GoogleAnalytics": {"trackingCode": "UA-96356848-1"},
+		"Facebook": {"app_id": "213047839179197"},
+        "Share":
+		{
+            "platforms":
+			{
+                "Twitter": {"params": {"secret": "4i2Y0HlSmkxEcKJjWw2gLxefl2gAFg6N6iU4x0jK8GEumw6Enj", "key": "4hRgPiaFf21KRxIqSApmISrKa"}}, 
+                "Facebook": {"params": {"app_id": "213047839179197"}}
             }
         },
-        "Review": {
-            "LaunchLimit": 3, 
-            "DayForReminding": 1, 
-            "tryPromptWhenInit": true, 
-            "DayLimit": 0, 
-            "LaunchForReminding": 2, 
-            "UserEventLimit": 0
+        "Review":
+		{
+			"promptTitle": "title",
+            "promptMessage": "message",
+            "promptCancel": "cancel",
+            "promptRate": "rate",
+            "promptRateLater": "later",
+			"tryPromptWhenInit": false,
+            "LaunchLimit": 10,
+            "DayForReminding": 1,
+            "DayLimit": 1
         },
-        "OneSignal": {
-            "sound": false, 
-            "vibrate": false, 
-            "project_number": "570107898529", 
-            "debug": true, 
-            "notifications_when_active": false, 
-            "id": "3bee99e9-8e1c-4bfc-9399-0d1533891d5e"
+        "OneSignal":
+		{
+			"project_number": "570107898529",
+			"id": "3bee99e9-8e1c-4bfc-9399-0d1533891d5e",
+            "sound": true,
+            "vibrate": true,
+            "notifications_when_active": false
         },
-		"SdkboxAds": {
-            "units": [
-                "AdMob",
-				"Chartboost"
-            ], 
-            "placements": [
+		"SdkboxAds":
+		{
+            "units": ["AdMob", "Chartboost", "InMobi", "LeadBolt"], 
+            "placements":
+			[
                 {
-                    "units": [
-						{
-							 "name": "Default",
-							 "unit": "Chartboost"
-						},
-                        {
-                            "name": "home", 
-                            "unit": "AdMob"
-                        }
+                    "units":
+					[
+						{"name": "home", "unit": "Chartboost"},
+                        {"name": "home", "unit": "AdMob"},
+						{"name": "home", "unit": "InMobi"},
+						{"name": "home", "unit": "LeadBolt"}
                     ], 
-                    "id": "placement-home", 
+                    "id": "placement-home",
                     "strategy": "round-robin"
                 }
             ]
         },
-		"AdMob": {
-            "cache": {
-                "home": true
-            }, 
-            "ads": {
-                "home": {
+		"AdMob":
+		{
+            "cache": {"home": true}, 
+            "ads":
+			{
+                "home":
+				{
+					"type": "banner",
+					"id": "ca-app-pub-1764634357184395/6705278664",
+					"alignment": "bottom",
                     "width": 0,
 					"height": 0
-                    "type": "banner", 
-                    "id": "ca-app-pub-1764634357184395/6705278664", 
-                    "alignment": "bottom"
                 }
             }
         },
-		"Chartboost": {
-            "ads": {
-                "home": {
-                    "type": "interstitial"
-                },
-                "home-video": {
-                    "type": "video_interstitial"
+		"Chartboost": 
+		{
+			"id": "58dac25a43150f2115ef9649", 
+            "signature": "cb0a3133ff04de5aa586bf1267425d3d7db199c3",
+            "ads":
+			{
+                "home": {"type": "interstitial"}
+            }
+        },
+		"InMobi": {
+            "account_id": "87a53de6b8f44bc8b74469e92f873b19", 
+            "ads":
+			{
+                "home":
+				{
+					"type": "banner",
+                    "id": "1492007302115",
+					"alignment": "bottom",
+					"width": 0,
+					"height": 0
                 }
-            }, 
-            "id": "58dac25a43150f2115ef9649", 
-            "signature": "cb0a3133ff04de5aa586bf1267425d3d7db199c3"
+            }
+        },
+		"LeadBolt":
+		{
+            "api_key": "5Y6zIwFtFNU76S31nJ1vKkvuRSXZCjez", 
+            "ads":
+			{
+                "home": {"name": "home"}
+            }
+        },
+		"iap":
+		{
+            "items":
+			{
+                "remove_ads":
+				{
+                    "type": "non_consumable", 
+                    "id": "remove_ads_id",
+					"price": 10.0
+                }
+            }
         }
     }, 
-    "ios": {
-    }
+    "ios": {}
 }

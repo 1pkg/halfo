@@ -425,5 +425,14 @@
     <ClInclude Include="..\source\Components\Ad.hpp">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\plugins\PluginChartboost.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginInMobi.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginLeadBolt.hpp">
+      <Filter>main\plugins</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

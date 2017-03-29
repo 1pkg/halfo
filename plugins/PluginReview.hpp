@@ -4,8 +4,8 @@
 
  ****************************************************************************/
 
-#ifndef _PLUGIN_REVIEW_H_
-#define _PLUGIN_REVIEW_H_
+#ifndef _PLUGIN_REVIEW_HPP_
+#define _PLUGIN_REVIEW_HPP_
 
 #include <string>
 #include <vector>

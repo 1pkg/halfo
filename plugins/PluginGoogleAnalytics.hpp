@@ -3,8 +3,8 @@
  Copyright (c) 2014-2016 SDKBOX Inc
 
  ****************************************************************************/
-#ifndef _PLUGIN_GA_
-#define _PLUGIN_GA_
+#ifndef _PLUGIN_GA_HPP_
+#define _PLUGIN_GA_HPP_
 
 #include <string>
 #include <vector>
