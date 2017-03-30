@@ -9,7 +9,7 @@ namespace Ui
 
 Label::Label(float fontSize)
 {
-	const std::string & font = Master::instance().get<Components::Font>().get();
+	const std::string & font = Master::instance().get<Components::Font>().get("font");
 	_label = cocos2d::Label::createWithTTF("", font, fontSize);
 	_node = _label;
 }

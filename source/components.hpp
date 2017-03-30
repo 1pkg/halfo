@@ -6,7 +6,7 @@
 #include "Components/Setting.hpp"
 #include "Components/Statistic.hpp"
 #include "Components/Resource.hpp"
-#include "Components/Texture.hpp"
+#include "Components/SpriteFrame.hpp"
 #include "Components/Body.hpp"
 #include "Components/Audio.hpp"
 #include "Components/Font.hpp"

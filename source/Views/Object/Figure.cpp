@@ -11,8 +11,8 @@ Figure::Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, boo
 {
 	cocos2d::Size spawn = Master::instance().get<Components::Metric>().spawn();
 	const std::string & resource = Master::instance().get<Components::Setting>().get(Components::Setting::PARAMETER_FIGURE_RESOURCE);
-	cocos2d::Texture2D * texture = Master::instance().get<Components::Texture>().get(Master::instance().get<Components::Resource>().get(resource, Components::Resource::Type::TEXTURE), resource);
-	_sprite = cocos2d::Sprite::createWithTexture(texture);
+	cocos2d::SpriteFrame * spriteFrame = Master::instance().get<Components::SpriteFrame>().get(resource);
+	_sprite = cocos2d::Sprite::createWithSpriteFrame(spriteFrame);
 	_sprite->setContentSize(spawn);
 	_sprite->setRotation(angle);
 	_stencil = cocos2d::DrawNode::create();

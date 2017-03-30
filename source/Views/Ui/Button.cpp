@@ -12,19 +12,11 @@ Button::Button(std::string title, bool primary)
 	cocos2d::Size size = Master::instance().get<Components::Metric>().button(primary);
 	if (primary)
 	{
-		cocos2d::Texture2D * primary = Master::instance().get<Components::Texture>().get(Master::instance().get<Components::Resource>().get("primary-button", Components::Resource::Type::TEXTURE), "primary-button");
-		cocos2d::Texture2D * clicked = Master::instance().get<Components::Texture>().get(Master::instance().get<Components::Resource>().get("primary-button-clicked", Components::Resource::Type::TEXTURE), "primary-button-clicked");
-		cocos2d::SpriteFrameCache::getInstance()->addSpriteFrame(cocos2d::SpriteFrame::createWithTexture(primary, cocos2d::Rect(cocos2d::Vec2::ZERO, COMMON_TEXTURE_SIZE)), "primary-button");
-		cocos2d::SpriteFrameCache::getInstance()->addSpriteFrame(cocos2d::SpriteFrame::createWithTexture(clicked, cocos2d::Rect(cocos2d::Vec2::ZERO,COMMON_TEXTURE_SIZE)), "primary-button-clicked");
 		_button = cocos2d::ui::Button::create("primary-button", "primary-button-clicked", "", cocos2d::ui::Widget::TextureResType::PLIST);
 		_button->setTitleFontSize(MEDIUM_FONT_SIZE * 3.0f);
 	}
 	else
 	{
-		cocos2d::Texture2D * secondary = Master::instance().get<Components::Texture>().get(Master::instance().get<Components::Resource>().get("secondary-button", Components::Resource::Type::TEXTURE), "secondary-button");
-		cocos2d::Texture2D * clicked = Master::instance().get<Components::Texture>().get(Master::instance().get<Components::Resource>().get("secondary-button-clicked", Components::Resource::Type::TEXTURE), "secondary-button-clicked");
-		cocos2d::SpriteFrameCache::getInstance()->addSpriteFrame(cocos2d::SpriteFrame::createWithTexture(secondary, cocos2d::Rect(cocos2d::Vec2::ZERO, COMMON_TEXTURE_SIZE)), "secondary-button");
-		cocos2d::SpriteFrameCache::getInstance()->addSpriteFrame(cocos2d::SpriteFrame::createWithTexture(clicked, cocos2d::Rect(cocos2d::Vec2::ZERO,COMMON_TEXTURE_SIZE)), "secondary-button-clicked");
 		_button = cocos2d::ui::Button::create("secondary-button", "secondary-button-clicked", "", cocos2d::ui::Widget::TextureResType::PLIST);
 		_button->setTitleFontSize(SMALL_FONT_SIZE * 3.0f);
 	}
@@ -39,7 +31,7 @@ Button::Button(std::string title, bool primary)
 		return;
 	};
 	_button->addTouchEventListener(callback);
-	const std::string & font = Master::instance().get<Components::Font>().get();
+	const std::string & font = Master::instance().get<Components::Font>().get("font");
 	_button->setTitleFontName(font);
 	_button->setTitleText(title);
 	_node = _button;

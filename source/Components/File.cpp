@@ -33,19 +33,19 @@ File::root() const
 std::string
 File::assets() const
 {
-	return root() + "sts/";
+	return root() + "assets/";
 }
 
 std::string
 File::storage() const
 {
-	return root() + "str/";
+	return root() + "storage/";
 }
 
 std::string
 File::cache() const
 {
-	return root() + "cch/";
+	return root() + "cache/";
 }
 
 cocos2d::Data

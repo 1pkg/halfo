@@ -11,16 +11,17 @@ class Resource : public Application::Component
 {
 public:
 
-	enum class Type {TEXTURE = 1, BODY, AUDIO, FONT};
+	enum class Type{SPRITEFRAME, BODY, AUDIO, FONT};
+	static const char * Extension[];
 
 	void initialize() override;
-	const cocos2d::Data & get(const std::string & resource, Type type);
+	const cocos2d::Data & get(const std::string & name, Type type, unsigned int number = 0);
 	void walk(Type type, std::function<bool(const std::string &, const cocos2d::Data &)> callback);
+	void walk(const std::string & name, std::function<bool(const std::string &, const cocos2d::Data &)> callback);
 
 private:
 
-	void unserialize(const cocos2d::Data & data);
-	std::unordered_map<std::pair<std::string, Type>, cocos2d::Data, unorderedhash> _resources;
+	std::unordered_map<std::string, cocos2d::Data> _resources;
 };
 
 }

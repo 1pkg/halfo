@@ -10,7 +10,12 @@ class Body : public Application::Component
 {
 public:
 
-	cocos2d::PhysicsBody * get(const cocos2d::Data & data, cocos2d::Node * node);
+	void initialize() override;
+	cocos2d::PhysicsBody * get(const std::string & body, cocos2d::Node * node);
+
+private:
+
+	std::unordered_map<std::string, std::string> _bodies;
 };
 
 }

@@ -36,6 +36,7 @@ public:
 			case sdkbox::SocialShareState::SocialShareStateSelected:
 			case sdkbox::SocialShareState::SocialShareStateSelectCancelled:
 			default:
+				stream << "Component::Share::onlol";
 				return;
 		}
 		cocos2d::MessageBox(stream.str().data(), "debug");
@@ -92,7 +93,6 @@ Share::share(const std::string & platform) const
 		share.title = "halfo";
 		share.text = "Test";
 		share.link = "http://www.sdkbox.com";
-		share.showDialog = true;
 		sdkbox::PluginShare::share(share);
 		return;
 	}
@@ -106,7 +106,6 @@ Share::share(const std::string & platform) const
 		share.title = "halfo";
 		share.text = "Test";
 		share.link = "http://www.sdkbox.com";
-		share.showDialog = true;
 		sdkbox::PluginShare::share(share);
 		return;
 	}

@@ -103,7 +103,7 @@
   <ItemDefinitionGroup>
     <CustomBuildStep>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
+xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
       </Command>
       <Outputs>$(TargetName).cab</Outputs>
       <Inputs>$(TargetFileName)</Inputs>
@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\crypto\aes_ni.c" />
     <ClCompile Include="..\plugins\PluginFacebook.cpp" />
     <ClCompile Include="..\plugins\PluginGoogleAnalytics.cpp" />
+    <ClCompile Include="..\plugins\PluginIAP.cpp" />
     <ClCompile Include="..\plugins\PluginOneSignal.cpp" />
     <ClCompile Include="..\plugins\PluginReview.cpp" />
     <ClCompile Include="..\plugins\PluginSdkboxAds.cpp" />
@@ -168,12 +169,13 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\Components\Font.cpp" />
     <ClCompile Include="..\source\Components\Metric.cpp" />
     <ClCompile Include="..\source\Components\Notification.cpp" />
+    <ClCompile Include="..\source\Components\Purchase.cpp" />
     <ClCompile Include="..\source\Components\Resource.cpp" />
     <ClCompile Include="..\source\Components\Setting.cpp" />
     <ClCompile Include="..\source\Components\Share.cpp" />
+    <ClCompile Include="..\source\Components\SpriteFrame.cpp" />
     <ClCompile Include="..\source\Components\Statistic.cpp" />
     <ClCompile Include="..\source\Components\Storage.cpp" />
-    <ClCompile Include="..\source\Components\Texture.cpp" />
     <ClCompile Include="..\source\functions.cpp" />
     <ClCompile Include="..\source\Master.cpp" />
     <ClCompile Include="..\source\Objects\Anvil.cpp" />
@@ -214,6 +216,7 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\plugins\PluginChartboost.hpp" />
     <ClInclude Include="..\plugins\PluginFacebook.hpp" />
     <ClInclude Include="..\plugins\PluginGoogleAnalytics.hpp" />
+    <ClInclude Include="..\plugins\PluginIAP.hpp" />
     <ClInclude Include="..\plugins\PluginInMobi.hpp" />
     <ClInclude Include="..\plugins\PluginLeadBolt.hpp" />
     <ClInclude Include="..\plugins\PluginOneSignal.hpp" />
@@ -238,12 +241,13 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Components\Font.hpp" />
     <ClInclude Include="..\source\Components\Metric.hpp" />
     <ClInclude Include="..\source\Components\Notification.hpp" />
+    <ClInclude Include="..\source\Components\Purchase.hpp" />
     <ClInclude Include="..\source\Components\Resource.hpp" />
     <ClInclude Include="..\source\Components\Setting.hpp" />
     <ClInclude Include="..\source\Components\Share.hpp" />
+    <ClInclude Include="..\source\Components\SpriteFrame.hpp" />
     <ClInclude Include="..\source\Components\Statistic.hpp" />
     <ClInclude Include="..\source\Components\Storage.hpp" />
-    <ClInclude Include="..\source\Components\Texture.hpp" />
     <ClInclude Include="..\source\constants.hpp" />
     <ClInclude Include="..\source\functions.hpp" />
     <ClInclude Include="..\source\include.hpp" />
@@ -263,6 +267,7 @@ xcopy "$(ProjectDir)..\sts" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Play\Transporter\Patterns\Pentagon.hpp" />
     <ClInclude Include="..\source\Play\Transporter\Patterns\Quadrangle.hpp" />
     <ClInclude Include="..\source\Play\Transporter\Patterns\Triangle.hpp" />
+    <ClInclude Include="..\source\resources.rc" />
     <ClInclude Include="..\source\Scenes\Menu.hpp" />
     <ClInclude Include="..\source\Scenes\Over.hpp" />
     <ClInclude Include="..\source\Scenes\Play.hpp" />

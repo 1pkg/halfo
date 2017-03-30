@@ -3,8 +3,6 @@
 namespace sdkbox
 {
 
-OneSignalListener * _listener;
-
 bool
 PluginOneSignal::init()
 {
@@ -14,7 +12,6 @@ PluginOneSignal::init()
 void
 PluginOneSignal::setListener(OneSignalListener * listener)
 {
-	_listener = listener;
 }
 
 void

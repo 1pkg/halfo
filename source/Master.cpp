@@ -7,7 +7,7 @@
 #include "Components/Deploy.hpp"
 #include "Components/Resource.hpp"
 #include "Components/Crypto.hpp"
-#include "Components/Texture.hpp"
+#include "Components/SpriteFrame.hpp"
 #include "Components/Body.hpp"
 #include "Components/Audio.hpp"
 #include "Components/Font.hpp"
@@ -121,7 +121,7 @@ Master::initialize()
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Storage).name(), std::move(std::unique_ptr<Storage>(new Storage()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Deploy).name(), std::move(std::unique_ptr<Deploy>(new Deploy()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Resource).name(),std::move(std::unique_ptr<Resource>(new Resource()))));
-	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Texture).name(), std::move(std::unique_ptr<Texture>(new Texture()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(SpriteFrame).name(), std::move(std::unique_ptr<SpriteFrame>(new SpriteFrame()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Body).name(), std::move(std::unique_ptr<Body>(new Body()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Audio).name(), std::move(std::unique_ptr<Audio>(new Audio()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Font).name(), std::move(std::unique_ptr<Font>(new Font()))));

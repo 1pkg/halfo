@@ -10,17 +10,11 @@
     <Filter Include="Views">
       <UniqueIdentifier>{2613066a-7acc-4851-9fe5-000518fd2305}</UniqueIdentifier>
     </Filter>
-    <Filter Include="main">
-      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{e2e53ad3-f775-4cfc-b416-d7c1156dfb7b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{bd7e41c2-e0c2-4f85-a0d0-aa85958b61ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="main\crypto">
-      <UniqueIdentifier>{ccefaa8f-b4b1-46cc-a68a-374d37624395}</UniqueIdentifier>
     </Filter>
     <Filter Include="Play">
       <UniqueIdentifier>{e7a03f26-f1fa-4787-9937-2953fe8b2aee}</UniqueIdentifier>
@@ -43,13 +37,22 @@
     <Filter Include="Views\Object">
       <UniqueIdentifier>{4a12eeda-ab90-4c58-9b83-b1719342b01e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="main\plugins">
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{ac68bfed-4887-4ab1-9cbc-f8fd918613dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\crypto">
+      <UniqueIdentifier>{ccefaa8f-b4b1-46cc-a68a-374d37624395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\plugins">
       <UniqueIdentifier>{7893858c-309d-436b-8a3d-eaf551114fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Objects\Figure.cpp">
       <Filter>Objects</Filter>
@@ -61,19 +64,19 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\crypto\aes_modes.c">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\crypto\aes_ni.c">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\crypto\aescrypt.c">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\crypto\aeskey.c">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\crypto\aestab.c">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Objects\Edge.cpp">
       <Filter>Objects</Filter>
@@ -91,7 +94,7 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Master.cpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Components\Storage.cpp">
       <Filter>Components</Filter>
@@ -103,9 +106,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Components\Resource.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Texture.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Components\Crypto.cpp">
@@ -127,7 +127,7 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\source\functions.cpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Scenes\Menu.cpp">
       <Filter>Scenes</Filter>
@@ -199,19 +199,19 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\plugins\PluginReview.cpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\plugins\PluginShare.cpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\plugins\PluginFacebook.cpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\plugins\PluginOneSignal.cpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\plugins\PluginGoogleAnalytics.cpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Components\Analytic.cpp">
       <Filter>Components</Filter>
@@ -220,12 +220,21 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\plugins\PluginSdkboxAds.cpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Purchase.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugins\PluginIAP.cpp">
+      <Filter>Libraries\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\SpriteFrame.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Application\Object.hpp">
       <Filter>Application</Filter>
@@ -243,7 +252,7 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\source\include.hpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Metric.hpp">
       <Filter>Components</Filter>
@@ -267,7 +276,7 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Master.hpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Application\Component.hpp">
       <Filter>Application</Filter>
@@ -282,9 +291,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Resource.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Texture.hpp">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Crypto.hpp">
@@ -306,13 +312,13 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\source\components.hpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\constants.hpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\functions.hpp">
-      <Filter>main</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Scenes\Menu.hpp">
       <Filter>Scenes</Filter>
@@ -387,52 +393,64 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginFacebook.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginOneSignal.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginReview.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginShare.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\Sdkbox.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\crypto\aes.h">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\crypto\aes_ni.h">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\crypto\aestab.h">
-      <Filter>main\crypto</Filter>
+      <Filter>Libraries\crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginGoogleAnalytics.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Analytic.hpp">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginSdkboxAds.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginAdMob.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Components\Ad.hpp">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginChartboost.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginInMobi.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginLeadBolt.hpp">
-      <Filter>main\plugins</Filter>
+      <Filter>Libraries\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\resources.rc">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Purchase.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugins\PluginIAP.hpp">
+      <Filter>Libraries\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\SpriteFrame.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

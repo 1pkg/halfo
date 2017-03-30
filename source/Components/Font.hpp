@@ -11,11 +11,11 @@ class Font : public Application::Component
 public:
 
     void initialize() override;
-	std::string get() const;
+	std::string get(const std::string & font) const;
 
 private:
 
-	std::string _font;
+	std::unordered_map<std::string, std::string> _fonts;
 };
 
 }

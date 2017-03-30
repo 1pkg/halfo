@@ -9,7 +9,8 @@
 /[Ll]ib/
 /[aA]/
 /utils/
-/sts/
+/source/resources.rc
+/assets/release
 
 # Ignore win32 project
 /proj.win32/*

@@ -3,8 +3,6 @@
 namespace sdkbox
 {
 
-ShareListener * _listener;
-
 bool
 PluginShare::init(const char * jsonconfig)
 {
@@ -14,15 +12,11 @@ PluginShare::init(const char * jsonconfig)
 void
 PluginShare::setListener(ShareListener * listener)
 {
-	_listener = listener;
 }
 
 void
 PluginShare::share(const SocialShareInfo & info)
 {
-	SocialShareResponse response;
-	response.state =  SocialShareState::SocialShareStateSuccess;
-	_listener->onShareState(response);
 }
 
 }

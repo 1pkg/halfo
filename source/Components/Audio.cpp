@@ -13,8 +13,8 @@ Audio::initialize()
 	[this](const std::string & origin, const cocos2d::Data & data)
 	{
 		std::string audio = Master::instance().get<File>().cache(data);
+		_audios.insert(std::pair<std::string, std::string>(replace(origin, Resource::Extension[(unsigned int)Resource::Type::AUDIO], ""), audio));
 		CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(audio.data());
-		_audios.insert(std::pair<std::string, std::string>(origin, audio));
 		return true;
 	};
 	Master::instance().get<Components::Resource>().walk(Resource::Type::AUDIO, callback);

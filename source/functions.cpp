@@ -1,6 +1,20 @@
 #include "constants.hpp"
 #include "functions.hpp"
 
+std::string replace(const std::string & string, const std::string & search, const std::string & replace)
+{
+	std::string result = string;
+    while(1)
+	{
+        std::size_t position = result.find(search);
+        if(position == std::string::npos)
+			break;
+        result.erase(position, search.length());
+        result.insert(position, replace);
+    }
+	return result;
+}
+
 std::string hash(const cocos2d::Data & data)
 {
 	if (data.isNull())
