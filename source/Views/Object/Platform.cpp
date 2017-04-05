@@ -16,7 +16,12 @@ Platform::Platform()
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
 	_draw->setPhysicsBody(body);
-	_node = _draw;
+}
+
+cocos2d::Node *
+Platform::node() const
+{
+	return _draw;
 }
 
 }

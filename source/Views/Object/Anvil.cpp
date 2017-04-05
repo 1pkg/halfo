@@ -16,7 +16,12 @@ Anvil::Anvil()
 	body->setDynamic(false);
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
 	_draw->setPhysicsBody(body);
-	_node = _draw;
+}
+
+cocos2d::Node *
+Anvil::node() const
+{
+	return _draw;
 }
 
 }

@@ -25,7 +25,18 @@ Figure::Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, boo
 	body->setContactTestBitmask(DEFAULT_PHYSICS_MASK);
 	body->setGravityEnable(!hollow);
 	_clipper->setPhysicsBody(body);
-	_node = _clipper;
+}
+
+Figure::~Figure()
+{
+	_clipper->setVisible(false);
+	_clipper->getPhysicsBody()->setEnabled(false);
+}
+
+cocos2d::Node *
+Figure::node() const
+{
+	return _clipper;
 }
 
 }

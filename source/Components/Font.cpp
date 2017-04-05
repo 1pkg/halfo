@@ -5,6 +5,11 @@
 namespace Components
 {
 
+const std::string Font::EARTH_2073 = "earth-2073";
+const float Font::LARGE_SIZE = 48.0f;
+const float Font::MEDIUM_SIZE = 32.0f;
+const float Font::SMALL_SIZE = 24.0f;
+
 void
 Font::initialize()
 {

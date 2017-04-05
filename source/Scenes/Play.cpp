@@ -12,7 +12,6 @@ Play::Play()
 {
 	_scene->getPhysicsWorld()->setDebugDrawMask(cocos2d::PhysicsWorld::DEBUGDRAW_ALL);
 	_scene->getPhysicsWorld()->setGravity(Master::instance().get<Components::Metric>().absolute(GRAVITY_FORCE));
-	_play->setScale(0.7f);
 	_scene->schedule(std::bind(&Play::update, this, std::placeholders::_1), UPDATE_TIME, "Scenes::Play::update");
 
 	Master::instance().get<Components::Analytic>().track("Scenes::Play", "Play::Start", "ctor", 0);

@@ -39,6 +39,7 @@ SOURCE_FILES += $(wildcard $(HALFO_PATH)/*.cpp)
 SOURCE_FILES += $(wildcard $(HALFO_PATH)/**/*.cpp)
 SOURCE_FILES += $(wildcard $(HALFO_PATH)/**/**/*.cpp)
 SOURCE_FILES += $(wildcard $(HALFO_PATH)/**/**/**/*.cpp)
+SOURCE_FILES += $(wildcard $(HALFO_PATH)/resources.rc)
 SOURCE_FILES += $(CRYPTO_PATH)/aes_modes.c $(CRYPTO_PATH)/aes_ni.c $(CRYPTO_PATH)/aescrypt.c $(CRYPTO_PATH)/aeskey.c $(CRYPTO_PATH)/aestab.c
 SOURCE_FILES := $(SOURCE_FILES:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES := $(SOURCE_FILES)

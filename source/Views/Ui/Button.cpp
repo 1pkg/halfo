@@ -7,34 +7,36 @@ namespace Views
 namespace Ui
 {
 
-Button::Button(std::string title, bool primary)
+Button::Button(const std::string & icon, const std::string & title, std::function<void()> click)
 {
-	cocos2d::Size size = Master::instance().get<Components::Metric>().button(primary);
-	if (primary)
-	{
-		_button = cocos2d::ui::Button::create("primary-button", "primary-button-clicked", "", cocos2d::ui::Widget::TextureResType::PLIST);
-		_button->setTitleFontSize(MEDIUM_FONT_SIZE * 3.0f);
-	}
-	else
-	{
-		_button = cocos2d::ui::Button::create("secondary-button", "secondary-button-clicked", "", cocos2d::ui::Widget::TextureResType::PLIST);
-		_button->setTitleFontSize(SMALL_FONT_SIZE * 3.0f);
-	}
-	_button->setTouchEnabled(true);
-	_button->setScaleX(size.width / COMMON_TEXTURE_SIZE.width);
-	_button->setScaleY(size.height / COMMON_TEXTURE_SIZE.height);
+	std::string primary = "icon-" + icon  + "-primary";
+	std::string active = "icon-" + icon  + "-active";
+	std::string disable = "icon-" + icon  + "-disable";
+	cocos2d::ui::Button * button = cocos2d::ui::Button::create(primary, active, disable, cocos2d::ui::Widget::TextureResType::PLIST);
 	std::function<void(cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)> callback =
-	[this](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
+	[click](cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType type)
 	{
-		if (type == cocos2d::ui::Widget::TouchEventType::BEGAN && click)
+		if (type == cocos2d::ui::Widget::TouchEventType::BEGAN)
 			click();
-		return;
 	};
-	_button->addTouchEventListener(callback);
-	const std::string & font = Master::instance().get<Components::Font>().get("font");
-	_button->setTitleFontName(font);
-	_button->setTitleText(title);
-	_node = _button;
+	button->addTouchEventListener(callback);
+
+	std::string font = Master::instance().get<Components::Font>().get(Components::Font::EARTH_2073);
+	cocos2d::Label * label = cocos2d::Label::createWithTTF(title, font, Components::Font::LARGE_SIZE);
+	label->setColor(cocos2d::Color3B::BLACK);
+	
+	_layout = cocos2d::ui::Layout::create();
+	_layout->setContentSize(button->getContentSize() + cocos2d::Size(0.0f, label->getContentSize().height));
+	_layout->addChild(button);
+	button->setPosition(cocos2d::Vec2(_layout->getContentSize().width * 0.5f, _layout->getContentSize().height - button->getContentSize().height * 0.5f));
+	_layout->addChild(label);
+	label->setPosition(cocos2d::Vec2(_layout->getContentSize().width * 0.5f, label->getContentSize().height * 0.5f));
+}
+
+cocos2d::Node *
+Button::node() const
+{
+	return _layout;
 }
 
 }

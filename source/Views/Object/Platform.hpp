@@ -9,11 +9,12 @@ namespace Views
 namespace Object
 {
 
-class Platform : public Application::Views::Object
+class Platform : public Application::View
 {
 public:
 
 	Platform();
+	cocos2d::Node * node() const override;
 
 private:
 

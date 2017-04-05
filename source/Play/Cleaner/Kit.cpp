@@ -13,18 +13,18 @@ namespace Cleaner
 
 Kit::Kit(Scenes::Play * play)
 	: _combo(0), _result(0), _time(0),
-	_score(new Views::Ui::Label(MEDIUM_FONT_SIZE)),
+	_score(new Views::Ui::Label("0")),
 	_platform(new Objects::Platform()),
 	_over(new Objects::Over()),
-	_sensor(cocos2d::EventListenerPhysicsContact::create()),
+	_physicSensor(cocos2d::EventListenerPhysicsContact::create()),
+	_dispatcher(((cocos2d::Scene *)(*play))->getEventDispatcher()),
 	_play(play)
 {
-	_score->setPosition(Master::instance().get<Components::Metric>().center() * 1.0f / 4.0f);
-	_score->setText("0");
+	_score->setPosition((cocos2d::Vec2)Master::instance().get<Components::Metric>().size() * 0.8f + Master::instance().get<Components::Metric>().origin());
 	_score->attach(_play);
 
-	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
-	_play->eventDispatcher()->addEventListenerWithFixedPriority(_sensor, 1);
+	_physicSensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
+	_dispatcher->addEventListenerWithSceneGraphPriority(_physicSensor, *_play);
 
 	_platform->view()->attach(_play);
 	_over->view()->attach(_play);
@@ -34,7 +34,7 @@ Kit::Kit(Scenes::Play * play)
 
 Kit::~Kit()
 {
-	_play->eventDispatcher()->removeEventListener(_sensor);
+	_dispatcher->removeEventListener(_physicSensor);
 
 	Master::instance().sheduler()->unschedule("Play::Cleaner::Kit::inspection", this);
 }
@@ -50,7 +50,7 @@ Kit::attach(std::unique_ptr<Objects::Figure> figure)
 {
 	_pool.insert(std::pair<cocos2d::PhysicsBody *,std::unique_ptr<Objects::Figure>>(figure->view()->body(), std::move(figure)));
 	_result += scale();
-	_score->setText(to_string(_result));
+	//_score->setText(to_string(_result));
 }
 
 Objects::Figure *
@@ -115,7 +115,7 @@ Kit::inspection(float delta)
 		)
 		{
 			Master::instance().get<Components::Statistic>().update(Result(_result, _time, 0));
-			Master::instance().scene("Over");
+			Master::instance().scene(Master::SCENE_OVER);
 			return;
 		}
 		++it;

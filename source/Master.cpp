@@ -1,4 +1,3 @@
-#include <plugins/Sdkbox.hpp>
 #include "Components/Metric.hpp"
 #include "Components/File.hpp"
 #include "Components/Setting.hpp"
@@ -18,13 +17,11 @@
 #include "Components/Purchase.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Play.hpp"
-#include "Scenes/Settings.hpp"
 #include "Scenes/Over.hpp"
 #include "Master.hpp"
 
 const std::string Master::SCENE_MENU = "menu";
 const std::string Master::SCENE_PLAY = "play";
-const std::string Master::SCENE_SETTINGS = "settings";
 const std::string Master::SCENE_OVER = "over";
 const std::string Master::SCENE_EXIT = "exit";
 
@@ -86,12 +83,6 @@ Master::scene(const std::string & scene)
 	if (scene == SCENE_PLAY)
 	{
 		ptr.reset(new Scenes::Play());
-		return cocos2d::Director::getInstance()->replaceScene(*ptr);
-	}
-
-	if (scene == SCENE_SETTINGS)
-	{
-		ptr.reset(new Scenes::Settings());
 		return cocos2d::Director::getInstance()->replaceScene(*ptr);
 	}
 

@@ -2,7 +2,7 @@
 #include "Kit.hpp"
 #include "Scenes/Play.hpp"
 #include "Objects/Figure.hpp"
-#include "Objects/Hammer.hpp"
+#include "Objects/Blade.hpp"
 #include "Objects/Anvil.hpp"
 
 namespace Play
@@ -12,37 +12,38 @@ namespace Slicer
 {
 
 Kit::Kit(Scenes::Play * play)
-	: _hammer(new Objects::Hammer()), 
+	: _blade(new Objects::Blade()), 
 	_anvil(new Objects::Anvil()),
 	_touchSensor(cocos2d::EventListenerTouchOneByOne::create()),
 	_physicSensor(cocos2d::EventListenerPhysicsContact::create()),
+	_dispatcher(((cocos2d::Scene *)(*play))->getEventDispatcher()),
 	_play(play)
 {
 	_touchSensor->onTouchBegan =
 	[this](cocos2d::Touch * touch, cocos2d::Event * event) -> bool
 	{
 		slice();
-		_hammer->run("down");
+		_blade->run("down");
 		return true;
 	};
 	_touchSensor->onTouchEnded =
 	[this](cocos2d::Touch * touch, cocos2d::Event * event)
 	{
-		_hammer->run("up");
+		_blade->run("up");
 	};
-	_play->eventDispatcher()->addEventListenerWithFixedPriority(_touchSensor, 1);
+	_dispatcher->addEventListenerWithSceneGraphPriority(_touchSensor, *_play);
 
 	_physicSensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
-	_play->eventDispatcher()->addEventListenerWithFixedPriority(_physicSensor, 1);
+	_dispatcher->addEventListenerWithSceneGraphPriority(_physicSensor, *_play);
 
-	_hammer->view()->attach(_play);
+	_blade->view()->attach(_play);
 	_anvil->view()->attach(_play);
 }
 
 Kit::~Kit()
 {
-	_play->eventDispatcher()->removeEventListener(_touchSensor);
-	_play->eventDispatcher()->removeEventListener(_physicSensor);
+	_dispatcher->removeEventListener(_touchSensor);
+	_dispatcher->removeEventListener(_physicSensor);
 }
 
 void
@@ -97,7 +98,7 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		Fill figures from permanent pool of Transporter::Kit and move to Cleaner::Kit on contact with anvel or hammer.
 		Set contact result to true.
 	*/
-	if ((figure = _play->transpoter()->find(first)) && (second == _hammer->view()->body() || second == _anvil->view()->body()))
+	if ((figure = _play->transpoter()->find(first)) && (second == _blade->view()->body() || second == _anvil->view()->body()))
 	{
 		_play->cleaner()->reset();
 		figure->fill();
@@ -109,7 +110,7 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		return true;
 	}
 
-	if ((figure = _play->transpoter()->find(second)) && (first == _hammer->view()->body() || first == _anvil->view()->body()))
+	if ((figure = _play->transpoter()->find(second)) && (first == _blade->view()->body() || first == _anvil->view()->body()))
 	{
 		_play->cleaner()->reset();
 		figure->fill();
@@ -125,10 +126,10 @@ Kit::contact(cocos2d::PhysicsContact & contact) const
 		Figures from Cleaner::Kit pool on contact with anvel or hammer.
 		Set contact result to true.
 	*/
-	if (_play->cleaner()->find(first) && (second == _hammer->view()->body() || second == _anvil->view()->body()))
+	if (_play->cleaner()->find(first) && (second == _blade->view()->body() || second == _anvil->view()->body()))
 		return true;
 
-	if (_play->cleaner()->find(second) && (first == _hammer->view()->body() || first == _anvil->view()->body()))
+	if (_play->cleaner()->find(second) && (first == _blade->view()->body() || first == _anvil->view()->body()))
 		return true;
 
 	return contact.getResult();

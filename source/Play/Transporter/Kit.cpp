@@ -12,18 +12,18 @@ namespace Transporter
 
 Kit::Kit(Scenes::Play * play)
 	: _edge(new Objects::Edge()),
-	_sensor(cocos2d::EventListenerPhysicsContact::create()),
+	_physicSensor(cocos2d::EventListenerPhysicsContact::create()),
+	_dispatcher(((cocos2d::Scene *)(*play))->getEventDispatcher()),
 	_play(play)
 {
-	_sensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
-	_play->eventDispatcher()->addEventListenerWithFixedPriority(_sensor, 1);
-
+	_physicSensor->onContactBegin = std::bind(&Kit::contact, this, std::placeholders::_1);
+	_dispatcher->addEventListenerWithSceneGraphPriority(_physicSensor, *_play);
 	_edge->view()->attach(_play);
 }
 
 Kit::~Kit()
 {
-	_play->eventDispatcher()->removeEventListener(_sensor);
+	_dispatcher->removeEventListener(_physicSensor);
 }
 
 void

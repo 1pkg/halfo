@@ -9,11 +9,12 @@ namespace Views
 namespace Object
 {
 
-class Anvil : public Application::Views::Object
+class Anvil : public Application::View
 {
 public:
 
 	Anvil();
+	cocos2d::Node * node() const override;
 
 private:
 

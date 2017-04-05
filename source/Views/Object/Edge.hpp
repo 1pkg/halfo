@@ -9,11 +9,12 @@ namespace Views
 namespace Object
 {
 
-class Edge : public Application::Views::Object
+class Edge : public Application::View
 {
 public:
 
 	Edge();
+	cocos2d::Node * node() const override;
 
 private:
 

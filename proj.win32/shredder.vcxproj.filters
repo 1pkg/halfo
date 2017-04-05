@@ -81,9 +81,6 @@
     <ClCompile Include="..\source\Objects\Edge.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Objects\Hammer.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Objects\Anvil.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
     <ClCompile Include="..\source\Scenes\Menu.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Scenes\Settings.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Scenes\Play.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -168,9 +162,6 @@
     <ClCompile Include="..\source\Views\Ui\Button.cpp">
       <Filter>Views\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Views\Ui\Checkbox.cpp">
-      <Filter>Views\Ui</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Views\Ui\Label.cpp">
       <Filter>Views\Ui</Filter>
     </ClCompile>
@@ -181,9 +172,6 @@
       <Filter>Views\Object</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Views\Object\Figure.cpp">
-      <Filter>Views\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Views\Object\Hammer.cpp">
       <Filter>Views\Object</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Views\Object\Over.cpp">
@@ -231,6 +219,33 @@
     <ClCompile Include="..\source\Components\SpriteFrame.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Application\Component.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Application\Kit.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Application\Object.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Application\View.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Application\Scene.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Ui\Panel.cpp">
+      <Filter>Views\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Ui\Separator.cpp">
+      <Filter>Views\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Objects\Blade.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Views\Object\Blade.cpp">
+      <Filter>Views\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -261,9 +276,6 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Objects\Edge.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Objects\Hammer.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Objects\Anvil.hpp">
@@ -323,9 +335,6 @@
     <ClInclude Include="..\source\Scenes\Menu.hpp">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Scenes\Settings.hpp">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Scenes\Play.hpp">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -362,9 +371,6 @@
     <ClInclude Include="..\source\Views\Ui\Button.hpp">
       <Filter>Views\Ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Views\Ui\Checkbox.hpp">
-      <Filter>Views\Ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Views\Ui\Label.hpp">
       <Filter>Views\Ui</Filter>
     </ClInclude>
@@ -375,9 +381,6 @@
       <Filter>Views\Object</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Views\Object\Figure.hpp">
-      <Filter>Views\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Views\Object\Hammer.hpp">
       <Filter>Views\Object</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Views\Object\Over.hpp">
@@ -451,6 +454,18 @@
     </ClInclude>
     <ClInclude Include="..\source\Components\SpriteFrame.hpp">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Ui\Panel.hpp">
+      <Filter>Views\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Ui\Separator.hpp">
+      <Filter>Views\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Objects\Blade.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Views\Object\Blade.hpp">
+      <Filter>Views\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

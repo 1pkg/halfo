@@ -11,7 +11,7 @@ class Setting : public Application::Component
 public:
 
 	static const std::string PARAMETER_FIGURE_RESOURCE;
-	static const std::string PARAMETER_HAMMER_RESOURCE;
+	static const std::string PARAMETER_BLADE_RESOURCE;
 	static const std::string FLAG_ADDS_DISABLED;
 	static const std::string FLAG_DEPLOY_FINISHED;
 

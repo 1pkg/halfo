@@ -10,16 +10,16 @@ namespace Views
 namespace Ui
 {
 
-class Button : public Application::Views::Ui
+class Button : public Application::View
 {
 public:
 
-	Button(std::string title, bool primary);
-	std::function<void()> click;
+	Button(const std::string & icon, const std::string & title, std::function<void()> click);
+	cocos2d::Node * node() const override;
 
 private:
 
-	cocos2d::ui::Button * _button;
+	cocos2d::ui::Layout * _layout;
 };
 
 }

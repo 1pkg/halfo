@@ -11,7 +11,6 @@ public:
 
 	static const std::string SCENE_MENU;
 	static const std::string SCENE_PLAY;
-	static const std::string SCENE_SETTINGS;
 	static const std::string SCENE_OVER;
 	static const std::string SCENE_EXIT;
 

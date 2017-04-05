@@ -31,7 +31,8 @@ private:
 	Architector _architector;
 	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>> _prepool, _pool;
 	std::unique_ptr<Objects::Edge> _edge;
-	cocos2d::EventListenerPhysicsContact * _sensor;
+	cocos2d::EventListenerPhysicsContact * _physicSensor;
+	cocos2d::EventDispatcher * _dispatcher;
 	Scenes::Play * _play;
 };
 

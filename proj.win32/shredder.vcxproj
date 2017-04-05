@@ -159,6 +159,11 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\plugins\PluginReview.cpp" />
     <ClCompile Include="..\plugins\PluginSdkboxAds.cpp" />
     <ClCompile Include="..\plugins\PluginShare.cpp" />
+    <ClCompile Include="..\source\Application\Component.cpp" />
+    <ClCompile Include="..\source\Application\Kit.cpp" />
+    <ClCompile Include="..\source\Application\Object.cpp" />
+    <ClCompile Include="..\source\Application\Scene.cpp" />
+    <ClCompile Include="..\source\Application\View.cpp" />
     <ClCompile Include="..\source\Components\Ad.cpp" />
     <ClCompile Include="..\source\Components\Analytic.cpp" />
     <ClCompile Include="..\source\Components\Audio.cpp" />
@@ -179,9 +184,9 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\functions.cpp" />
     <ClCompile Include="..\source\Master.cpp" />
     <ClCompile Include="..\source\Objects\Anvil.cpp" />
+    <ClCompile Include="..\source\Objects\Blade.cpp" />
     <ClCompile Include="..\source\Objects\Edge.cpp" />
     <ClCompile Include="..\source\Objects\Figure.cpp" />
-    <ClCompile Include="..\source\Objects\Hammer.cpp" />
     <ClCompile Include="..\source\Objects\Over.cpp" />
     <ClCompile Include="..\source\Objects\Platform.cpp" />
     <ClCompile Include="..\source\Play\Cleaner\Kit.cpp" />
@@ -196,16 +201,16 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\Scenes\Menu.cpp" />
     <ClCompile Include="..\source\Scenes\Over.cpp" />
     <ClCompile Include="..\source\Scenes\Play.cpp" />
-    <ClCompile Include="..\source\Scenes\Settings.cpp" />
     <ClCompile Include="..\source\Views\Object\Anvil.cpp" />
+    <ClCompile Include="..\source\Views\Object\Blade.cpp" />
     <ClCompile Include="..\source\Views\Object\Edge.cpp" />
     <ClCompile Include="..\source\Views\Object\Figure.cpp" />
-    <ClCompile Include="..\source\Views\Object\Hammer.cpp" />
     <ClCompile Include="..\source\Views\Object\Over.cpp" />
     <ClCompile Include="..\source\Views\Object\Platform.cpp" />
     <ClCompile Include="..\source\Views\Ui\Button.cpp" />
-    <ClCompile Include="..\source\Views\Ui\Checkbox.cpp" />
     <ClCompile Include="..\source\Views\Ui\Label.cpp" />
+    <ClCompile Include="..\source\Views\Ui\Panel.cpp" />
+    <ClCompile Include="..\source\Views\Ui\Separator.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -253,9 +258,9 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\include.hpp" />
     <ClInclude Include="..\source\Master.hpp" />
     <ClInclude Include="..\source\Objects\Anvil.hpp" />
+    <ClInclude Include="..\source\Objects\Blade.hpp" />
     <ClInclude Include="..\source\Objects\Edge.hpp" />
     <ClInclude Include="..\source\Objects\Figure.hpp" />
-    <ClInclude Include="..\source\Objects\Hammer.hpp" />
     <ClInclude Include="..\source\Objects\Over.hpp" />
     <ClInclude Include="..\source\Objects\Platform.hpp" />
     <ClInclude Include="..\source\Play\Cleaner\Kit.hpp" />
@@ -271,16 +276,16 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Scenes\Menu.hpp" />
     <ClInclude Include="..\source\Scenes\Over.hpp" />
     <ClInclude Include="..\source\Scenes\Play.hpp" />
-    <ClInclude Include="..\source\Scenes\Settings.hpp" />
     <ClInclude Include="..\source\Views\Object\Anvil.hpp" />
+    <ClInclude Include="..\source\Views\Object\Blade.hpp" />
     <ClInclude Include="..\source\Views\Object\Edge.hpp" />
     <ClInclude Include="..\source\Views\Object\Figure.hpp" />
-    <ClInclude Include="..\source\Views\Object\Hammer.hpp" />
     <ClInclude Include="..\source\Views\Object\Over.hpp" />
     <ClInclude Include="..\source\Views\Object\Platform.hpp" />
     <ClInclude Include="..\source\Views\Ui\Button.hpp" />
-    <ClInclude Include="..\source\Views\Ui\Checkbox.hpp" />
     <ClInclude Include="..\source\Views\Ui\Label.hpp" />
+    <ClInclude Include="..\source\Views\Ui\Panel.hpp" />
+    <ClInclude Include="..\source\Views\Ui\Separator.hpp" />
     <ClInclude Include="main.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ namespace Scenes{class Play;}
 namespace Objects
 {
 	class Figure;
-	class Hammer;
+	class Blade;
 	class Anvil;
 }
 namespace Play
@@ -31,10 +31,11 @@ private:
 	const float X_IMPULS = 25000.0f, Y_IMPULS = 25000.0f;
 	void slice() const;
 	bool contact(cocos2d::PhysicsContact & contact) const;
-	std::unique_ptr<Objects::Hammer> _hammer;
+	std::unique_ptr<Objects::Blade> _blade;
 	std::unique_ptr<Objects::Anvil> _anvil;
 	cocos2d::EventListenerTouchOneByOne * _touchSensor;
 	cocos2d::EventListenerPhysicsContact * _physicSensor;
+	cocos2d::EventDispatcher * _dispatcher;
 	Scenes::Play * _play;
 };
 

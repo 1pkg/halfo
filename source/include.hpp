@@ -9,9 +9,10 @@
 #include "Application/Component.hpp"
 #include "Master.hpp"
 
+#include "Views/Ui/Panel.hpp"
+#include "Views/Ui/Separator.hpp"
 #include "Views/Ui/Label.hpp"
 #include "Views/Ui/Button.hpp"
-#include "Views/Ui/Checkbox.hpp"
 
 #include <cocos2d.h>
 #include <memory>

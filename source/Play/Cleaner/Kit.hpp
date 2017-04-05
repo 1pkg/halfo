@@ -39,7 +39,8 @@ private:
 	std::unordered_map<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>> _pool;
 	std::unique_ptr<Objects::Platform> _platform;
 	std::unique_ptr<Objects::Over> _over;
-	cocos2d::EventListenerPhysicsContact * _sensor;
+	cocos2d::EventListenerPhysicsContact * _physicSensor;
+	cocos2d::EventDispatcher * _dispatcher;
 	Scenes::Play * _play;
 };
 

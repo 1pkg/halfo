@@ -9,11 +9,12 @@ namespace Views
 namespace Object
 {
 
-class Over : public Application::Views::Object
+class Over : public Application::View
 {
 public:
 
 	Over();
+	cocos2d::Node * node() const override;
 
 private:
 

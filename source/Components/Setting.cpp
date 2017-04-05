@@ -5,7 +5,7 @@ namespace Components
 {
 
 const std::string Setting::PARAMETER_FIGURE_RESOURCE = "figure";
-const std::string Setting::PARAMETER_HAMMER_RESOURCE = "hammer";
+const std::string Setting::PARAMETER_BLADE_RESOURCE = "hammer";
 const std::string Setting::FLAG_ADDS_DISABLED = "adds-disables";
 const std::string Setting::FLAG_DEPLOY_FINISHED = "deploy-finished";
 
@@ -13,7 +13,7 @@ void
 Setting::initialize()
 {
 	_settings.insert(std::pair<std::string, std::string>(PARAMETER_FIGURE_RESOURCE, "figure-deault"));
-	_settings.insert(std::pair<std::string, std::string>(PARAMETER_HAMMER_RESOURCE, "hammer-deault"));
+	_settings.insert(std::pair<std::string, std::string>(PARAMETER_BLADE_RESOURCE, "blade-crystal"));
 	_settings.insert(std::pair<std::string, std::string>(FLAG_ADDS_DISABLED, FLAG_NON));
 	_settings.insert(std::pair<std::string, std::string>(FLAG_DEPLOY_FINISHED, FLAG_NON));
 }
