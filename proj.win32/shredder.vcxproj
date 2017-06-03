@@ -166,6 +166,7 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\Application\View.cpp" />
     <ClCompile Include="..\source\Components\Ad.cpp" />
     <ClCompile Include="..\source\Components\Analytic.cpp" />
+    <ClCompile Include="..\source\Components\Architector.cpp" />
     <ClCompile Include="..\source\Components\Audio.cpp" />
     <ClCompile Include="..\source\Components\Body.cpp" />
     <ClCompile Include="..\source\Components\Crypto.cpp" />
@@ -191,13 +192,7 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\source\Objects\Platform.cpp" />
     <ClCompile Include="..\source\Play\Cleaner\Kit.cpp" />
     <ClCompile Include="..\source\Play\Slicer\Kit.cpp" />
-    <ClCompile Include="..\source\Play\Transporter\Architector.cpp" />
     <ClCompile Include="..\source\Play\Transporter\Kit.cpp" />
-    <ClCompile Include="..\source\Play\Transporter\Pattern.cpp" />
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Octagon.cpp" />
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Pentagon.cpp" />
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Quadrangle.cpp" />
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Triangle.cpp" />
     <ClCompile Include="..\source\Scenes\Menu.cpp" />
     <ClCompile Include="..\source\Scenes\Over.cpp" />
     <ClCompile Include="..\source\Scenes\Play.cpp" />
@@ -238,6 +233,7 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\components.hpp" />
     <ClInclude Include="..\source\Components\Ad.hpp" />
     <ClInclude Include="..\source\Components\Analytic.hpp" />
+    <ClInclude Include="..\source\Components\Architector.hpp" />
     <ClInclude Include="..\source\Components\Audio.hpp" />
     <ClInclude Include="..\source\Components\Body.hpp" />
     <ClInclude Include="..\source\Components\Crypto.hpp" />
@@ -265,14 +261,7 @@ xcopy "$(ProjectDir)..\assets\release" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\source\Objects\Platform.hpp" />
     <ClInclude Include="..\source\Play\Cleaner\Kit.hpp" />
     <ClInclude Include="..\source\Play\Slicer\Kit.hpp" />
-    <ClInclude Include="..\source\Play\Transporter\Architector.hpp" />
     <ClInclude Include="..\source\Play\Transporter\Kit.hpp" />
-    <ClInclude Include="..\source\Play\Transporter\Pattern.hpp" />
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Octagon.hpp" />
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Pentagon.hpp" />
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Quadrangle.hpp" />
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Triangle.hpp" />
-    <ClInclude Include="..\source\resources.rc" />
     <ClInclude Include="..\source\Scenes\Menu.hpp" />
     <ClInclude Include="..\source\Scenes\Over.hpp" />
     <ClInclude Include="..\source\Scenes\Play.hpp" />

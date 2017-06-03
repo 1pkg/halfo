@@ -7,6 +7,7 @@
 #include "Application/View.hpp"
 #include "Application/Scene.hpp"
 #include "Application/Component.hpp"
+
 #include "Master.hpp"
 
 #include "Views/Ui/Panel.hpp"

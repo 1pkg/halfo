@@ -28,9 +28,6 @@
     <Filter Include="Play\Transporter">
       <UniqueIdentifier>{20638cd2-4f03-4599-b7ab-33b9acf72529}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Play\Transporter\Patterns">
-      <UniqueIdentifier>{baa635eb-42ec-4431-9964-74e196a988a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Views\Ui">
       <UniqueIdentifier>{f9d8121c-cb40-4cda-aa06-fce38ece8430}</UniqueIdentifier>
     </Filter>
@@ -138,26 +135,8 @@
     <ClCompile Include="..\source\Play\Slicer\Kit.cpp">
       <Filter>Play\Slicer</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Play\Transporter\Architector.cpp">
-      <Filter>Play\Transporter</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Play\Transporter\Kit.cpp">
       <Filter>Play\Transporter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Play\Transporter\Pattern.cpp">
-      <Filter>Play\Transporter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Octagon.cpp">
-      <Filter>Play\Transporter\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Pentagon.cpp">
-      <Filter>Play\Transporter\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Quadrangle.cpp">
-      <Filter>Play\Transporter\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Play\Transporter\Patterns\Triangle.cpp">
-      <Filter>Play\Transporter\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Views\Ui\Button.cpp">
       <Filter>Views\Ui</Filter>
@@ -245,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="..\source\Views\Object\Blade.cpp">
       <Filter>Views\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Architector.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,26 +326,8 @@
     <ClInclude Include="..\source\Play\Slicer\Kit.hpp">
       <Filter>Play\Slicer</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Play\Transporter\Architector.hpp">
-      <Filter>Play\Transporter</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Play\Transporter\Kit.hpp">
       <Filter>Play\Transporter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Play\Transporter\Pattern.hpp">
-      <Filter>Play\Transporter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Octagon.hpp">
-      <Filter>Play\Transporter\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Pentagon.hpp">
-      <Filter>Play\Transporter\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Quadrangle.hpp">
-      <Filter>Play\Transporter\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Play\Transporter\Patterns\Triangle.hpp">
-      <Filter>Play\Transporter\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Application\Scene.hpp">
       <Filter>Application</Filter>
@@ -443,9 +407,6 @@
     <ClInclude Include="..\plugins\PluginLeadBolt.hpp">
       <Filter>Libraries\plugins</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\resources.rc">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Components\Purchase.hpp">
       <Filter>Components</Filter>
     </ClInclude>
@@ -466,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="..\source\Views\Object\Blade.hpp">
       <Filter>Views\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Architector.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

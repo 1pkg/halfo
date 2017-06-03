@@ -15,6 +15,7 @@
 #include "Components/Analytic.hpp"
 #include "Components/Ad.hpp"
 #include "Components/Purchase.hpp"
+#include "Components/Architector.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Play.hpp"
 #include "Scenes/Over.hpp"
@@ -121,6 +122,7 @@ Master::initialize()
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Analytic).name(), std::move(std::unique_ptr<Analytic>(new Analytic()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Ad).name(), std::move(std::unique_ptr<Ad>(new Ad()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Purchase).name(), std::move(std::unique_ptr<Purchase>(new Purchase()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Architector).name(), std::move(std::unique_ptr<Architector>(new Architector()))));
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();

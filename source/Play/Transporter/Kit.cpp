@@ -29,21 +29,15 @@ Kit::~Kit()
 void
 Kit::update(float dt)
 {
-	static float spawn = 0.0f, refresh = 0.0f;
-	spawn += dt, refresh += dt;
+	static float spawn = 0.0f;
+	spawn += dt;
 
 	if (spawn >= SPAWN_TIME)
 	{
-		std::unique_ptr<Objects::Figure> figure = _architector.provide();
+		std::unique_ptr<Objects::Figure> figure = Master::instance().get<Components::Architector>().provide();
 		figure->view()->attach(_play);
 		_prepool.insert(std::pair<cocos2d::PhysicsBody *, std::unique_ptr<Objects::Figure>>(figure->view()->body(), std::move(figure)));
 		spawn = 0.0f;
-	}
-
-	if (refresh >= REFRESH_TIME)
-	{
-		_architector.refresh();
-		refresh = 0.0f;
 	}
 }
 

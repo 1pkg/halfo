@@ -15,5 +15,6 @@
 #include "Components/Analytic.hpp"
 #include "Components/Ad.hpp"
 #include "Components/Purchase.hpp"
+#include "Components/Architector.hpp"
 
 #endif
