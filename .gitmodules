@@ -4,3 +4,9 @@
 [submodule "crypto"]
 	path = crypto
 	url = https://github.com/BrianGladman/AES.git
+[submodule "triangulator"]
+	path = triangulator
+	url = https://github.com/ivanfratric/polypartition.git
+[submodule "splitter"]
+	path = splitter
+	url = https://github.com/geidav/concave-poly-splitter.git

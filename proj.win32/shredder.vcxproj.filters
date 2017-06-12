@@ -46,6 +46,24 @@
     <Filter Include="Main">
       <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\triangulator">
+      <UniqueIdentifier>{f3735703-e62c-4f5c-82b9-690e23068d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Storage">
+      <UniqueIdentifier>{aedae9fc-bac6-4a98-a159-99f31215c417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Play">
+      <UniqueIdentifier>{b386dd63-34c1-4496-a857-423ed7b70022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Resource">
+      <UniqueIdentifier>{ed037922-7cac-421b-be77-eb04ab5f022e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Sdkbox">
+      <UniqueIdentifier>{afdebf3d-02a6-4dfa-854d-15c7bb7aff05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\splitter">
+      <UniqueIdentifier>{c89cfa63-fe53-40c4-83dd-a23e4977a251}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="..\source\Objects\Figure.cpp">
       <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Metric.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Scenes\Over.cpp">
       <Filter>Scenes</Filter>
@@ -89,36 +104,6 @@
     </ClCompile>
     <ClCompile Include="..\source\Master.cpp">
       <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Storage.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Setting.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Statistic.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Resource.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Crypto.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Body.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Audio.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Font.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\File.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Deploy.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\source\functions.cpp">
       <Filter>Main</Filter>
@@ -159,12 +144,6 @@
     <ClCompile Include="..\source\Views\Object\Platform.cpp">
       <Filter>Views\Object</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Components\Share.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Notification.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\plugins\PluginReview.cpp">
       <Filter>Libraries\plugins</Filter>
     </ClCompile>
@@ -180,23 +159,11 @@
     <ClCompile Include="..\plugins\PluginGoogleAnalytics.cpp">
       <Filter>Libraries\plugins</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Components\Analytic.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\Ad.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\plugins\PluginSdkboxAds.cpp">
       <Filter>Libraries\plugins</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Components\Purchase.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\plugins\PluginIAP.cpp">
       <Filter>Libraries\plugins</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Components\SpriteFrame.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Application\Component.cpp">
       <Filter>Application</Filter>
@@ -225,8 +192,71 @@
     <ClCompile Include="..\source\Views\Object\Blade.cpp">
       <Filter>Views\Object</Filter>
     </ClCompile>
+    <ClCompile Include="..\triangulator\src\polypartition.cpp">
+      <Filter>Libraries\triangulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Ad.cpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Analytic.cpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Notification.cpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Purchase.cpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Share.cpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Audio.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Body.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Deploy.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Font.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Resource.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\SpriteFrame.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Triangulator.cpp">
+      <Filter>Components\Play</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\Components\Architector.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Metric.cpp">
+      <Filter>Components\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Crypto.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\File.cpp">
+      <Filter>Components\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Setting.cpp">
+      <Filter>Components\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Statistic.cpp">
+      <Filter>Components\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Storage.cpp">
+      <Filter>Components\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\splitter\polysplitter.cpp">
+      <Filter>Libraries\splitter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Components\Splitter.cpp">
+      <Filter>Components\Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +281,6 @@
     <ClInclude Include="..\source\include.hpp">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Components\Metric.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Scenes\Over.hpp">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -274,36 +301,6 @@
     </ClInclude>
     <ClInclude Include="..\source\Application\Component.hpp">
       <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Storage.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Setting.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Statistic.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Resource.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Crypto.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Body.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Audio.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Font.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\File.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Deploy.hpp">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\source\components.hpp">
       <Filter>Main</Filter>
@@ -353,12 +350,6 @@
     <ClInclude Include="..\source\Views\Object\Platform.hpp">
       <Filter>Views\Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Components\Share.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Notification.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\plugins\PluginFacebook.hpp">
       <Filter>Libraries\plugins</Filter>
     </ClInclude>
@@ -386,17 +377,11 @@
     <ClInclude Include="..\plugins\PluginGoogleAnalytics.hpp">
       <Filter>Libraries\plugins</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Components\Analytic.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\plugins\PluginSdkboxAds.hpp">
       <Filter>Libraries\plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginAdMob.hpp">
       <Filter>Libraries\plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\Ad.hpp">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\plugins\PluginChartboost.hpp">
       <Filter>Libraries\plugins</Filter>
@@ -407,14 +392,8 @@
     <ClInclude Include="..\plugins\PluginLeadBolt.hpp">
       <Filter>Libraries\plugins</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Components\Purchase.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\plugins\PluginIAP.hpp">
       <Filter>Libraries\plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Components\SpriteFrame.hpp">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Views\Ui\Panel.hpp">
       <Filter>Views\Ui</Filter>
@@ -428,8 +407,71 @@
     <ClInclude Include="..\source\Views\Object\Blade.hpp">
       <Filter>Views\Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\triangulator\src\polypartition.h">
+      <Filter>Libraries\triangulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Ad.hpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Analytic.hpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Notification.hpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Purchase.hpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Share.hpp">
+      <Filter>Components\Sdkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Audio.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Body.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Deploy.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Font.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Resource.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\SpriteFrame.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Triangulator.hpp">
+      <Filter>Components\Play</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\Components\Architector.hpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Metric.hpp">
+      <Filter>Components\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Crypto.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\File.hpp">
+      <Filter>Components\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Setting.hpp">
+      <Filter>Components\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Statistic.hpp">
+      <Filter>Components\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Storage.hpp">
+      <Filter>Components\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\splitter\polysplitter.hpp">
+      <Filter>Libraries\splitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Components\Splitter.hpp">
+      <Filter>Components\Play</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

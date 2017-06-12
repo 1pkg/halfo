@@ -16,6 +16,8 @@
 #include "Components/Ad.hpp"
 #include "Components/Purchase.hpp"
 #include "Components/Architector.hpp"
+#include "Components/Triangulator.hpp"
+#include "Components/Splitter.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Play.hpp"
 #include "Scenes/Over.hpp"
@@ -123,6 +125,8 @@ Master::initialize()
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Ad).name(), std::move(std::unique_ptr<Ad>(new Ad()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Purchase).name(), std::move(std::unique_ptr<Purchase>(new Purchase()))));
 	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Architector).name(), std::move(std::unique_ptr<Architector>(new Architector()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Triangulator).name(), std::move(std::unique_ptr<Triangulator>(new Triangulator()))));
+	components.push_back(std::pair<std::string, std::unique_ptr<::Application::Component>>(typeid(Splitter).name(), std::move(std::unique_ptr<Splitter>(new Splitter()))));
 	for (std::vector<std::pair<std::string, std::unique_ptr<::Application::Component>>>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		it->second->initialize();

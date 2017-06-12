@@ -1,5 +1,27 @@
-#include "constants.hpp"
-#include "functions.hpp"
+#include "include.hpp"
+
+template <>
+std::string to_string(cocos2d::Vec2 value)
+{
+	return "(" + to_string(value.x) + ";" + to_string(value.y) + ")";
+}
+
+template <>
+std::string to_string(cocos2d::Line value)
+{
+	return "Line:\n" + to_string(value.first) + "\n" + to_string(value.second);
+}
+
+template <>
+std::string to_string(cocos2d::Polygon value)
+{
+	std::ostringstream stream;
+	stream << "Polygon:\n";
+	for (cocos2d::Vec2 point : value)
+		stream << to_string(point) << "\n";
+	stream << "Area: " << area(value);
+	return stream.str();
+}
 
 std::string replace(const std::string & string, const std::string & search, const std::string & replace)
 {
@@ -74,6 +96,18 @@ std::string hash(const cocos2d::Data & data)
 	if (hash.length() < HASH_SIZE)
 		return hashpad(hash);
 	return hash;
+}
+
+float area(const cocos2d::Polygon & polygon)
+{
+	float result = 0.0f;
+	for (std::size_t i = 0; i < polygon.size(); ++i)
+	{
+		cocos2d::Vec2 first = polygon.at(i);
+		cocos2d::Vec2 second = polygon.at((i == polygon.size() - 1 ? 0 : i + 1));
+		result += first.x * second.y - first.y * second.x;
+	}
+	return abs(result / 2.0f);
 }
 
 Result::Result()

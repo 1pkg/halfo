@@ -22,14 +22,10 @@ public:
 
 	Kit(Scenes::Play * play);
 	~Kit();
-	void update(float delta) override;
 
 private:
 
-	const float HIT_TIME = 0.05f;
-	const float LIMIT_AREA = 1000.0f, DELTA_AREA = 15000.0f;
-	const float X_IMPULS = 25000.0f, Y_IMPULS = 25000.0f;
-	void slice() const;
+	bool slice(const Application::Object * object) const;
 	bool contact(cocos2d::PhysicsContact & contact) const;
 	std::unique_ptr<Objects::Blade> _blade;
 	std::unique_ptr<Objects::Anvil> _anvil;

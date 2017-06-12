@@ -16,5 +16,7 @@
 #include "Components/Ad.hpp"
 #include "Components/Purchase.hpp"
 #include "Components/Architector.hpp"
+#include "Components/Triangulator.hpp"
+#include "Components/Splitter.hpp"
 
 #endif

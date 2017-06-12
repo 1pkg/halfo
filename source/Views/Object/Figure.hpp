@@ -13,7 +13,7 @@ class Figure : public Application::View
 {
 public:
 
-	Figure(const cocos2d::Vec2 * pattern, std::size_t size, float angle, bool hollow);
+	Figure(const cocos2d::Polygon & pattern, float angle, bool hollow);
 	~Figure();
 	cocos2d::Node * node() const override;
 
